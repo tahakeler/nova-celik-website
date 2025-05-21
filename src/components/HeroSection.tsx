@@ -1,5 +1,3 @@
-// src/components/HeroSection.tsx
-
 'use client';
 
 import { motion } from 'framer-motion';
@@ -32,7 +30,7 @@ export default function HeroSection() {
 
       <motion.a
         href="/dashboard"
-        className="inline-block mt-8 px-8 py-3 bg-white text-gray-900 font-semibold rounded-md hover:bg-gray-200 transition"
+        className="btn-primary inline-block mt-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.6 }}

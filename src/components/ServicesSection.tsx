@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
 import Image from "next/image";
-import Button from "./Button";
+import Link from "next/link";
 
 const services = [
   {
@@ -32,28 +32,32 @@ export default function ServicesSection() {
             Our Services
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, idx) => (
+            {services.map((service) => (
               <motion.div
                 key={service.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.2 }}
+                transition={{ duration: 0.5 }}
                 className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden"
               >
                 <Image src={service.image} alt={service.title} width={400} height={250} className="w-full object-cover" />
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-semibold text-blue-600 mb-4">{service.title}</h3>
-                  <p className="text-gray-600 text-base">{service.description}</p>
+                  <p className="text-gray-600 text-base mb-4">{service.description}</p>
                 </div>
               </motion.div>
             ))}
           </div>
           <div className="text-center mt-10">
-            <Button href="/services" label="View All Services" />
+            <Link
+              href="/services"
+              className="no-underline inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md transition duration-300"
+            >
+              View All Services
+            </Link>
           </div>
         </div>
-        <div className="h-1 bg-blue-600 w-20 rounded-full mt-14 mx-auto" aria-hidden />
       </section>
     </SectionWrapper>
   );

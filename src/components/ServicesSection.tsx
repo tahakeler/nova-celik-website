@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
 import Image from "next/image";
-import Link from "next/link";
+import Button from "./Button";
 
 const services = [
   {
@@ -26,36 +26,50 @@ const services = [
 export default function ServicesSection() {
   return (
     <SectionWrapper>
-      <section id="services" className="bg-gray-50 py-20 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+      <section
+        id="services"
+        className="bg-gradient-to-b from-white via-gray-50 to-blue-50 py-24 px-6 snap-start min-h-screen flex flex-col justify-center"
+      >
+        <div className="container mx-auto max-w-7xl">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16"
+          >
             Our Services
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service) => (
+          </motion.h2>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {services.map((service, idx) => (
               <motion.div
                 key={service.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.2 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden"
+                className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-lg hover:shadow-xl transition duration-300"
               >
-                <Image src={service.image} alt={service.title} width={400} height={250} className="w-full object-cover" />
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  width={600}
+                  height={300}
+                  className="w-full h-56 object-cover"
+                />
                 <div className="p-6 text-center">
-                  <h3 className="text-xl font-semibold text-blue-600 mb-4">{service.title}</h3>
-                  <p className="text-gray-600 text-base mb-4">{service.description}</p>
+                  <h3 className="text-xl font-semibold text-blue-800 mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm">{service.description}</p>
                 </div>
               </motion.div>
             ))}
           </div>
-          <div className="text-center mt-10">
-            <Link
-              href="/services"
-              className="no-underline inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md transition duration-300"
-            >
-              View All Services
-            </Link>
+
+          <div className="text-center mt-14">
+            <Button href="/services" label="View All Services" />
           </div>
         </div>
       </section>

@@ -3,57 +3,62 @@
 import { motion } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
 import Image from "next/image";
-import Button from "./Button";
+import Link from "next/link";
 
-const services = [
-  {
-    title: "Project Design",
-    description: "Detailed and safe structural analysis from experienced engineers.",
-    image: "/service1.jpg",
-  },
-  {
-    title: "Steel Manufacturing",
-    description: "Production that meets international standards using cutting-edge tools.",
-    image: "/service2.jpg",
-  },
-  {
-    title: "On-Site Assembly",
-    description: "Professional teams executing fast and secure field installation.",
-    image: "/service3.jpg",
-  },
-];
-
-export default function ServicesSection() {
+export default function AboutSection() {
   return (
     <SectionWrapper>
-      <section id="services" className="bg-gray-50 py-20 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
-            Our Services
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, idx) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.2 }}
-                className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden"
-              >
-                <Image src={service.image} alt={service.title} width={400} height={250} className="w-full object-cover" />
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-semibold text-blue-600 mb-4">{service.title}</h3>
-                  <p className="text-gray-600 text-base">{service.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Button href="/services" label="View All Services" />
-          </div>
+      <section
+        id="about"
+        className="bg-white min-h-screen flex items-center justify-center px-6 py-24 snap-start"
+      >
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              About <span className="text-blue-800">NovaCelik</span>
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              NovaCelik is a leader in precision steel manufacturing, combining
+              cutting-edge technology with deep industry knowledge to deliver
+              reliable, scalable, and sustainable solutions.
+            </p>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              With a team of expert engineers and on-site professionals, we
+              focus on innovation, structural safety, and long-term performance
+              for industrial and commercial infrastructure projects.
+            </p>
+            <div className="mt-8">
+              <Link href="/about">
+                <button className="px-6 py-3 bg-blue-800 text-white font-semibold rounded-md hover:bg-blue-900 transition">
+                  Learn More
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            className="flex justify-center"
+          >
+            <Image
+              src="/images/about-us.jpg"
+              alt="About NovaCelik"
+              width={600}
+              height={400}
+              className="rounded-xl shadow-xl border border-gray-200"
+            />
+          </motion.div>
         </div>
-        <div className="h-1 bg-blue-600 w-20 rounded-full mt-14 mx-auto" aria-hidden />
       </section>
     </SectionWrapper>
   );

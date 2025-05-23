@@ -1,33 +1,66 @@
+"use client";
+
+import { useEffect } from "react";
 import Image from "next/image";
-import SectionWrapper from "./SectionWrapper";
-import Button from "./Button";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function HeroSection() {
+  useEffect(() => {
+    document.documentElement.style.scrollBehavior = "smooth";
+  }, []);
+
   return (
-    <SectionWrapper>
-      <section className="bg-gray-100 py-20 px-6 text-center md:text-left">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
-          <div className="md:w-1/2">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-6">
-              Nova Celik: Strong Structures, Reliable Solutions
-            </h1>
-            <p className="text-lg text-gray-600 mb-8">
-              We specialize in industrial steel construction with precision engineering and hands-on execution.
-            </p>
-            <Button href="/contact" label="Contact Us" />
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden snap-start bg-white"
+    >
+      {/* Background SVG with softer opacity */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/hero-image.svg"
+          alt="Hero Background"
+          fill
+          priority
+          className="object-cover object-center opacity-100 rotate-180"
+        />
+      </div>
+
+      {/* Overlay Content */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center z-10 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="bg-white/90 backdrop-blur-md p-10 rounded-xl shadow-xl border border-gray-200"
+        >
+          <h1 className="text-5xl font-bold text-gray-900 leading-tight mb-6 tracking-tight">
+            NovaCelik:
+            <br />
+            <span className="text-blue-800">Strong Structures,</span>
+            <br />
+            <span className="text-blue-800">Reliable Solutions</span>
+          </h1>
+          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+            We specialize in industrial steel construction with precision engineering
+            and hands-on execution. Our projects deliver structural integrity, efficiency,
+            and long-term value.
+          </p>
+          <div className="flex gap-4 flex-wrap">
+            <Link href="#services">
+              <button className="bg-blue-800 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-900 transition">
+                Our Services
+              </button>
+            </Link>
+            <Link href="#contact">
+              <button className="border border-blue-800 px-6 py-3 rounded-md font-semibold text-blue-800 hover:bg-blue-800 hover:text-white transition">
+                Contact Us
+              </button>
+            </Link>
           </div>
-          <div className="md:w-1/2">
-            <Image
-              src="/hero-steel.jpg"
-              alt="Steel Structure"
-              width={600}
-              height={400}
-              className="rounded-xl shadow-lg"
-            />
-          </div>
-        </div>
-        <div className="h-1 bg-blue-600 w-20 rounded-full mt-14 mx-auto" aria-hidden />
-      </section>
-    </SectionWrapper>
+        </motion.div>
+      </div>
+    </section>
   );
 }

@@ -8,11 +8,15 @@
 html {
   scroll-behavior: smooth;
 }
-
 body {
+  scroll-snap-type: y mandatory;
   @apply font-sans text-gray-900 bg-white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+section {
+  scroll-snap-align: start;
 }
 
 h1, h2, h3, h4, h5, h6 {

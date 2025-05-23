@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -24,46 +24,73 @@ const navItems = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
-      <nav className="container mx-auto flex items-center justify-between px-6 py-4 relative">
-        {/* Animated Hamburger */}
-        <motion.button
-          onClick={() => setOpen(true)}
-          aria-label="Open Menu"
-          className="text-black z-50"
-          animate={open ? { rotate: 180 } : { rotate: 0 }}
-          transition={{ duration: 0.4 }}
+    <motion.header
+      className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm"
+      animate={{
+        paddingTop: isScrolled ? 4 : 12,
+        paddingBottom: isScrolled ? 4 : 12,
+      }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-[56px] relative">
+        <motion.div
+          initial={false}
+          animate={{
+            x: open ? -40 : 0,
+            opacity: open ? 0 : 1,
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="z-50"
         >
-          <Menu size={26} />
-        </motion.button>
+          <motion.button
+            onClick={() => setOpen(true)}
+            aria-label="Open Menu"
+            className="text-black"
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Menu size={22} />
+          </motion.button>
+        </motion.div>
 
-        {/* Centered Logo */}
-        <div className="flex-1 flex justify-center">
+        <motion.div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          animate={{
+            width: isScrolled ? 300 : 480,
+            height: isScrolled ? 100 : 160,
+          }}
+          transition={{ duration: 0.3 }}
+        >
           <Link href="/" aria-label="Home">
             <Image
               src="/images/logo.svg"
               alt="Nova Celik Logo"
-              width={140}
-              height={40}
-              priority
+              fill
               className="object-contain"
             />
           </Link>
-        </div>
+        </motion.div>
 
-        <div className="w-7" />
+        <div className="w-[22px]" />
 
-        {/* Slide-in Drawer with Framer Motion */}
         <AnimatePresence>
           {open && (
             <>
-              {/* Backdrop */}
               <motion.div
                 key="backdrop"
                 initial={{ opacity: 0 }}
@@ -74,7 +101,6 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
               />
 
-              {/* Drawer */}
               <motion.div
                 key="drawer"
                 initial={{ x: "-100%" }}
@@ -83,20 +109,14 @@ export default function Navbar() {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="fixed top-0 left-0 h-full w-[280px] bg-neutral-100 z-50 p-6 shadow-xl flex flex-col justify-between"
               >
-                {/* Header */}
                 <div>
                   <div className="flex justify-between items-center mb-6">
                     <span className="text-lg font-semibold text-gray-900">Menu</span>
-                    <button
-                      onClick={() => setOpen(false)}
-                      aria-label="Close Menu"
-                      className="text-gray-600"
-                    >
-                      <X size={24} />
+                    <button onClick={() => setOpen(false)} aria-label="Close Menu">
+                      <X size={24} className="text-gray-600" />
                     </button>
                   </div>
 
-                  {/* Staggered Navigation */}
                   <motion.ul
                     initial="hidden"
                     animate="visible"
@@ -120,7 +140,8 @@ export default function Navbar() {
                         <a
                           href={href}
                           onClick={() => setOpen(false)}
-                          className="no-underline flex items-center gap-2 hover:text-blue-700 transition-colors"
+                          className="no-underline flex items-center gap-2 text-black hover:text-neutral-800 transition-colors"
+
                         >
                           {icon}
                           {label}
@@ -130,7 +151,6 @@ export default function Navbar() {
                   </motion.ul>
                 </div>
 
-                {/* Social Media */}
                 <div className="mt-8 flex gap-5 items-center justify-center border-t border-gray-300 pt-6">
                   <a
                     href="https://www.linkedin.com/company/novacelik"
@@ -174,7 +194,7 @@ export default function Navbar() {
             </>
           )}
         </AnimatePresence>
-      </nav>
-    </header>
+      </div>
+    </motion.header>
   );
 }

@@ -1,38 +1,40 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { useEffect } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { scrollFade } from '@/utils/animations';
 
 export default function HeroSection() {
   useEffect(() => {
-    document.documentElement.style.scrollBehavior = "smooth";
+    document.documentElement.style.scrollBehavior = 'smooth';
   }, []);
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden snap-start bg-white"
+      className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden snap-start bg-gray-50 text-gray-900"
     >
-      {/* Background SVG with softer opacity */}
+      {/* Background SVG */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero-image.svg"
           alt="Hero Background"
           fill
           priority
-          className="object-cover object-center opacity-100 rotate-180"
+          className="object-cover object-top opacity-100 rotate-180"
         />
       </div>
 
       {/* Overlay Content */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center z-10 py-20">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          viewport={{ once: true }}
+          variants={scrollFade}
+          initial="hidden"
+          whileInView="show"
+          exit="exit"
+          viewport={{ once: false, amount: 0.3 }}
           className="bg-white/90 backdrop-blur-md p-10 rounded-xl shadow-xl border border-gray-200"
         >
           <h1 className="text-5xl font-bold text-gray-900 leading-tight mb-6 tracking-tight">

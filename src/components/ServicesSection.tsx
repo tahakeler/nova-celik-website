@@ -1,78 +1,94 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import SectionWrapper from "./SectionWrapper";
-import Image from "next/image";
-import Button from "./Button";
-
-const services = [
-  {
-    title: "Project Design",
-    description: "Detailed and safe structural analysis from experienced engineers.",
-    image: "/service1.jpg",
-  },
-  {
-    title: "Steel Manufacturing",
-    description: "Production that meets international standards using cutting-edge tools.",
-    image: "/service2.jpg",
-  },
-  {
-    title: "On-Site Assembly",
-    description: "Professional teams executing fast and secure field installation.",
-    image: "/service3.jpg",
-  },
-];
+import { motion } from 'framer-motion';
+import { scrollFade } from '@/utils/animations';
+import {
+  Lightbulb,
+  ThermometerSun,
+  Wind,
+  BarChart3,
+  Settings,
+  ShieldCheck,
+} from 'lucide-react';
 
 export default function ServicesSection() {
   return (
-    <SectionWrapper>
-      <section
-        id="services"
-        className="bg-gradient-to-b from-white via-gray-50 to-blue-50 py-24 px-6 snap-start min-h-screen flex flex-col justify-center"
+    <section
+      id="services"
+      className="bg-gray-50 text-gray-900 px-6 py-28 flex items-center justify-center"
+    >
+      <motion.div
+        variants={scrollFade}
+        initial="hidden"
+        whileInView="show"
+        exit="exit"
+        viewport={{ once: false, amount: 0.3 }}
+        className="w-full max-w-7xl"
       >
-        <div className="container mx-auto max-w-7xl">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16"
-          >
-            Our Services
-          </motion.h2>
-
-          <div className="grid md:grid-cols-3 gap-10">
-            {services.map((service, idx) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.2 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-lg hover:shadow-xl transition duration-300"
-              >
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  width={600}
-                  height={300}
-                  className="w-full h-56 object-cover"
-                />
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-semibold text-blue-800 mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">{service.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center mt-14">
-            <Button href="/services" label="View All Services" />
-          </div>
+        {/* Heading */}
+        <div className="text-left mb-14 max-w-4xl">
+          <h2 className="text-5xl font-extrabold mb-6">
+            Our <span className="text-blue-600">Services</span>
+          </h2>
+          <p className="text-xl text-gray-700 leading-relaxed">
+            We deliver tailored energy efficiency solutions that drive operational excellence and sustainability across industrial and commercial sectors.
+          </p>
         </div>
-      </section>
-    </SectionWrapper>
+
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <ServiceCard
+            icon={<Lightbulb className="w-10 h-10 text-blue-600" />}
+            title="Energy Efficiency Consulting"
+            description="Comprehensive assessments and strategies to reduce energy consumption and enhance system performance."
+          />
+          <ServiceCard
+            icon={<ThermometerSun className="w-10 h-10 text-blue-600" />}
+            title="HVAC Optimization"
+            description="Advanced solutions for heating, ventilation, and air conditioning systems to improve comfort and efficiency."
+          />
+          <ServiceCard
+            icon={<Wind className="w-10 h-10 text-blue-600" />}
+            title="Renewable Energy Integration"
+            description="Seamless incorporation of renewable energy sources to support sustainable operations."
+          />
+          <ServiceCard
+            icon={<BarChart3 className="w-10 h-10 text-blue-600" />}
+            title="Energy Monitoring & Analytics"
+            description="Real-time monitoring and analytics to track energy usage and identify opportunities for improvement."
+          />
+          <ServiceCard
+            icon={<Settings className="w-10 h-10 text-blue-600" />}
+            title="Industrial Automation"
+            description="Implementation of automation technologies to streamline processes and enhance productivity."
+          />
+          <ServiceCard
+            icon={<ShieldCheck className="w-10 h-10 text-blue-600" />}
+            title="Compliance & Certification"
+            description="Assistance with meeting regulatory requirements and obtaining necessary energy certifications."
+          />
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+type ServiceCardProps = {
+  readonly icon: React.ReactNode;
+  readonly title: string;
+  readonly description: string;
+};
+
+function ServiceCard({ icon, title, description }: ServiceCardProps) {
+  return (
+    <div className="bg-white hover:bg-blue-50 transition-all duration-300 border border-blue-100 rounded-2xl p-8 flex flex-col items-start h-full shadow-md">
+      <div className="flex items-center gap-4 mb-5">
+        {icon}
+        <h3 className="text-2xl font-bold text-blue-800">{title}</h3>
+      </div>
+      <p className="text-lg text-gray-700 leading-relaxed">
+        {description}
+      </p>
+    </div>
   );
 }

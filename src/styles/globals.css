@@ -24,11 +24,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  @apply text-blue-600 underline;
+  text-decoration: none;
+  color: inherit;
 }
 
 a:hover {
-  @apply text-blue-800;
+  @apply text-white;
 }
 
 /* ------------------------------

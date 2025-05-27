@@ -2,12 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { scrollFade } from '@/utils/animations';
-import {
-  Eye,
-  Leaf,
-  Factory,
-  BadgePercent,
-} from 'lucide-react';
+import { Eye, Leaf, Factory, BadgePercent } from 'lucide-react';
 
 export default function AboutSection() {
   return (
@@ -29,7 +24,7 @@ export default function AboutSection() {
             About <span className="text-blue-600">NovaCelik</span>
           </h2>
           <p className="text-xl text-gray-700 leading-relaxed">
-            Thailand’s first process-oriented energy efficiency company, delivering scalable solutions
+            Thailand&apos;s first process-oriented energy efficiency company, delivering scalable solutions
             for industrial facilities, commercial buildings, and infrastructure systems.
           </p>
         </div>
@@ -50,7 +45,7 @@ export default function AboutSection() {
 
           <div className="text-lg text-gray-800 leading-relaxed text-justify space-y-6">
             <p>
-              Whether you're upgrading legacy systems or designing new infrastructure, we combine field-tested expertise
+              Whether you&apos;re upgrading legacy systems or designing new infrastructure, we combine field-tested expertise
               with cutting-edge innovation to deliver lasting value.
             </p>
             <p>
@@ -75,7 +70,7 @@ export default function AboutSection() {
           <FeatureCard
             icon={<Factory className="w-10 h-10 text-blue-600" />}
             title="Sustainable Facilities"
-            description="We build energy-intelligent factories, plants, and facilities that meet tomorrow’s standards."
+            description="We build energy-intelligent factories, plants, and facilities that meet tomorrow&apos;s standards."
           />
           <FeatureCard
             icon={<BadgePercent className="w-10 h-10 text-blue-600" />}

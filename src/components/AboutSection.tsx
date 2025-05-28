@@ -8,7 +8,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="bg-gray-50 text-gray-900 px-6 py-28 flex items-center justify-center"
+      className="bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-16 py-20 sm:py-28 flex items-center justify-center w-full"
     >
       <motion.div
         variants={scrollFade}
@@ -16,22 +16,22 @@ export default function AboutSection() {
         whileInView="show"
         exit="exit"
         viewport={{ once: false, amount: 0.3 }}
-        className="w-full max-w-7xl"
+        className="w-full max-w-screen-xl"
       >
-        {/* Heading */}
+        {/* Heading (aligned left, original design preserved) */}
         <div className="text-left mb-14 max-w-4xl">
-          <h2 className="text-5xl font-extrabold mb-6">
+          <h2 className="text-3xl sm:text-5xl font-extrabold mb-6 leading-snug">
             About <span className="text-blue-600">NovaCelik</span>
           </h2>
-          <p className="text-xl text-gray-700 leading-relaxed">
+          <p className="text-base sm:text-xl text-gray-700 leading-relaxed">
             Thailand&apos;s first process-oriented energy efficiency company, delivering scalable solutions
             for industrial facilities, commercial buildings, and infrastructure systems.
           </p>
         </div>
 
-        {/* Paragraphs with justification */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24 max-w-6xl">
-          <div className="text-lg text-gray-800 leading-relaxed text-justify space-y-6">
+        {/* Paragraphs (same alignment, mobile-friendly text sizes) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 mb-24 max-w-6xl">
+          <div className="text-sm sm:text-base text-gray-800 leading-relaxed text-justify space-y-6">
             <p>
               <strong>NovaCelik</strong> helps reduce energy costs without sacrificing production quality or comfort.
               Our engineering-first approach delivers measurable efficiency improvements across manufacturing,
@@ -43,7 +43,7 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="text-lg text-gray-800 leading-relaxed text-justify space-y-6">
+          <div className="text-sm sm:text-base text-gray-800 leading-relaxed text-justify space-y-6">
             <p>
               Whether you&apos;re upgrading legacy systems or designing new infrastructure, we combine field-tested expertise
               with cutting-edge innovation to deliver lasting value.
@@ -55,25 +55,25 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Feature Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Feature Cards (responsive grid) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           <FeatureCard
-            icon={<Eye className="w-10 h-10 text-blue-600" />}
+            icon={<Eye className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
             title="Vision"
             description="Efficient energy, sustainability, and innovation — shaping the future of industrial systems."
           />
           <FeatureCard
-            icon={<Leaf className="w-10 h-10 text-blue-600" />}
+            icon={<Leaf className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
             title="Mission"
             description="To enable sustainable, livable industry through tailored, data-driven energy strategies."
           />
           <FeatureCard
-            icon={<Factory className="w-10 h-10 text-blue-600" />}
+            icon={<Factory className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
             title="Sustainable Facilities"
             description="We build energy-intelligent factories, plants, and facilities that meet tomorrow&apos;s standards."
           />
           <FeatureCard
-            icon={<BadgePercent className="w-10 h-10 text-blue-600" />}
+            icon={<BadgePercent className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
             title="Reduce Energy Cost"
             description="Optimize operations without sacrificing comfort, performance, or safety."
           />
@@ -91,12 +91,12 @@ type FeatureCardProps = {
 
 function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="bg-blue-100 hover:bg-blue-200 transition-all duration-300 border border-blue-100 rounded-2xl p-8 flex flex-col items-start h-full shadow-sm">
+    <div className="bg-blue-100 hover:bg-blue-200 transition-all duration-300 border border-blue-100 rounded-2xl p-6 sm:p-8 flex flex-col items-start h-full shadow-sm">
       <div className="flex items-center gap-4 mb-4">
         {icon}
-        <h3 className="text-2xl font-bold text-blue-800">{title}</h3>
+        <h3 className="text-lg sm:text-2xl font-bold text-blue-800">{title}</h3>
       </div>
-      <p className="text-lg text-gray-700 leading-relaxed">{description}</p>
+      <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{description}</p>
     </div>
   );
 }

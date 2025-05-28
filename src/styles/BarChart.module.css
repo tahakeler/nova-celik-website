@@ -1,0 +1,15 @@
+.bar {
+  width: 10px;
+  height: var(--bar-height);
+  border-radius: 2px;
+  transition: height 0.3s ease-in-out;
+}
+
+.current {
+  background-color: #facc15; /* Tailwind yellow-400 */
+}
+
+.previous {
+  background-color: #d1d5db; /* Tailwind gray-300 */
+  margin-top: 2px;
+}

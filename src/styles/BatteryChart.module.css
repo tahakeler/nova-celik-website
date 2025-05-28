@@ -1,0 +1,39 @@
+.batteryOuter {
+  position: relative;
+  width: 40px;
+  height: 80px;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.batteryTip {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 6px;
+  background: #1f2937;
+  border-radius: 3px;
+}
+
+.batteryText {
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.green {
+  background-color: #22c55e;
+}
+
+.yellow {
+  background-color: #facc15;
+}
+
+.red {
+  background-color: #ef4444;
+}

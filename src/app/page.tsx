@@ -7,6 +7,7 @@ import BlogSection from '@/components/BlogSection';
 import EfficiencyAcademySection from '@/components/EfficiencyAcademySection';
 import ContactSection from '@/components/ContactSection';
 import BackToTopButton from '@/components/BackToTopButton';
+import '@/styles/globals.css';
 
 export default function HomePage() {
   return (

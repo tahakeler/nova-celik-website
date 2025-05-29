@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { label: 'About Us', href: '#about' },
   { label: 'Services', href: '#services' },
   { label: 'Dashboard', href: '#dashboard' },
+  { label: 'Blog', href: '/blog' },           // <-- Blog link added here
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -51,23 +52,34 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav
-          className={`hidden lg:flex gap-12 text-white font-medium transition-all duration-300 ${
+          className={`hidden lg:flex gap-20 text-white font-medium transition-all duration-300 ${
             isScrolled ? 'text-[16px]' : 'text-[18px]'
           }`}
         >
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="transition-all duration-200 hover:text-[#42b431]"
-            >
-              {item.label}
-            </a>
-          ))}
+          {NAV_ITEMS.map((item) =>
+            item.href.startsWith('/')
+              ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="transition-all duration-200 hover:text-[#42b431]"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="transition-all duration-200 hover:text-[#42b431]"
+                >
+                  {item.label}
+                </a>
+              )
+          )}
         </nav>
 
         {/* Right-side Icons (Desktop Only) */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-10">
           <Link href="https://www.linkedin.com/company/novacelik" target="_blank">
             <Image
               src="/images/linkedin-white.svg"
@@ -108,23 +120,35 @@ export default function Navbar() {
         <div className="fixed inset-0 bg-black/80 z-50" />
         <div className="fixed right-0 top-0 w-72 h-full bg-white z-50 shadow-lg p-6">
           <button
-              className="absolute top-4 right-4 text-gray-500"
-              onClick={() => setMobileMenuOpen(false)}
-              title="Close menu"
-            >
-              ✕
-            </button>
+            className="absolute top-4 right-4 text-gray-500"
+            onClick={() => setMobileMenuOpen(false)}
+            title="Close menu"
+          >
+            ✕
+          </button>
           <nav className="mt-12 space-y-6">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="block text-gray-800 text-lg font-semibold hover:text-[#1e40af]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) =>
+              item.href.startsWith('/')
+                ? (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block text-gray-800 text-lg font-semibold hover:text-[#1e40af]"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="block text-gray-800 text-lg font-semibold hover:text-[#1e40af]"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                )
+            )}
             <Link href="/request-demo">
               <button className="mt-4 w-full bg-[#42b431] text-white font-semibold py-2 rounded-lg">
                 Request Demo

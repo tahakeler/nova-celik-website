@@ -52,7 +52,8 @@ export default function HeroSection() {
 
           <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
             <Link href="#services">
-              <button className="bg-blue-800 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-900 transition w-full sm:w-auto">
+              <button className="bg-blue-800 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-900 transition"
+              >
                 Our Services
               </button>
             </Link>

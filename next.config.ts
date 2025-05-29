@@ -1,4 +1,5 @@
 // next.config.ts
+
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
@@ -6,81 +7,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'www.iea.org',
-        pathname: '/media/**',
+        hostname: '**', // allow all domains (development only; for production, specify actual domains!)
       },
-      {
-        protocol: 'https',
-        hostname: 'www.thaienergynews.com',
-        pathname: '/assets/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.aseanenergy.org',
-        pathname: '/media/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.unescap.org',
-        pathname: '/sites/default/files/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.meti.go.jp',
-        pathname: '/english/images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.imda.gov.sg',
-        pathname: '/media-centre/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.bangkokpost.com',
-        pathname: '/media/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.nst.com.my',
-        pathname: '/images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.thai-econ.org',
-        pathname: '/images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'e.vnexpress.net',
-        pathname: '/images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'aseanenergy.org',
-        pathname: '/media/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.thaitechnews.com',
-        pathname: '/media/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.reuters.com',
-        pathname: '/images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.energyfund.or.th',
-        pathname: '/uploads/images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.phuketgazette.net',
-        pathname: '/media/**',
-      }
-    ]
-  }
-};
+    ],
+    formats: ['image/avif', 'image/webp'], // preferred formats for image optimization
+    unoptimized: true, // (if you want to disable image optimization completely)
+  },
+}
 
-export default nextConfig;
+export default nextConfig

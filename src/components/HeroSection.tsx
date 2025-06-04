@@ -3,8 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { scrollFade, popIn, slideUp } from '@/utils/animations';
+import { popIn, slideUp } from '@/utils/animations';
 import Button from './Button';
 
 export default function HeroSection() {

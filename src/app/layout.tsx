@@ -1,19 +1,19 @@
 // src/app/layout.tsx
 import '@/styles/globals.css';
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'NovaCelik',
-  description: 'NovaCelik Official Website',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
+  description: 'Industrial Efficiency Solutions',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { readonly children: React.ReactNode }) {

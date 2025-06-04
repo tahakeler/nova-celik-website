@@ -1,37 +1,45 @@
 'use client';
 
-import React, { type ReactElement } from 'react';
+import React from 'react';
 import styles from '@/styles/GaugeChart.module.css';
 import type { GaugeChartProps } from '@/types/dashboard.types';
 
+/**
+ * GaugeChart: Polished, animated semi-circular gauge.
+ */
 export default function GaugeChart({
   label,
   value,
   max,
-}: Readonly<GaugeChartProps>): ReactElement {
+}: Readonly<GaugeChartProps>): React.ReactElement {
   const percent = Math.min(value / max, 1);
+  const angle = percent * 180 - 90;
+  const rounded = Math.round(percent * 100);
 
-  const getStatus = (value: number) => {
-    if (value > 0.85) return styles.red;
-    if (value > 0.6) return styles.yellow;
-    return styles.green;
+  const getStatus = (v: number) => {
+    let statusClass;
+    if (v > 0.85) {
+      statusClass = styles.red;
+    } else if (v > 0.6) {
+      statusClass = styles.yellow;
+    } else {
+      statusClass = styles.green;
+    }
+    return statusClass;
   };
 
-  const status = getStatus(percent);
-
-  const angle = percent * 180 - 90;
-
   return (
-    <div className="flex flex-col items-center">
-      <h3 className="text-sm font-semibold text-gray-800 mb-2">{label}</h3>
+    <div className="flex flex-col items-center w-full">
+      {label && <h3 className="text-xs font-medium text-gray-700 mb-2">{label}</h3>}
       <div className={styles.gaugeWrapper}>
         <div
-          className={`${styles.needle} ${status}`}
+          className={`${styles.needle} ${getStatus(percent)}`}
           style={{ transform: `rotate(${angle}deg)` }}
+          aria-label={`Status: ${rounded}%`}
         />
-        <div className={styles.arc}></div>
+        <div className={styles.arc} />
       </div>
-      <p className="text-xs text-gray-600 mt-2">{value}% Avg</p>
+      <span className="text-xl font-bold text-blue-700 mt-2">{rounded}%</span>
     </div>
   );
 }

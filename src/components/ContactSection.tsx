@@ -87,9 +87,8 @@ export default function ContactSection() {
             {/* Unified Info Card */}
             <div className="bg-[#002b80] text-white rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl text-white sm:text-2xl font-bold mb-6">
-                NOVACELIK Company Limited
+                NOVACELIK COMPANY LIMITED
               </h3>
-
               <div className="bg-[#003399] rounded-lg p-4 flex flex-col gap-4">
                 {/* Email */}
                 <div className="flex items-center gap-3">
@@ -97,39 +96,71 @@ export default function ContactSection() {
                     <Mail className="w-4 h-4" />
                   </div>
                   <a
-                    href="mailto:info@novacelikco.com"
+                    href="mailto:cancelik@novacelikco.com"
                     className="text-sm break-all"
                   >
-                    info@novacelikco.com
+                    cancelik@novacelikco.com
                   </a>
                 </div>
-
-                {/* Phone */}
+                {/* Mobile */}
                 <div className="flex items-center gap-3">
                   <div className="bg-[#0040cc] p-2 rounded-lg">
                     <Phone className="w-4 h-4" />
                   </div>
                   <a
-                    href="tel:+6621234567"
+                    href="tel:+66625948929"
                     className="text-sm"
                   >
-                    +66 2 123 4567
+                    +66 (62) 594 8929
                   </a>
                 </div>
-
-                {/* Address */}
+                {/* WhatsApp */}
                 <div className="flex items-center gap-3">
                   <div className="bg-[#0040cc] p-2 rounded-lg">
-                    <MapPin className="w-4 h-4" />
+                    <Phone className="w-4 h-4" />
                   </div>
                   <a
-                    href="https://maps.google.com/?q=13.650089,100.527064"
+                    href="https://wa.me/905384342523"
+                    className="text-sm"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm leading-relaxed"
                   >
-                    EnCo Terminal (EnTer) Building B, 88 Soi Suksawat 76, Suksawat Road, Bang Phueng, Phra Pradaeng, Samut Prakan 10130, Thailand
+                    WhatsApp: +90 (538) 434 2523
                   </a>
+                </div>
+                {/* Line */}
+                <div className="flex items-center gap-3">
+                  <div className="bg-[#0040cc] p-2 rounded-lg">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                  <span className="text-sm">
+                    Line: <span className="font-medium">cancelikth</span>
+                  </span>
+                </div>
+                {/* Website */}
+                <div className="flex items-center gap-3">
+                  <div className="bg-[#0040cc] p-2 rounded-lg">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <a
+                    href="https://novacelikco.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm"
+                  >
+                    novacelikco.com
+                  </a>
+                </div>
+                {/* Address */}
+                <div className="flex items-start gap-3">
+                  <div className="bg-[#0040cc] p-2 rounded-lg mt-1">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div className="text-sm leading-relaxed">
+                    4th Floor, EnCo Terminal (EnTer) Building,
+                    425 Kamphaeng Phet 6 Rd, Don Mueang,
+                    Bangkok 10210, Thailand
+                  </div>
                 </div>
               </div>
             </div>
@@ -137,10 +168,10 @@ export default function ContactSection() {
             {/* Google Map */}
             <div className="rounded-xl overflow-hidden shadow-md border border-gray-200 h-60">
               <iframe
-                src="https://www.google.com/maps?q=13.650089,100.527064&z=17&output=embed"
+                src="https://maps.google.com/maps?q=4th%20Floor%2C%20EnCo%20Terminal%20(EnTer)%20Building%2C%20425%20Kamphaeng%20Phet%206%20Rd%2C%20Don%20Mueang%2C%20Bangkok%2010210%2C%20Thailand&z=17&output=embed"
                 className="w-full h-full border-none"
                 allowFullScreen
-                title="NovaCelik Location"
+                title="NovaCelik Company Address"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>

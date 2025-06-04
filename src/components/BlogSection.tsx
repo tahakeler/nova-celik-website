@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { blogPosts, generateBlogPostId } from '@/data/blog';
+import { blogPosts } from '@/data/blog';
 import { scrollFade } from '@/utils/animations';
 
 export default function BlogSection() {
@@ -64,7 +64,8 @@ function BlogImageCard({
   readonly post: (typeof blogPosts)[0];
   readonly index: number;
 }) {
-  const slug = generateBlogPostId(post, index);
+  // Use a fallback slug, e.g., based on post.link or index
+  const slug = post.link || index.toString();
   return (
     <div className="
       group relative w-full 

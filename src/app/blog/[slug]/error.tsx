@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 
-export default function Error({ error, reset }: { error: Error; reset: () => void }) {
+export default function BlogError({ error, reset }: { readonly error: Error; readonly reset: () => void }) {
   useEffect(() => {
     console.error(error);
   }, [error]);

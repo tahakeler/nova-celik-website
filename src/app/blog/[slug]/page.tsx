@@ -4,11 +4,33 @@ import Link from 'next/link';
 import { blogPosts } from '@/data/blog';
 import { Award, Zap, ExternalLink } from 'lucide-react';
 
+// --- SEO: generateMetadata is allowed to be async ---
+export function generateMetadata({ params }: { params: { slug: string } }) {
+  const post = blogPosts.find((p) => p.slug === params.slug);
+  if (!post) return {};
+  return {
+    title: `${post.title} | NovaCelik Blog`,
+    description: post.summary,
+    openGraph: {
+      title: post.title,
+      description: post.summary,
+      images: [{ url: post.image, alt: post.title }],
+      type: 'article',
+      url: `https://novacelik.com/blog/${post.slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.summary,
+      images: [{ url: post.image, alt: post.title }],
+    }
+  };
+}
+
+// Avatar helper as before
 function AuthorAvatar({ name, alt }: Readonly<{ name: string; alt: string }>) {
   const hash = name
-    ? Array.from(name)
-        .reduce((acc, c) => acc + c.charCodeAt(0), 0)
-        .toString(16)
+    ? Array.from(name).reduce((acc, c) => acc + c.charCodeAt(0), 0).toString(16)
     : 'ccc';
   const color = `#${hash.slice(-6).padEnd(6, 'a')}`;
   return (
@@ -23,6 +45,7 @@ function AuthorAvatar({ name, alt }: Readonly<{ name: string; alt: string }>) {
   );
 }
 
+// ---- Default page export is SYNC and matches Next.js type signature! ----
 export default function BlogPostPage({ params }: Readonly<{ params: { slug: string } }>) {
   const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) return notFound();
@@ -37,10 +60,9 @@ export default function BlogPostPage({ params }: Readonly<{ params: { slug: stri
           fill
           priority
           unoptimized
-          className="object-cover object-top"
+          className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Optional dark overlay for readability on busy photos */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
       </div>
 
@@ -87,10 +109,10 @@ export default function BlogPostPage({ params }: Readonly<{ params: { slug: stri
         <div className="prose prose-lg max-w-none text-gray-800">
           <h2 className="mt-8 text-2xl font-bold text-gray-900">Industry Insights & Analysis</h2>
           <p>
-            This section provides further analysis, trends, or background relevant to the article. NovaCelik’s editorial team reviews each story to highlight actionable intelligence and energy efficiency strategies.
+            This section provides further analysis, trends, or background relevant to the article. NovaCeliks editorial team reviews each story to highlight actionable intelligence and energy efficiency strategies.
           </p>
           <blockquote className="border-l-4 border-blue-700 pl-4 italic text-blue-900 my-6">
-            “Transform your facility’s energy future with real-time insight.”
+            “Transform your facilitys energy future with real-time insight.”
           </blockquote>
         </div>
         <div className="flex mt-12">

@@ -4,29 +4,6 @@ import Link from 'next/link';
 import { blogPosts } from '@/data/blog';
 import { Award, Zap, ExternalLink } from 'lucide-react';
 
-// --- SEO metadata function (App Router, server component) ---
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find((p) => p.slug === params.slug);
-  if (!post) return {};
-  return {
-    title: `${post.title} | NovaCelik Blog`,
-    description: post.summary,
-    openGraph: {
-      title: post.title,
-      description: post.summary,
-      images: [{ url: post.image, alt: post.title }],
-      type: 'article',
-      url: `https://novacelik.com/blog/${post.slug}`,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.summary,
-      images: [{ url: post.image, alt: post.title }],
-    }
-  };
-}
-
 function AuthorAvatar({ name, alt }: Readonly<{ name: string; alt: string }>) {
   const hash = name
     ? Array.from(name)

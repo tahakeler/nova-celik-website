@@ -1,21 +1,43 @@
-// Types for dashboard components
-
-import type { MonthLabel } from '@/constants/dashboard.constants';
-
 export interface BarChartProps {
-  readonly currentYear: readonly number[];
-  readonly previousYear?: readonly number[];
-  readonly labels?: readonly MonthLabel[];
+  currentYear: number[];
+  previousYear?: number[];
+  labels?: string[];
+}
+
+export const DEFAULT_LABELS = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+];
+
+export interface GaugeChartProps {
+  label: string;
+  value: number;
+  max: number;
 }
 
 export interface BatteryChartProps {
-  readonly healthy: number;
-  readonly risky: number;
-  readonly unhealthy: number;
+  healthy: number;
+  risky: number;
+  unhealthy: number;
+}
+export interface DashboardData {
+  current: number[];
+  previous: number[];
+  voltageHarmonics: number;
+  healthy: number;
+  risky: number;
+  unhealthy: number;
 }
 
-export interface GaugeChartProps {
-  readonly label: string;
-  readonly value: number;
-  readonly max: number;
+export enum StepHealth {
+  Healthy = 'Healthy Steps',
+  Risky = 'Risky Steps',
+  Unhealthy = 'Unhealthy Steps',
+}
+
+export interface DashboardMetrics {
+  voltageHarmonics: number;
+  healthy: number;
+  risky: number;
+  unhealthy: number;
 }

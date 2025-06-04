@@ -1,15 +1,15 @@
 .bar {
-  width: 10px;
+  width: 100%;
   height: var(--bar-height);
   border-radius: 2px;
-  transition: height 0.3s ease-in-out;
+  transition: height 0.3s cubic-bezier(.39,.58,.57,1), transform 0.1s;
 }
 
 .current {
-  background-color: #facc15; /* Tailwind yellow-400 */
+  background-color: #facc15;
 }
 
 .previous {
-  background-color: #d1d5db; /* Tailwind gray-300 */
+  background-color: #d1d5db;
   margin-top: 2px;
 }

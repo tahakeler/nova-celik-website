@@ -1,39 +1,32 @@
 .batteryOuter {
   position: relative;
   width: 40px;
-  height: 80px;
+  height: 78px;
   border-radius: 6px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   font-weight: bold;
   color: white;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,0.07);
+  background: #f3f4f6;
 }
-
 .batteryTip {
   position: absolute;
-  top: -6px;
+  top: -7px;
   left: 50%;
   transform: translateX(-50%);
   width: 14px;
-  height: 6px;
+  height: 7px;
   background: #1f2937;
   border-radius: 3px;
 }
-
 .batteryText {
-  margin-bottom: 10px;
-  font-size: 12px;
+  margin-bottom: 14px;
+  font-size: 15px;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.10);
 }
-
-.green {
-  background-color: #22c55e;
-}
-
-.yellow {
-  background-color: #facc15;
-}
-
-.red {
-  background-color: #ef4444;
-}
+.green { background-color: #22c55e; }
+.yellow { background-color: #facc15; color: #7c6303;}
+.red { background-color: #ef4444; }

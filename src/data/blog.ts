@@ -6,10 +6,147 @@ export type BlogPost = {
   date: string;
   link: string;
   tags: string[];
+  author: string;
+  authorRole: string;
+  previewChart?: number[];
+  isEditorsPick?: boolean;
+  insight?: string;
+  slug: string;
 };
 
-export const blogPosts: BlogPost[] = 
+export const blogPosts: BlogPost[] =
 [
+  {
+    "title": "India, Paraguay ‘stand united’ against terrorism: PM Modi after meeting visiting President Pena",
+    "summary": "India and Paraguay share common views on various international issues, including UN reforms, climate change, renewable energy and combating terrorism, according to the Ministry of External Affairs",
+    "image": "https://images.firstpost.com/uploads/2025/06/PTI06_02_2025_000346B_edit-2025-06-2ea89957ab120e9063df0db10a581c30.jpg?im=FitAndFill=(1200,675)",
+    "date": "2025-06-02",
+    "link": "https://www.firstpost.com/india/india-paraguay-stand-united-against-terrorism-pm-modi-after-meeting-visiting-president-pena-13893834.html",
+    "tags": [
+      "Blog"
+    ],
+    "author": "Firstpost",
+    "authorRole": "Energy Analyst",
+    "isEditorsPick": true,
+    "slug": "india-paraguay-stand-united-against-terrorism-pm-modi-after-meeting-visiting-president-pena",
+    "previewChart": [
+      19,
+      19,
+      19,
+      13,
+      20
+    ]
+  },
+  {
+    "title": "New platform to support UK renewable energy distribution",
+    "summary": "Kyndryl’s Ben Scowen discusses the MWD platform, which hopes to lower the barrier to entry to local grids for small clean energy providers.",
+    "image": "https://www.siliconrepublic.com/wp-content/uploads/2025/05/energy_grid_field.jpeg",
+    "date": "2025-05-30",
+    "link": "https://www.siliconrepublic.com/machines/kyndryl-uk-mwd-grid-electricity-renewables",
+    "tags": [
+      "Case Study",
+      "Smart Building"
+    ],
+    "author": "Siliconrepublic.com",
+    "authorRole": "Senior Consultant",
+    "isEditorsPick": false,
+    "slug": "new-platform-to-support-uk-renewable-energy-distribution",
+    "previewChart": [
+      11,
+      15,
+      13,
+      15,
+      15,
+      12,
+      13
+    ],
+    "insight": "Avg. 18% CO₂ reduction"
+  },
+  {
+    "title": "ACEN taking 25% stake in CamSur wind project",
+    "summary": "ACEN Corp., renewable energy arm of the Ayala Group, has signed definitive agreements with Copenhagen Infrastructure Partners (CIP) Growth Markets Fund II to acquire a 25-percent stake in CIP's offshore wind project in San Miguel Bay, Camarines Sur.",
+    "image": "https://cdn4.premiumread.com/?url=https://www.manilatimes.net/theme_manilatimes/images/TMT_1920x1008.jpg&w=1920&q=100&f=webp&v=1",
+    "date": "2025-05-29",
+    "link": "https://www.manilatimes.net/2025/05/30/business/corporate-news/acen-taking-25-stake-in-camsur-wind-project/2123596",
+    "tags": [
+      "Project Portfolio",
+      "Energy"
+    ],
+    "author": "The Manila Times",
+    "authorRole": "Project Engineer",
+    "isEditorsPick": false,
+    "slug": "acen-taking-25-stake-in-camsur-wind-project",
+    "previewChart": [
+      11,
+      15,
+      12,
+      17,
+      11,
+      20
+    ]
+  },
+  {
+    "title": "Megaworld: All assets now using clean energy",
+    "summary": "MEGAWORLD Corp. on Thursday said that all of company-owned offices, hotels, lifestyle malls, and residential properties had fully transitioned to 100-percent renewable energy (RE).",
+    "image": "https://cdn4.premiumread.com/?url=https://www.manilatimes.net/theme_manilatimes/images/TMT_1920x1008.jpg&w=1920&q=100&f=webp&v=1",
+    "date": "2025-05-29",
+    "link": "https://www.manilatimes.net/2025/05/30/business/corporate-news/megaworld-all-assets-now-using-clean-energy/2123594",
+    "tags": [
+      "Insights",
+      "Sustainability"
+    ],
+    "author": "The Manila Times",
+    "authorRole": "Sustainability Lead",
+    "isEditorsPick": false,
+    "slug": "megaworld-all-assets-now-using-clean-energy",
+    "insight": "Avg. 14% CO₂ reduction"
+  },
+  {
+    "title": "NIRL and MAHAPREIT Forge JV to Develop 5000 MW Renewable Projects in Maharashtra",
+    "summary": "The agreement marks a significant milestone in India’s renewable energy roadmap and paves the way for one of the largest state-level renewable energy collaborations in recent years.",
+    "image": "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/devnews/29_05_2025_19_44_11_0329511.jfif?width=920&format=jpeg",
+    "date": "2025-05-29",
+    "link": "https://www.devdiscourse.com/article/law-order/3439947-nirl-and-mahapreit-forge-jv-to-develop-5000-mw-renewable-projects-in-maharashtra",
+    "tags": [
+      "Case Study",
+      "Renewables"
+    ],
+    "author": "Devdiscourse",
+    "authorRole": "R&D Director",
+    "isEditorsPick": false,
+    "slug": "nirl-and-mahapreit-forge-jv-to-develop-5000-mw-renewable-projects-in-maharashtra",
+    "previewChart": [
+      18,
+      10,
+      11,
+      16,
+      14,
+      10
+    ]
+  },
+  {
+    "title": "Clean Energy Crisis: Billions in Investments Stalled Amid Political Turmoil",
+    "summary": "A new analysis reveals over USD 14 billion in clean energy investments in the US were cancelled or delayed due to political uncertainties. The halted projects followed a tax bill threatening clean energy credits, causing job losses and raising concerns about the US's renewable energy future.",
+    "image": "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/aiimagegallery/21_04_2025_09_08_34_1933796.png?width=920&format=jpeg",
+    "date": "2025-05-29",
+    "link": "https://www.devdiscourse.com/article/headlines/3439594-clean-energy-crisis-billions-in-investments-stalled-amid-political-turmoil",
+    "tags": [
+      "Blog",
+      "Efficiency"
+    ],
+    "author": "Devdiscourse",
+    "authorRole": "Staff Writer",
+    "isEditorsPick": true,
+    "slug": "clean-energy-crisis-billions-in-investments-stalled-amid-political-turmoil",
+    "previewChart": [
+      13,
+      18,
+      14,
+      11,
+      17
+    ],
+    "insight": "Avg. 18% CO₂ reduction"
+  },
   {
     "title": "Trump Administration Revokes $3 Billion Loan Guarantee for Solar Installer Sunnova",
     "summary": "The Trump administration canceled a $3 billion loan guarantee intended for Sunnova Energy, a solar panel installer. The decision aligns with Trump's energy policy favoring oil and gas. Under Biden, the loan aimed to boost clean energy, but its future is uncertain due to government efficiency measures and budget cuts.",
@@ -17,18 +154,34 @@ export const blogPosts: BlogPost[] =
     "date": "2025-05-28",
     "link": "https://www.devdiscourse.com/article/headlines/3438957-trump-administration-revokes-3-billion-loan-guarantee-for-solar-installer-sunnova",
     "tags": [
-      "Blog"
-    ]
+      "Project Portfolio",
+      "Technology"
+    ],
+    "author": "Devdiscourse",
+    "authorRole": "Industry Expert",
+    "isEditorsPick": false,
+    "slug": "trump-administration-revokes-3-billion-loan-guarantee-for-solar-installer-sunnova"
   },
   {
     "title": "Buyers will pay $118,000 more for energy-efficient homes",
     "summary": "New figures show the importance of sustainability and long-term costs, not just up-front affordability, in the housing market.",
-    "image": "https://static.ffx.io/images/$zoom_0.4905%2C$multiply_1%2C$ratio_1.777778%2C$width_1059%2C$x_1162%2C$y_694/t_crop_custom/c_scale%2Cw_800%2Cq_88%2Cf_jpg/t_afr_no_label_no_age_social_wm/1f100030c40ac683666f4c9c2977260d42796234",
+    "image": "https://static.ffx.io/images/$zoom_0.3434%2C$multiply_3%2C$ratio_1.777778%2C$width_1059%2C$x_685%2C$y_536/t_crop_custom/c_scale%2Cw_800%2Cq_88%2Cf_jpg/t_afr_no_label_no_age_social_wm/1f100030c40ac683666f4c9c2977260d42796234",
     "date": "2025-05-28",
     "link": "https://www.afr.com/property/residential/buyers-will-pay-118-000-more-for-energy-efficient-homes-20250527-p5m2hs",
     "tags": [
       "Case Study",
-      "Smart Building"
+      "AI"
+    ],
+    "author": "The Australian Financial Review",
+    "authorRole": "Technical Editor",
+    "isEditorsPick": false,
+    "slug": "buyers-will-pay-118-000-more-for-energy-efficient-homes",
+    "previewChart": [
+      12,
+      18,
+      19,
+      10,
+      13
     ]
   },
   {
@@ -38,9 +191,14 @@ export const blogPosts: BlogPost[] =
     "date": "2025-05-28",
     "link": "https://www.techspot.com/news/108077-new-80-plus-ruby-psu-efficiency-rating-exceeds.html",
     "tags": [
-      "Project Portfolio",
-      "Energy"
-    ]
+      "Insights",
+      "Smart Grid"
+    ],
+    "author": "TechSpot",
+    "authorRole": "Energy Analyst",
+    "isEditorsPick": false,
+    "slug": "new-80-plus-ruby-psu-efficiency-rating-exceeds-titanium-standard-coming-to-data-centers",
+    "insight": "Avg. 17% CO₂ reduction"
   },
   {
     "title": "Quarterly Results: Standalone net profit of this logistics firm jumps 59.87 per cent - Details",
@@ -49,185 +207,13 @@ export const blogPosts: BlogPost[] =
     "date": "2025-05-28",
     "link": "https://www.indiatvnews.com/business/markets/quarterly-results-standalone-net-profit-of-this-logistics-firm-jumps-59-87-per-cent-details-2025-05-28-992243",
     "tags": [
-      "Insights",
-      "Sustainability"
-    ]
-  },
-  {
-    "title": "India-Pak conflict: Renewable energy projects along border may see tariffs rise on higher insurance premiums",
-    "summary": "The war component in insurance premium has jumped as much as threefold since the conflict, said the CEO of a green EPC services provider.",
-    "image": "https://www.livemint.com/lm-img/img/2025/05/27/1600x900/2-0-726681848-solarpower1-0_1680336057556_1748356772630.jpg",
-    "date": "2025-05-27",
-    "link": "https://www.livemint.com/industry/new-green-power-projects-tariffs-pakistan-border-gujarat-rajasthan-solar-park-kutch-wind-energy-barmer-jaisalmer-11748342698532.html",
-    "tags": [
-      "Case Study",
-      "Renewables"
-    ]
-  },
-  {
-    "title": "Labour urged not to cut Warm Homes Plan over £300 DWP Winter Fuel Payments",
-    "summary": "Charities and experts have urged the Labour Party government to honour its pledge on energy efficiency as it looks to pay for a policy reversal.",
-    "image": "https://i2-prod.birminghammail.co.uk/article31728924.ece/ALTERNATES/s1200/0_child-poverty.jpg",
-    "date": "2025-05-27",
-    "link": "https://www.birminghammail.co.uk/news/cost-of-living/labour-urged-not-cut-warm-31728908",
-    "tags": [
-      "Blog",
-      "Efficiency"
-    ]
-  },
-  {
-    "title": "Volunteer firefighters fear renewable energy projects will put bushfire-prone town at 'risk'",
-    "summary": "Volunteer firefighters in Victoria's north-east say two battery energy storage system proposals would be a catastrophic fire risk if they are approved.",
-    "image": "https://live-production.wcms.abc-cdn.net.au/d9e85bcfbdce0ed286ccd0e6826f0059?impolicy=wcms_watermark_news&cropH=472&cropW=840&xPos=0&yPos=0&width=862&height=485&imformat=generic",
-    "date": "2025-05-27",
-    "link": "https://www.abc.net.au/news/2025-05-27/dederang-fire-risk-battery-renewable-projects-cfa/105283348",
-    "tags": [
-      "Project Portfolio",
-      "Technology"
-    ]
-  },
-  {
-    "title": "This crazy bacteria doesn't breathe oxygen",
-    "summary": "Researchers say they have discovered bacteria that breathe electricity instead of oxygen, spurring new ideas for renewable energy.",
-    "image": "https://bgr.com/wp-content/uploads/2022/03/AdobeStock_128549555.jpeg?quality=82&strip=all",
-    "date": "2025-05-27",
-    "link": "https://bgr.com/science/this-crazy-bacteria-doesnt-breathe-oxygen/",
-    "tags": [
-      "Case Study",
-      "AI"
-    ]
-  },
-  {
-    "title": "Chief Don Tom says 'era of trust' between First Nations and Eby is over if bills pass",
-    "summary": "The government says Bill 15 is needed to speed up public and private infrastructure projects in the face of tariff threats from the United States, while Bill 14 would streamline permitting for renewable energy projects, such as wind farms.",
-    "image": "https://www.vmcdn.ca/f/files/shared/feeds/cp/2025/05/234b8fd120911c88c7c3c56ddc006d26e1a0d1d8ddbf0adae664f33f9894859d.jpg;w=1200;h=800;mode=crop",
-    "date": "2025-05-26",
-    "link": "https://www.vancouverisawesome.com/bc-news/chief-don-tom-says-era-of-trust-between-first-nations-and-eby-is-over-if-bills-pass-10715681",
-    "tags": [
-      "Insights",
-      "Smart Grid"
-    ]
-  },
-  {
-    "title": "IAEA Partners with Lombardy to Advance Nuclear Solutions in Health, Energy and Sustainability",
-    "summary": "The agreement will facilitate collaboration across energy, medicine, agriculture, and environmental protection, leveraging the region’s deep scientific expertise and established institutions in nuclear research.",
-    "image": "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/devnews/24_05_2025_14_38_03_1164655.jfif?width=920&format=jpeg",
-    "date": "2025-05-24",
-    "link": "https://www.devdiscourse.com/article/science-environment/3423526-iaea-partners-with-lombardy-to-advance-nuclear-solutions-in-health-energy-and-sustainability",
-    "tags": [
       "Blog",
       "Carbon"
-    ]
-  },
-  {
-    "title": "Sample Post 11: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Insights",
-      "Cost Saving"
-    ]
-  },
-  {
-    "title": "Sample Post 12: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Blog",
-      "Future"
-    ]
-  },
-  {
-    "title": "Sample Post 13: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Case Study",
-      "Industry"
-    ]
-  },
-  {
-    "title": "Sample Post 14: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Insights",
-      "Trends"
-    ]
-  },
-  {
-    "title": "Sample Post 15: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Project Portfolio",
-      "Success"
-    ]
-  },
-  {
-    "title": "Sample Post 16: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Blog",
-      "Sustainability"
-    ]
-  },
-  {
-    "title": "Sample Post 17: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Case Study",
-      "Best Practice"
-    ]
-  },
-  {
-    "title": "Sample Post 18: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Blog",
-      "Update"
-    ]
-  },
-  {
-    "title": "Sample Post 19: NovaCelik Blog Demo",
-    "summary": "This is a sample post generated for layout demonstration purposes.",
-    "image": "/images/blog/default.jpg",
-    "date": "2024-06-01",
-    "link": "https://novacelik.com/sample-post",
-    "tags": [
-      "Project Portfolio",
-      "Innovation"
-    ]
+    ],
+    "author": "India TV News",
+    "authorRole": "Senior Consultant",
+    "isEditorsPick": false,
+    "slug": "quarterly-results-standalone-net-profit-of-this-logistics-firm-jumps-59-87-per-cent-details",
+    "insight": "Avg. 16% CO₂ reduction"
   }
 ];
-
-export function generateBlogPostId(post: BlogPost, index: number): string {
-  return `${post.title.toLowerCase().replace(/\W+/g, '-')}-${post.date}-${index}`;
-}
-
-export const blogPostMap = new Map<string, BlogPost>(
-  blogPosts.map((post, index) => [generateBlogPostId(post, index), post])
-);
-
-export function getBlogPostById(id: string): BlogPost | undefined {
-  return blogPostMap.get(id);
-}

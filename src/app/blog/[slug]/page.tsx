@@ -28,7 +28,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 }
 
 // Avatar helper as before
-function AuthorAvatar({ name, alt }: { readonly name: string; readonly alt: string }) {
+function AuthorAvatar({ name, alt }: { name: string; alt: string }) {
   const hash = name
     ? Array.from(name).reduce((acc, c) => acc + c.charCodeAt(0), 0).toString(16)
     : 'ccc';
@@ -46,7 +46,7 @@ function AuthorAvatar({ name, alt }: { readonly name: string; readonly alt: stri
 }
 
 // ---- Default page export is SYNC and matches Next.js type signature! ----
-export default function BlogPostPage({ params }: { readonly params: { readonly slug: string } }) {
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) return notFound();
 

@@ -28,7 +28,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 }
 
 // Avatar helper as before
-function AuthorAvatar({ name, alt }: Readonly<{ name: string; alt: string }>) {
+function AuthorAvatar({ name, alt }: { readonly name: string; readonly alt: string }) {
   const hash = name
     ? Array.from(name).reduce((acc, c) => acc + c.charCodeAt(0), 0).toString(16)
     : 'ccc';
@@ -46,7 +46,7 @@ function AuthorAvatar({ name, alt }: Readonly<{ name: string; alt: string }>) {
 }
 
 // ---- Default page export is SYNC and matches Next.js type signature! ----
-export default function BlogPostPage({ params }: Readonly<{ params: { slug: string } }>) {
+export default function BlogPostPage({ params }: { readonly params: { readonly slug: string } }) {
   const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) return notFound();
 
@@ -72,7 +72,7 @@ export default function BlogPostPage({ params }: Readonly<{ params: { slug: stri
           <div className="flex gap-2 mb-3 flex-wrap">
             {post.isEditorsPick && (
               <span className="flex items-center gap-1 bg-yellow-100 text-yellow-900 font-bold px-3 py-1 rounded-full text-xs">
-                <Award className="w-3 h-3" /> Editor’s Choice
+                <Award className="w-3 h-3" /> Editors Choice
               </span>
             )}
             {post.insight && (

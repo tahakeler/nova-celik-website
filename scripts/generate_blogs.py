@@ -1,7 +1,14 @@
 import requests
 import json
+import os
 
-GNEWS_API_KEY = "9a90369dad37b3ad3f89ff92058472de"
+GNEWS_API_KEY = os.environ.get("GNEWS_API_KEY")
+if not GNEWS_API_KEY:
+    raise SystemExit("Error: GNEWS_API_KEY environment variable is not set")
+
+# Optional parameters to tweak the query without changing the script
+QUERY = os.environ.get("GNEWS_QUERY", "energy efficiency OR sustainability OR renewable")
+LANG = os.environ.get("GNEWS_LANG", "en")
 NUM_POSTS = 19
 OUTPUT_PATH = "./src/data/blog.ts"
 
@@ -42,12 +49,16 @@ DUMMY_TAGS = [
 
 def fetch_energy_news():
     url = (
-        f"https://gnews.io/api/v4/search?q=energy+efficiency+OR+sustainability+OR+renewable"
-        f"&lang=en&max={NUM_POSTS}&token={GNEWS_API_KEY}"
+        f"https://gnews.io/api/v4/search?q={QUERY}"
+        f"&lang={LANG}&max={NUM_POSTS}&token={GNEWS_API_KEY}"
     )
-    r = requests.get(url)
-    r.raise_for_status()
-    return r.json().get("articles", [])
+    try:
+        r = requests.get(url, timeout=10)
+        r.raise_for_status()
+        return r.json().get("articles", [])
+    except requests.RequestException as exc:
+        print(f"Warning: failed to fetch news - {exc}")
+        return []
 
 def make_dummy(idx):
     return {

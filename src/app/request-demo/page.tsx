@@ -164,7 +164,7 @@ export default function RequestDemoPage() {
           {/* Info Card - Right */}
           <div className="flex flex-col justify-center bg-[#003399] text-white rounded-2xl p-6 sm:p-8 shadow-md">
             <h3 className="text-xl sm:text-2xl font-bold mb-6 text-white">
-              NOVACELIK Thailand
+              NOVACELIK Company Limited
             </h3>
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">

@@ -1,19 +1,19 @@
 'use client';
 
-import  React from 'react';
+import React, { type ReactElement } from 'react';
 import styles from '@/styles/BatteryChart.module.css';
 import type { BatteryChartProps } from '@/types/dashboard.types';
-import { JSX } from 'react/jsx-dev-runtime';
+import { StepHealth } from '@/constants/dashboard.constants';
 
 export default function BatteryChart({
   healthy,
   risky,
   unhealthy,
-}: Readonly<BatteryChartProps>): JSX.Element {
+}: Readonly<BatteryChartProps>): ReactElement {
   const bars = [
-    { count: healthy, label: 'Healthy Steps', color: 'green' },
-    { count: risky, label: 'Risky Steps', color: 'yellow' },
-    { count: unhealthy, label: 'Unhealthy Steps', color: 'red' },
+    { count: healthy, label: StepHealth.Healthy, color: 'green' },
+    { count: risky, label: StepHealth.Risky, color: 'yellow' },
+    { count: unhealthy, label: StepHealth.Unhealthy, color: 'red' },
   ];
 
   return (

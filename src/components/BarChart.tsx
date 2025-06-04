@@ -3,11 +3,12 @@
 import React, { JSX } from 'react';
 import styles from '@/styles/BarChart.module.css';
 import type { BarChartProps } from '@/types/dashboard.types';
+import { DEFAULT_LABELS } from '@/constants/dashboard.constants';
 
 export default function BarChart({
   currentYear,
   previousYear,
-  labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  labels = DEFAULT_LABELS,
 }: Readonly<BarChartProps>): JSX.Element {
   const max = Math.max(...currentYear, ...(previousYear ?? []));
 
@@ -23,13 +24,13 @@ export default function BarChart({
             <div key={`${labels[i]}-${val}`} className="flex flex-col items-center gap-[2px]">
               <div
                 className={`${styles.bar} ${styles.current}`}
-                data-height={currentHeight}
+                style={{ '--bar-height': `${currentHeight}%` } as React.CSSProperties}
                 aria-label={`Current: ${val} kWh`}
               />
               {previousYear && (
                 <div
                   className={`${styles.bar} ${styles.previous}`}
-                  data-height={previousHeight}
+                  style={{ '--bar-height': `${previousHeight}%` } as React.CSSProperties}
                   aria-label={`Previous: ${previousYear[i]} kWh`}
                 />
               )}

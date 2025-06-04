@@ -186,7 +186,9 @@ export default function BlogPage() {
                 </div>
                 <div className="flex-1" />
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={post.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-fit mt-2 inline-flex items-center gap-2 rounded-full bg-blue-700 text-white font-semibold px-6 py-2.5 shadow-sm transition hover:bg-blue-800 group-hover:translate-x-2 duration-200"
                 >
                   Read Full Insight

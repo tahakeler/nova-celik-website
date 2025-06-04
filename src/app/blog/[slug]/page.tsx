@@ -26,7 +26,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
-function AuthorAvatar({ name, alt }: { name: string; alt: string }) {
+function AuthorAvatar({ name, alt }: { readonly name: string; readonly alt: string }) {
   const hash = name
     ? Array.from(name).reduce((acc, c) => acc + c.charCodeAt(0), 0).toString(16)
     : 'ccc';
@@ -43,7 +43,7 @@ function AuthorAvatar({ name, alt }: { name: string; alt: string }) {
   );
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage({ params }: { readonly params: { readonly slug: string } }) {
   const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) return notFound();
 

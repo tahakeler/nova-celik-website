@@ -33,7 +33,7 @@ export async function parseDashboardData(file: File): Promise<DashboardData> {
         const workbook = XLSX.read(buffer, { type: 'array' });
 
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const rows: any[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        const rows: unknown[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
         const current = rows[1]?.slice(1)?.map(Number) ?? [];
         const previous = rows[2]?.slice(1)?.map(Number) ?? [];

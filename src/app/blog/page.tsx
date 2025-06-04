@@ -38,6 +38,7 @@ function AuthorAvatar({ name }: { readonly name: string }) {
 }
 
 export default function BlogPage() {
+  // Infinite scroll setup
   const [postsToShow, setPostsToShow] = useState(POSTS_BATCH_SIZE);
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -52,15 +53,18 @@ export default function BlogPage() {
     return () => observer.disconnect();
   }, []);
 
+  // Tag filter
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const filtered = tagFilter
     ? blogPosts.filter(p => p.tags?.includes(tagFilter))
     : blogPosts;
 
+  // Hero: use first post for highlight
   const featured = filtered[0];
 
   return (
     <main className="min-h-screen bg-white pb-20">
+      {/* HERO */}
       {featured && (
         <section className="relative w-full flex items-center justify-center min-h-[480px] md:min-h-[640px]">
           <Image
@@ -108,6 +112,7 @@ export default function BlogPage() {
           </div>
         </section>
       )}
+      {/* Tag filter and stats */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-10">
         <div className="mb-8 flex flex-col sm:flex-row items-center gap-4 justify-between">
           <div className="flex items-center gap-2 bg-blue-50 text-blue-800 px-4 py-2 rounded-full font-bold text-sm">
@@ -128,9 +133,11 @@ export default function BlogPage() {
             )}
           </div>
         </div>
+        {/* Blog cards, infinite scroll */}
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {filtered.slice(0, postsToShow).map((post, idx) => (
             <article key={post.slug} className="group relative flex flex-col bg-white rounded-[28px] hover:border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2" style={{ minHeight: 420 }}>
+              {/* Blog Card Image */}
               <div className="relative h-48 w-full overflow-hidden rounded-[28px]">
                 <Image
                   src={post.image ?? '/images/blog/default.jpg'}
@@ -144,6 +151,7 @@ export default function BlogPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-[28px]" />
               </div>
               <div className="flex flex-col flex-1 p-6">
+                {/* Editorial/Insight badge, mini-chart, and avatar */}
                 <div className="flex items-center gap-2 mb-3">
                   {post.isEditorsPick && (
                     <span className="flex items-center gap-1 bg-yellow-100 text-yellow-900 font-bold px-3 py-1 rounded-full text-xs animate-pulse">
@@ -163,11 +171,13 @@ export default function BlogPage() {
                   </h2>
                 </Link>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">{post.summary}</p>
+                {/* Tag chips */}
                 <div className="flex gap-2 flex-wrap mb-2">
                   {(post.tags ?? []).map((tag: string, j: number) => (
                     <span key={tag + j} className="px-3 py-1 text-xs rounded-full bg-gray-100 text-blue-700 font-medium border border-blue-200">{tag}</span>
                   ))}
                 </div>
+                {/* Author */}
                 <div className="flex items-center gap-2 mb-3">
                   <AuthorAvatar name={post.author ?? 'N'} />
                   <span className="font-semibold text-xs text-gray-800">{post.author || "Staff"}</span>
@@ -188,6 +198,7 @@ export default function BlogPage() {
             </article>
           ))}
         </div>
+        {/* Infinite scroll sentinel */}
         {postsToShow < filtered.length && (
           <div ref={observerRef} className="h-16 flex items-center justify-center text-gray-400">
             Loading more posts...

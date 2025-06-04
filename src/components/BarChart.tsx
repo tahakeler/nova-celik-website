@@ -60,7 +60,12 @@ export default function BarChart({
               )}
             </div>
           );
-        })}
+       })}
+      </div>
+      <div className="flex gap-2 items-center justify-between w-full max-w-xl text-xs text-gray-500 mt-3">
+        {labels.map((label) => (
+          <span key={label} className="w-full text-center">{label}</span>
+        ))}
       </div>
       <p className="text-xs text-gray-500 mt-3">kWh (Preview)</p>
     </div>

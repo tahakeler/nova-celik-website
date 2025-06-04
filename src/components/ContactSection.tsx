@@ -87,7 +87,7 @@ export default function ContactSection() {
             {/* Unified Info Card */}
             <div className="bg-[#002b80] text-white rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl text-white sm:text-2xl font-bold mb-6">
-                NOVACELIK Thailand
+                NOVACELIK Company Limited
               </h3>
 
               <div className="bg-[#003399] rounded-lg p-4 flex flex-col gap-4">

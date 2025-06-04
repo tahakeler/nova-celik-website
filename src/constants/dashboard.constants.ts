@@ -7,4 +7,19 @@ export enum StepHealth {
   Unhealthy = 'Unhealthy Steps',
 }
 
-export const DEFAULT_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const DEFAULT_LABELS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+] as const;
+
+export type MonthLabel = typeof DEFAULT_LABELS[number];

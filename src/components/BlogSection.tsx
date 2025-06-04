@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { blogPosts } from '@/data/blog';
+import { blogPosts, generateBlogPostId } from '@/data/blog';
 import { scrollFade } from '@/utils/animations';
 
 export default function BlogSection() {
@@ -35,8 +35,8 @@ export default function BlogSection() {
 
         {/* Blog cards grid */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 place-items-center">
-          {latestPosts.map((post) => (
-            <BlogImageCard key={post.link} post={post} />
+          {latestPosts.map((post, idx) => (
+            <BlogImageCard key={post.link} post={post} index={idx} />
           ))}
         </div>
 
@@ -57,7 +57,14 @@ export default function BlogSection() {
   );
 }
 
-function BlogImageCard({ post }: { readonly post: (typeof blogPosts)[0] }) {
+function BlogImageCard({
+  post,
+  index,
+}: {
+  readonly post: (typeof blogPosts)[0];
+  readonly index: number;
+}) {
+  const slug = generateBlogPostId(post, index);
   return (
     <div className="
       group relative w-full 
@@ -98,8 +105,7 @@ function BlogImageCard({ post }: { readonly post: (typeof blogPosts)[0] }) {
           {post.title}
         </h3>
         <Link
-          href={post.link}
-          target="_blank"
+          href={`/blog/${slug}`}
           className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-blue-700 hover:bg-blue-800 text-white font-semibold text-lg shadow transition"
         >
           Read More

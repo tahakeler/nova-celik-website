@@ -3,12 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Button from "./Button";
-
-const references = [
-  { src: "/images/reference1.png", alt: "Reference Logo 1" },
-  { src: "/images/reference2.png", alt: "Reference Logo 2" },
-  { src: "/images/reference3.png", alt: "Reference Logo 3" },
-];
+import { references } from "@/data/references";
 
 export default function ReferencesSection() {
   return (

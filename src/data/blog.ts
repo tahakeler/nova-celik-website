@@ -219,3 +219,15 @@ export const blogPosts: BlogPost[] =
     ]
   }
 ];
+
+export function generateBlogPostId(post: BlogPost, index: number): string {
+  return `${post.title.toLowerCase().replace(/\W+/g, '-')}-${post.date}-${index}`;
+}
+
+export const blogPostMap = new Map<string, BlogPost>(
+  blogPosts.map((post, index) => [generateBlogPostId(post, index), post])
+);
+
+export function getBlogPostById(id: string): BlogPost | undefined {
+  return blogPostMap.get(id);
+}

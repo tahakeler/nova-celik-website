@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { scrollFade } from '@/utils/animations';
+import { scrollFade, slideLeft } from '@/utils/animations';
+import AnimatedCounter from './AnimatedCounter';
 import {
   Users,
   Globe2,
@@ -39,25 +40,40 @@ export default function AchievementsSection() {
 
         {/* Feature Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-20">
-          <AchievementCard icon={<Users className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />} title="Specialized Engineering Team" />
-          <AchievementCard icon={<Globe2 className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />} title="International Partners" />
-          <AchievementCard icon={<ClipboardList className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />} title="Project Efficiency Practices" />
-          <AchievementCard icon={<Leaf className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />} title="Eco-Friendly Technologies" />
-          <AchievementCard icon={<ShieldCheck className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />} title="15+ Energy Audits Completed" />
-          <AchievementCard icon={<ActivitySquare className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />} title="Energy Monitoring & Management" />
+          {[
+            { icon: <Users className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />, title: 'Specialized Engineering Team' },
+            { icon: <Globe2 className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />, title: 'International Partners' },
+            { icon: <ClipboardList className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />, title: 'Project Efficiency Practices' },
+            { icon: <Leaf className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />, title: 'Eco-Friendly Technologies' },
+            { icon: <ShieldCheck className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />, title: '15+ Energy Audits Completed' },
+            { icon: <ActivitySquare className="w-7 sm:w-8 h-7 sm:h-8 text-blue-600" />, title: 'Energy Monitoring & Management' },
+          ].map((item, i) => (
+            <motion.div
+              key={item.title}
+              variants={slideLeft}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <AchievementCard icon={item.icon} title={item.title} />
+            </motion.div>
+          ))}
         </div>
 
         {/* KPIs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16 max-w-4xl mx-auto text-center">
           <div>
             <div className="text-4xl sm:text-5xl font-extrabold text-blue-700">
-              +15 <span className="text-base sm:text-xl font-medium text-gray-600">million THB</span>
+              +<AnimatedCounter value={15} />{' '}
+              <span className="text-base sm:text-xl font-medium text-gray-600">million THB</span>
             </div>
             <div className="text-xl sm:text-2xl font-semibold text-blue-600 mt-3 sm:mt-4">Energy Saving</div>
           </div>
           <div>
             <div className="text-4xl sm:text-5xl font-extrabold text-blue-700">
-              +3,000 <span className="text-base sm:text-xl font-medium text-gray-600">tons</span>
+              +<AnimatedCounter value={3000} />{' '}
+              <span className="text-base sm:text-xl font-medium text-gray-600">tons</span>
             </div>
             <div className="text-xl sm:text-2xl font-semibold text-blue-600 mt-3 sm:mt-4">Carbon Reduction</div>
           </div>

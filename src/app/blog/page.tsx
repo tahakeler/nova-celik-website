@@ -3,12 +3,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { blogPosts, BlogPost } from '@/data/blog';
+import { blogPosts, BlogPost, generateBlogPostId } from '@/data/blog';
+
+type BlogPostWithSlug = BlogPost & { slug: string };
 
 const POSTS_INITIAL = 6;
 
 export default function BlogPage() {
-  const [featured, ...restPosts] = blogPosts.slice(0, 19);
+  const postsWithSlug: BlogPostWithSlug[] = blogPosts.map((p, idx) => ({
+    ...p,
+    slug: generateBlogPostId(p, idx),
+  }));
+  const [featured, ...restPosts] = postsWithSlug.slice(0, 19);
   const [showAll, setShowAll] = useState(false);
   const visiblePosts = showAll ? restPosts : restPosts.slice(0, POSTS_INITIAL);
 
@@ -41,9 +47,7 @@ export default function BlogPage() {
             {featured.summary}
           </p>
           <Link
-            href={featured.link}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/blog/${featured.slug}`}
             className="inline-flex items-center gap-2 bg-green-600 text-white px-7 py-3 rounded-full text-base font-semibold hover:bg-green-700 transition"
           >
             Continue Reading
@@ -66,9 +70,9 @@ export default function BlogPage() {
           Explore insights and trends in energy management, sustainability, and smart building solutions.
         </p>
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {visiblePosts.map((post: BlogPost, idx: number) => (
+          {visiblePosts.map((post: BlogPostWithSlug, idx: number) => (
             <div
-              key={`${post.title}-${post.date}-${post.link}`}
+              key={post.slug}
               className="group relative flex flex-col bg-white rounded-[28px] hover:border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
               style={{ minHeight: 420 }}
             >
@@ -99,7 +103,7 @@ export default function BlogPage() {
                     {post.tags[0]}
                   </span>
                 )}
-                <Link href={post.link} target="_blank" rel="noopener noreferrer">
+                <Link href={`/blog/${post.slug}`}>
                   <h2 className="font-bold text-lg sm:text-xl mb-2 text-gray-900 group-hover:text-[#25691b] transition line-clamp-2">
                     {post.title}
                   </h2>
@@ -119,9 +123,7 @@ export default function BlogPage() {
                 </div>
                 <div className="flex-1" />
                 <Link
-                  href={post.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/blog/${post.slug}`}
                   className="w-fit mt-2 inline-flex items-center gap-2 rounded-full bg-green-600 text-white font-semibold px-6 py-2.5 shadow-sm transition hover:bg-green-700 group-hover:translate-x-2 duration-200"
                 >
                   Read More

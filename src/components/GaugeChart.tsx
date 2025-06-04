@@ -1,15 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { type ReactElement } from 'react';
 import styles from '@/styles/GaugeChart.module.css';
 import type { GaugeChartProps } from '@/types/dashboard.types';
-import { JSX } from 'react/jsx-dev-runtime';
 
 export default function GaugeChart({
   label,
   value,
   max,
-}: Readonly<GaugeChartProps>): JSX.Element {
+}: Readonly<GaugeChartProps>): ReactElement {
   const percent = Math.min(value / max, 1);
 
   const getStatus = (value: number) => {
@@ -20,11 +19,16 @@ export default function GaugeChart({
 
   const status = getStatus(percent);
 
+  const angle = percent * 180 - 90;
+
   return (
     <div className="flex flex-col items-center">
       <h3 className="text-sm font-semibold text-gray-800 mb-2">{label}</h3>
       <div className={styles.gaugeWrapper}>
-        <div className={`${styles.needle} ${status} ${styles['needle' + Math.round(percent * 100 / 10) * 10]}`} />
+        <div
+          className={`${styles.needle} ${status}`}
+          style={{ transform: `rotate(${angle}deg)` }}
+        />
         <div className={styles.arc}></div>
       </div>
       <p className="text-xs text-gray-600 mt-2">{value}% Avg</p>

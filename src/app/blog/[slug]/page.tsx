@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { blogPosts } from '@/data/blog';
 import { Award, Zap, ExternalLink } from 'lucide-react';
 
-// --- SEO: generateMetadata is allowed to be async ---
 export function generateMetadata({ params }: { params: { slug: string } }) {
   const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) return {};
@@ -27,7 +26,6 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
-// Avatar helper as before
 function AuthorAvatar({ name, alt }: { name: string; alt: string }) {
   const hash = name
     ? Array.from(name).reduce((acc, c) => acc + c.charCodeAt(0), 0).toString(16)
@@ -45,14 +43,12 @@ function AuthorAvatar({ name, alt }: { name: string; alt: string }) {
   );
 }
 
-// ---- Default page export is SYNC and matches Next.js type signature! ----
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) return notFound();
 
   return (
     <article className="min-h-screen bg-gray-50">
-      {/* --- Full-Bleed Header Image --- */}
       <div className="relative w-full h-[320px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
         <Image
           src={post.image}
@@ -66,13 +62,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
       </div>
 
-      {/* --- Main Content Card --- */}
       <div className="relative max-w-2xl mx-auto -mt-24 sm:-mt-32 z-10">
         <div className="bg-white rounded-3xl shadow-2xl px-6 sm:px-10 py-10 sm:py-14 flex flex-col items-start">
           <div className="flex gap-2 mb-3 flex-wrap">
             {post.isEditorsPick && (
               <span className="flex items-center gap-1 bg-yellow-100 text-yellow-900 font-bold px-3 py-1 rounded-full text-xs">
-                <Award className="w-3 h-3" /> Editors Choice
+                <Award className="w-3 h-3" /> Editor’s Choice
               </span>
             )}
             {post.insight && (
@@ -104,15 +99,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
 
-      {/* --- Article Content Below Card --- */}
       <section className="max-w-2xl mx-auto mt-14 px-4 sm:px-0 pb-16">
         <div className="prose prose-lg max-w-none text-gray-800">
           <h2 className="mt-8 text-2xl font-bold text-gray-900">Industry Insights & Analysis</h2>
           <p>
-            This section provides further analysis, trends, or background relevant to the article. NovaCeliks editorial team reviews each story to highlight actionable intelligence and energy efficiency strategies.
+            This section provides further analysis, trends, or background relevant to the article. NovaCelik’s editorial team reviews each story to highlight actionable intelligence and energy efficiency strategies.
           </p>
           <blockquote className="border-l-4 border-blue-700 pl-4 italic text-blue-900 my-6">
-            “Transform your facilitys energy future with real-time insight.”
+            “Transform your facility’s energy future with real-time insight.”
           </blockquote>
         </div>
         <div className="flex mt-12">

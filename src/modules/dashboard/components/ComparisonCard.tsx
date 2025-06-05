@@ -10,6 +10,12 @@ export default function ComparisonCard() {
         <span className="mr-2">Facility Comparison</span>
       </div>
       <table className="w-full text-center mt-4">
+        <thead>
+          <tr>
+            <th className="p-1 font-semibold">Facility</th>
+            <th className="p-1 font-semibold">Trend</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
             <td className="p-1 bg-gray-50 rounded-l-lg">A</td>

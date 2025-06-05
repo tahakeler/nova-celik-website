@@ -101,7 +101,9 @@ export default function BlogPage() {
               {featured.summary}
             </p>
             <Link
-              href={`/blog/${featured.slug}`}
+                href={featured.link}
+                target="_blank"
+                rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-blue-700 text-white px-7 py-3 rounded-full text-base font-semibold hover:bg-blue-800 transition"
             >
               Continue Reading

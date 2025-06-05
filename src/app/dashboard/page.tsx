@@ -1,15 +1,14 @@
-import DashboardSection from '@/components/DashboardSection';
-import PageHero from '@/components/PageHero';
+import { DashboardGrid, ConsumptionChart } from '@/modules/dashboard/components';
 
 export default function DashboardPage() {
   return (
-    <main className="flex flex-col">
-      <PageHero
-        image="/images/hero-image.jpg"
-        title="Dashboard Overview"
-        subtitle="Real-time insights into your facility performance"
-      />
-      <DashboardSection />
+    <main id="dashboard" className="bg-[#fffbea] min-h-screen">
+      <div className="max-w-screen-2xl mx-auto py-8">
+        <DashboardGrid />
+        <div className="mt-8">
+          <ConsumptionChart />
+        </div>
+      </div>
     </main>
   );
 }

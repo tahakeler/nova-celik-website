@@ -21,7 +21,7 @@ export default function EfficiencyAcademySection() {
       >
         <div className="w-full max-w-md md:max-w-full mx-auto">
           <Image
-            src="/images/efficiency-academy.svg"
+            src="/svgs/efficiency-academy.svg"
             alt="Efficiency Academy"
             width={600}
             height={400}

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { blogPosts } from '@/data/blog';
+import { blogPosts } from '@/modules/blog/data';
 import { scrollFade } from '@/utils/animations';
 
 export default function BlogSection() {
@@ -86,7 +86,7 @@ function BlogImageCard({
       {/* Logo overlay */}
       <div className="absolute top-5 left-5 z-20">
         <Image
-          src="/images/logo-white.svg"
+          src="/svgs/logo-white.svg"
           alt="NovaCelik Logo"
           width={90}
           height={34}

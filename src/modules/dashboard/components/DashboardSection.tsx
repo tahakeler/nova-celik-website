@@ -3,11 +3,9 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Gauge, BatteryCharging, BarChart2 } from 'lucide-react';
-import BarChart from '@/components/BarChart';
-import GaugeChart from '@/components/GaugeChart';
-import BatteryChart from '@/components/BatteryChart';
-import { MAX_VOLTAGE_HARMONICS, DEFAULT_LABELS } from '@/constants/dashboard.constants';
-import { parseDashboardData, type DashboardData } from '@/utils/parseDashboardData';
+import { BarChart, GaugeChart, BatteryChart } from '@/modules/dashboard/components';
+import { MAX_VOLTAGE_HARMONICS, DEFAULT_LABELS } from '@/modules/dashboard/dashboard.constants';
+import { parseDashboardData, type DashboardData } from '@/modules/dashboard/parseDashboardData';
 
 /**
  * A visually polished and highly usable dashboard for NovaCelik analytics.
@@ -20,7 +18,7 @@ export default function DashboardSection() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch('/sample.xlsx');
+        const response = await fetch('/excel/sample.xlsx');
         if (!response.ok) throw new Error(`Failed to load Excel file (HTTP ${response.status})`);
         const arrayBuffer = await response.arrayBuffer();
         const file = new File([arrayBuffer], 'sample.xlsx');
@@ -56,7 +54,11 @@ export default function DashboardSection() {
   const formatPercent = (n: number) => `${Math.round(n)}%`;
 
   return (
-    <section className="bg-[#f9fafb] py-20 px-2 sm:px-6 flex justify-center items-center" aria-labelledby="dashboard-title">
+    <section
+      id="dashboard"
+      className="bg-[#f9fafb] py-20 px-2 sm:px-6 flex justify-center items-center"
+      aria-labelledby="dashboard-title"
+    >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import styles from '@/styles/BatteryChart.module.css';
-import type { BatteryChartProps } from '@/types/dashboard.types';
-import { StepHealth } from '@/constants/dashboard.constants';
+import type { BatteryChartProps } from '@/modules/dashboard/dashboard.types';
+import { StepHealth } from '@/modules/dashboard/dashboard.constants';
 
 /**
  * BatteryChart: Professional step status visualization using "battery" icons and clear color coding.

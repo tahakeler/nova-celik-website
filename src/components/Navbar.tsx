@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Menu } from 'lucide-react'; // hamburger icon
-import { Dialog } from '@headlessui/react';
+import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const NAV_ITEMS = [
   { label: 'Home', href: '/' },
@@ -39,7 +39,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
-            src="/images/logo-white.svg"
+            src="/svgs/logo-white.svg"
             alt="NovaCelik Logo"
             width={160}
             height={48}
@@ -82,7 +82,7 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-10">
           <Link href="https://www.linkedin.com/company/novacelik" target="_blank">
             <Image
-              src="/images/linkedin-white.svg"
+              src="/svgs/linkedin-white.svg"
               alt="LinkedIn"
               width={30}
               height={30}
@@ -112,59 +112,71 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Drawer Menu */}
-      <Dialog
-        open={isMobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        className="lg:hidden"
-      >
-        <div className="fixed inset-0 bg-black/80 z-50" />
-        <div className="fixed right-0 top-0 w-72 h-full bg-white z-50 shadow-lg p-6">
-          <button
-            className="absolute top-4 right-4 text-gray-500"
-            onClick={() => setMobileMenuOpen(false)}
-            title="Close menu"
-          >
-            ✕
-          </button>
-          <nav className="mt-12 space-y-6">
-            {NAV_ITEMS.map((item) =>
-              item.href.startsWith('/')
-                ? (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block text-gray-800 text-lg font-semibold hover:text-[#1e40af]"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="block text-gray-800 text-lg font-semibold hover:text-[#1e40af]"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                )
-            )}
-            <Link href="/request-demo">
-              <button className="mt-4 w-full bg-[#42b431] text-white font-semibold py-2 rounded-lg">
-                Request Demo
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div
+              className="fixed inset-0 bg-black/80 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <motion.div
+              className="fixed right-0 top-0 w-72 sm:w-80 h-full bg-white z-50 shadow-lg p-6 flex flex-col"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.35 }}
+            >
+              <button
+                className="absolute top-4 right-4 text-gray-500"
+                onClick={() => setMobileMenuOpen(false)}
+                title="Close menu"
+                aria-label="Close menu"
+              >
+                <X size={28} />
               </button>
-            </Link>
-            <Link href="https://www.linkedin.com/company/novacelik" target="_blank" className="block mt-6">
-              <Image
-                src="/images/linkedin-white.svg"
-                alt="LinkedIn"
-                width={30}
-                height={30}
-              />
-            </Link>
-          </nav>
-        </div>
-      </Dialog>
+              <nav className="mt-12 space-y-6">
+                {NAV_ITEMS.map((item) =>
+                  item.href.startsWith('/') ? (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block text-gray-800 text-lg font-semibold hover:text-[#1e40af] py-3"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      className="block text-gray-800 text-lg font-semibold hover:text-[#1e40af] py-3"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </a>
+                  )
+                )}
+                <Link href="/request-demo">
+                  <button className="mt-4 w-full bg-[#42b431] text-white font-semibold py-2 rounded-lg">
+                    Request Demo
+                  </button>
+                </Link>
+                <Link href="https://www.linkedin.com/company/novacelik" target="_blank" className="block mt-6">
+                  <Image
+                    src="/svgs/linkedin-white.svg"
+                    alt="LinkedIn"
+                    width={30}
+                    height={30}
+                  />
+                </Link>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

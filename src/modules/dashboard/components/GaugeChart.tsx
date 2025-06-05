@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from '@/styles/GaugeChart.module.css';
-import type { GaugeChartProps } from '@/types/dashboard.types';
+import type { GaugeChartProps } from '@/modules/dashboard/dashboard.types';
 
 /**
  * GaugeChart: Polished, animated semi-circular gauge.

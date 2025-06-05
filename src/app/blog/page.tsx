@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
-import { blogPosts } from '@/data/blog';
+import { blogPosts } from '@/modules/blog/data';
 import { Award, Zap, BarChart3 } from 'lucide-react';
 
 const POSTS_BATCH_SIZE = 6;

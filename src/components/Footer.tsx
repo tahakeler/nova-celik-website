@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12 text-left">
         {/* Logo + Description */}
         <div className="col-span-1">
-          <Image src="/images/logo-white.svg" alt="NovaCelik" width={140} height={32} className="mb-4" />
+          <Image src="/svgs/logo-white.svg" alt="NovaCelik" width={140} height={32} className="mb-4" />
           <p className="text-gray-400 leading-relaxed max-w-sm text-base">
             NovaCelik delivers intelligent energy efficiency and monitoring solutions to help industrial
             and commercial facilities reduce energy waste, improve sustainability, and optimize systems.
@@ -74,7 +74,7 @@ export default function Footer() {
               aria-label="LinkedIn"
             >
               <Image
-                src="/images/linkedin-white.svg"
+                src="/svgs/linkedin-white.svg"
                 alt="LinkedIn"
                 width={30}
                 height={30}

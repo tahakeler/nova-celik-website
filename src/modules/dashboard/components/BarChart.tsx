@@ -2,8 +2,8 @@
 
 import React, { JSX } from 'react';
 import styles from '@/styles/BarChart.module.css';
-import type { BarChartProps } from '@/types/dashboard.types';
-import { DEFAULT_LABELS } from '@/constants/dashboard.constants';
+import type { BarChartProps } from '@/modules/dashboard/dashboard.types';
+import { DEFAULT_LABELS } from '@/modules/dashboard/dashboard.constants';
 
 /**
  * BarChart visualizes monthly energy consumption comparison between current and previous periods.

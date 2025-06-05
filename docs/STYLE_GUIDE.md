@@ -9,6 +9,8 @@ This document summarizes the design conventions used throughout the NovaCelik we
 - **Font**: [Inter](https://github.com/vercel/next.js/tree/canary/packages/font) loaded through Next.js font optimization.
 - Headings use bold weights and scale responsively.
 
+Code is formatted with Prettier using `.prettierrc` settings. Run `npx prettier --write .` before committing.
+
 ## Layout
 
 - Wrap content in containers with `max-w-7xl` and responsive padding.

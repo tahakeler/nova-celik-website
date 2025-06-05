@@ -8,7 +8,7 @@ GNEWS_API_KEY = "9a90369dad37b3ad3f89ff92058472de"
 QUERY = "energy efficiency OR sustainability OR renewable"
 LANG = "en"
 NUM_POSTS = 30
-OUTPUT_PATH = "./src/data/blog.ts"
+OUTPUT_PATH = "./src/modules/blog/data/blog.ts"
 
 TS_TYPE_DEF = """
 export type BlogPost = {

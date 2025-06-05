@@ -15,7 +15,7 @@ const COLORS = {
   unhealthy: '#ef4444',
 };
 
-export default function GaugeMeter({ value, label, type, subLabel }: GaugeMeterProps) {
+export default function GaugeMeter({ value, label, type, subLabel }: Readonly<GaugeMeterProps>) {
 
   const startAngle = 135;
   const endAngle = 405;

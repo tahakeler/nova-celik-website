@@ -26,9 +26,13 @@ export default function DashboardPage() {
         const file = new File([buf], 'sample.xlsx');
         const parsed = await parseDashboardData(file);
         setData(parsed);
-      } catch (err: any) {
-        console.error('Error fetching or parsing data:', err);
-        setError(`Failed to load dashboard data: ${err.message}`);
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error('Error fetching or parsing data:', err);
+          setError(`Failed to load dashboard data: ${err.message}`);
+        } else {
+          setError('Failed to load dashboard data: Unknown error');
+        }
       } finally {
         setLoading(false);
       }

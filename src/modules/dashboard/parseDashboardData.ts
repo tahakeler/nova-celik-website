@@ -1,8 +1,5 @@
 import * as XLSX from 'xlsx';
 
-/**
- * Structured data model for dashboard metrics parsed from sample.xlsx.
- */
 export interface DashboardData {
   current: number[];
   previous: number[];
@@ -12,12 +9,6 @@ export interface DashboardData {
   unhealthy: number;
 }
 
-/**
- * Parses the contents of sample.xlsx and extracts dashboard metrics.
- * 
- * @param file - A File object representing the uploaded or fetched Excel file.
- * @returns A Promise resolving to parsed and typed dashboard metrics.
- */
 export async function parseDashboardData(file: File): Promise<DashboardData> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

@@ -1,22 +1,15 @@
 'use client';
 
-import React, { JSX } from 'react';
+import React from 'react';
 import styles from '@/styles/BarChart.module.css';
-import type { BarChartProps } from '@/modules/dashboard/dashboard.types';
-import { DEFAULT_LABELS } from '@/modules/dashboard/dashboard.constants';
+import type { BarChartProps } from '../dashboard.types';
+import { DEFAULT_LABELS } from '../dashboard.constants';
 
-/**
- * BarChart visualizes monthly energy consumption comparison between current and previous periods.
- *
- * @param currentYear - Array of current year consumption values.
- * @param previousYear - Optional array of previous year consumption values.
- * @param labels - Optional month or period labels.
- */
 export default function BarChart({
   currentYear,
   previousYear,
   labels = [...DEFAULT_LABELS],
-}: Readonly<BarChartProps>): JSX.Element {
+}: Readonly<BarChartProps>) {
   const max = Math.max(
     ...currentYear,
     ...(previousYear?.length ? previousYear : [])
@@ -60,7 +53,7 @@ export default function BarChart({
               )}
             </div>
           );
-       })}
+        })}
       </div>
       <div className="flex gap-2 items-center justify-between w-full max-w-xl text-xs text-gray-500 mt-3">
         {labels.map((label) => (

@@ -3,7 +3,6 @@ export { default as BatteryChart } from './BatteryChart';
 export { default as ComparisonCard } from './ComparisonCard';
 export { default as ConsumptionChart } from './ConsumptionChart';
 export { default as DashboardGrid } from './DashboardGrid';
-export type { DashboardGridProps, GaugeItem } from './DashboardGrid';
 export { default as DashboardSection } from './DashboardSection';
 export { default as FacilityManagementCard } from './FacilityManagementCard';
 export { default as GaugeChart } from './GaugeChart';

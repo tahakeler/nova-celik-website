@@ -1,6 +1,3 @@
-/**
- * Animated Bar Chart for Consumption (Enerji Doktoru Style)
- */
 'use client';
 
 import { Bar } from 'react-chartjs-2';
@@ -12,21 +9,27 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { DEFAULT_LABELS } from '../dashboard.constants';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-export default function ConsumptionChart() {
+interface ConsumptionChartProps {
+  readonly current: number[];
+  readonly previous: number[];
+}
+
+export default function ConsumptionChart({ current, previous }: ConsumptionChartProps) {
   const data = {
-    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    labels: [...DEFAULT_LABELS],
     datasets: [
       {
-        label: '2016',
-        data: [90, 80, 70, 100, 120, 150, 130, 140, 120, 90, 80, 70],
+        label: 'Current',
+        data: current,
         backgroundColor: '#ffe500',
       },
       {
-        label: '2015',
-        data: [80, 90, 100, 110, 115, 120, 110, 120, 110, 100, 90, 80],
+        label: 'Previous',
+        data: previous,
         backgroundColor: '#cccccc',
       },
     ],
@@ -35,6 +38,15 @@ export default function ConsumptionChart() {
     responsive: true,
     plugins: { legend: { display: false } },
     animation: { duration: 1200 },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#334155' }
+      },
+      x: {
+        ticks: { color: '#334155' }
+      }
+    }
   } as const;
 
   return (

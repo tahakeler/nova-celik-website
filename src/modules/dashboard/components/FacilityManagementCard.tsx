@@ -1,6 +1,3 @@
-/**
- * Facility Management Card
- */
 'use client';
 
 import { Building2, Warehouse, Home } from 'lucide-react';

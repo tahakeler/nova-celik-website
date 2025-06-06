@@ -1,6 +1,3 @@
-/**
- * Facility Comparison Card
- */
 'use client';
 
 export default function ComparisonCard() {

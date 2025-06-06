@@ -2,16 +2,13 @@
 
 import React from 'react';
 import styles from '@/styles/GaugeChart.module.css';
-import type { GaugeChartProps } from '@/modules/dashboard/dashboard.types';
+import type { GaugeChartProps } from '../dashboard.types';
 
-/**
- * GaugeChart: Polished, animated semi-circular gauge.
- */
 export default function GaugeChart({
   label,
   value,
   max,
-}: Readonly<GaugeChartProps>): React.ReactElement {
+}: Readonly<GaugeChartProps>) {
   const percent = Math.min(value / max, 1);
   const angle = percent * 180 - 90;
   const rounded = Math.round(percent * 100);

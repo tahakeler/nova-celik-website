@@ -2,17 +2,14 @@
 
 import React from 'react';
 import styles from '@/styles/BatteryChart.module.css';
-import type { BatteryChartProps } from '@/modules/dashboard/dashboard.types';
-import { StepHealth } from '@/modules/dashboard/dashboard.constants';
+import type { BatteryChartProps } from '../dashboard.types';
+import { StepHealth } from '../dashboard.constants';
 
-/**
- * BatteryChart: Professional step status visualization using "battery" icons and clear color coding.
- */
 export default function BatteryChart({
   healthy,
   risky,
   unhealthy,
-}: Readonly<BatteryChartProps>): React.ReactElement {
+}: Readonly<BatteryChartProps>) {
   const bars = [
     { count: healthy, label: StepHealth.Healthy, color: 'green' },
     { count: risky, label: StepHealth.Risky, color: 'yellow' },

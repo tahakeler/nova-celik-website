@@ -28,13 +28,13 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-10 mix-blend-multiply bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
 
       {/* Content */}
-      <div className="w-full max-w-auto mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center z-10 md:py-28 sm:px-8 max-h-auto">
+      <div className="w-full max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center z-10 py-16 md:py-28 px-4 sm:px-8">
         <motion.div
           variants={slideUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.4 }}
-          className="bg-white/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-xl shadow-xl border border-gray-200 w-screen mx-auto xl:w-2/3 lg:w-3/5 md:w-1/2"
+          className="bg-white/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-xl shadow-xl border border-gray-200"
         >
           <motion.h1
             variants={popIn}
@@ -50,7 +50,7 @@ export default function HeroSection() {
           <motion.p
             variants={popIn}
             transition={{ delay: 0.1 }}
-            className="text-base sm:text-lg text-gray-700 mb-8 leading-relaxed"	
+            className="text-base sm:text-lg text-gray-700 mb-8 leading-relaxed"
           >
             We specialize in industrial steel construction with precision engineering
             and hands-on execution. Our projects deliver structural integrity, efficiency,

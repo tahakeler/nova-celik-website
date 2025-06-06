@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 
 interface GaugeMeterProps {
-  value: number; // Percentage value (0-100)
+  value: number;
   label: string;
   type: 'healthy' | 'risky' | 'unhealthy';
   subLabel?: string;
@@ -16,7 +16,6 @@ const COLORS = {
 };
 
 export default function GaugeMeter({ value, label, type, subLabel }: Readonly<GaugeMeterProps>) {
-
   const startAngle = 135;
   const endAngle = 405;
   const angle = (v: number) => startAngle + (endAngle - startAngle) * (v / 100);

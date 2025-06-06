@@ -11,7 +11,7 @@ export default function Footer() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6 }}
-      className="bg-[#0f172a] text-white pt-16 pb-10 px-6 md:px-12 lg:px-20 text-sm mt-20"
+      className="bg-[#0f172a] text-white pt-16 pb-10 px-6 md:px-12 lg:px-20 text-sm mt-0"
     >
       <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12 text-left">
         {/* Logo + Description */}
@@ -76,6 +76,34 @@ export default function Footer() {
               <Image
                 src="/svgs/linkedin-white.svg"
                 alt="LinkedIn"
+                width={30}
+                height={30}
+                className="hover:opacity-80 transition"
+              />
+            </a>
+            <a
+              href="https://wa.me/905384342523"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+            >
+              <Image
+                src="/svgs/whatsapp.svg"
+                alt="WhatsApp"
+                width={30}
+                height={30}
+                className="hover:opacity-80 transition"
+              />
+            </a>
+            <a
+              href="https://line.me/ti/p/cancelikth"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Line"
+            >
+              <Image
+                src="/svgs/line.svg"
+                alt="Line"
                 width={30}
                 height={30}
                 className="hover:opacity-80 transition"

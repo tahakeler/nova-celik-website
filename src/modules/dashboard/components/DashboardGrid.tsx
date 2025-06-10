@@ -1,39 +1,49 @@
-'use client';
-
 import GaugeMeter from './GaugeMeter';
 import FacilityManagementCard from './FacilityManagementCard';
 import ComparisonCard from './ComparisonCard';
 import type { DashboardData } from '../dashboard.types';
 
 interface DashboardGridProps {
-  readonly metrics: DashboardData;
+  data: DashboardData;
 }
 
-export default function DashboardGrid({ metrics }: Readonly<DashboardGridProps>) {
-  const getVoltageHarmonicsType = () => {
-    if (metrics.voltageHarmonics < 5) return 'healthy';
-    if (metrics.voltageHarmonics < 10) return 'risky';
-    return 'unhealthy';
-  };
-
-  const getCurrentHarmonicsType = () => {
-    if (metrics.risky < 2) return 'healthy';
-    if (metrics.risky < 5) return 'risky';
-    return 'unhealthy';
-  };
-
-  const voltageHarmonicsType = getVoltageHarmonicsType();
-  const currentHarmonicsType = getCurrentHarmonicsType();
-
+export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white rounded-xl shadow-lg p-8">
-      <div className="col-span-1 flex flex-col gap-6">
-        <h2 className="text-xl font-bold text-yellow-700 mb-3">Energy Quality Report</h2>
-        <GaugeMeter value={100 - metrics.voltageHarmonics} label="Voltage Fluctuation" type="healthy" subLabel="Last 7 Days – Avg" />
-        <GaugeMeter value={metrics.voltageHarmonics * 5} label="Voltage Harmonics" type={voltageHarmonicsType} subLabel="Last 7 Days – Avg" />
-        <GaugeMeter value={metrics.risky * 10 + 40} label="Current Harmonics" type={currentHarmonicsType} subLabel="Last 7 Days – Avg" />
+    <div className="flex flex-col md:flex-row gap-8 w-full">
+      {/* Left: Quality Metrics */}
+      <div className="flex-1 flex flex-col gap-6">
+        <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col gap-5">
+          <h2 className="text-xl font-bold text-gray-800 mb-2">Energy Quality Metrics</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <GaugeMeter
+              value={Math.round((data.voltageFluctuation ?? 0) * 10) / 10}
+              label="Voltage Fluctuation"
+              type="risky"
+              subLabel="Last 7 Days Avg"
+            />
+            <GaugeMeter
+              value={Math.round((data.voltageHarmonics ?? 0) * 10) / 10}
+              label="Voltage Harmonics"
+              type="unhealthy"
+              subLabel="Last 7 Days Avg"
+            />
+            <GaugeMeter
+              value={Math.round((data.currentHarmonics ?? 0) * 10) / 10}
+              label="Current Harmonics"
+              type="unhealthy"
+              subLabel="Last 7 Days Avg"
+            />
+            <GaugeMeter
+              value={Math.round((data.generatorDemand ?? 0) * 10) / 10}
+              label="Generator Demand"
+              type="risky"
+              subLabel="Last 7 Days Avg"
+            />
+          </div>
+        </div>
       </div>
-      <div className="col-span-2 flex flex-col gap-8 items-center">
+      {/* Right: Facility & Comparison */}
+      <div className="flex flex-col gap-6 w-full md:w-[400px]">
         <FacilityManagementCard />
         <ComparisonCard />
       </div>

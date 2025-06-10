@@ -1,66 +1,77 @@
 'use client';
 
-import React from 'react';
-import styles from '@/styles/BarChart.module.css';
-import type { BarChartProps } from '../dashboard.types';
-import { DEFAULT_LABELS } from '../dashboard.constants';
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+  ChartOptions,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-export default function BarChart({
-  currentYear,
-  previousYear,
-  labels = [...DEFAULT_LABELS],
-}: Readonly<BarChartProps>) {
-  const max = Math.max(
-    ...currentYear,
-    ...(previousYear?.length ? previousYear : [])
-  );
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+interface BarChartProps {
+  readonly currentYear: readonly number[];
+  readonly previousYear: readonly number[];
+  readonly labels: readonly string[];
+}
+
+export default function BarChart({ currentYear, previousYear, labels }: BarChartProps) {
+  const data = {
+    labels: [...labels],
+    datasets: [
+      {
+        label: 'Current Year',
+        data: currentYear.map(v => Math.round(v * 10) / 10),
+        backgroundColor: '#2563eb',
+      },
+      {
+        label: 'Previous Year',
+        data: previousYear.map(v => Math.round(v * 10) / 10),
+        backgroundColor: '#94a3b8',
+      },
+    ],
+  };
+
+  const options: ChartOptions<'bar'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        labels: {
+          font: { size: 13 },
+          color: '#222',
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        title: {
+          display: true,
+          text: 'Month',
+          color: '#2d3748',
+          font: { weight: 'bold', size: 13 },
+        },
+        ticks: { color: '#334155' },
+      },
+      y: {
+        grid: { color: '#f3f4f6' },
+        title: {
+          display: true,
+          text: 'Consumption (kWh)',
+          color: '#2d3748',
+          font: { weight: 'bold', size: 13 },
+        },
+        ticks: { color: '#334155', stepSize: 50 },
+      },
+    },
+  };
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <h3 className="text-sm font-semibold text-yellow-600 mb-3">
-        Monthly Consumption
-      </h3>
-      <div className="flex gap-2 items-end h-32 w-full max-w-xl">
-        {currentYear.map((val, i) => {
-          const currentHeight = (val / max) * 100;
-          const previousHeight =
-            previousYear?.[i]
-              ? (previousYear[i] / max) * 100
-              : 0;
-
-          return (
-            <div
-              key={`bar-${i}-${val}`}
-              className="flex flex-col items-center gap-[2px]"
-            >
-              <div
-                className={`${styles.bar} ${styles.current}`}
-                style={
-                  { '--bar-height': `${currentHeight}%` } as React.CSSProperties
-                }
-                aria-label={`Current: ${val} kWh`}
-              />
-              {previousYear && (
-                <div
-                  className={`${styles.bar} ${styles.previous}`}
-                  style={
-                    {
-                      '--bar-height': `${previousHeight}%`,
-                    } as React.CSSProperties
-                  }
-                  aria-label={`Previous: ${previousYear[i]} kWh`}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
-      <div className="flex gap-2 items-center justify-between w-full max-w-xl text-xs text-gray-500 mt-3">
-        {labels.map((label) => (
-          <span key={label} className="w-full text-center">{label}</span>
-        ))}
-      </div>
-      <p className="text-xs text-gray-500 mt-3">kWh (Preview)</p>
-    </div>
+    <Bar data={data} options={options} />
   );
 }

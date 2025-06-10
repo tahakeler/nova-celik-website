@@ -1,30 +1,36 @@
 'use client';
 
+import { ArrowUp, ArrowRight, ArrowDown } from 'lucide-react';
+
 export default function ComparisonCard() {
   return (
-    <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center w-64">
-      <div className="mb-2 text-[15px] font-bold text-yellow-600 flex items-center">
-        <span className="mr-2">Facility Comparison</span>
-      </div>
-      <table className="w-full text-center mt-4">
+    <div className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+      <h3 className="text-lg font-bold mb-3 text-gray-900">Facility Comparison</h3>
+      <table className="w-full text-sm">
         <thead>
           <tr>
-            <th className="p-1 font-semibold">Facility</th>
-            <th className="p-1 font-semibold">Trend</th>
+            <th className="text-left px-3 py-1 font-semibold">Facility</th>
+            <th className="text-left px-3 py-1 font-semibold">Trend</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="p-1 bg-gray-50 rounded-l-lg">A</td>
-            <td className="p-1 bg-red-100 text-red-600 font-bold">▲</td>
+          <tr className="bg-red-50">
+            <td className="px-3 py-2">A</td>
+            <td className="px-3 py-2 text-red-700 flex items-center gap-1">
+              <ArrowUp className="inline w-4 h-4" /> Up
+            </td>
           </tr>
-          <tr>
-            <td className="p-1 bg-gray-50">B</td>
-            <td className="p-1 bg-yellow-100 text-yellow-600 font-bold">▲</td>
+          <tr className="bg-yellow-50">
+            <td className="px-3 py-2">B</td>
+            <td className="px-3 py-2 text-yellow-700 flex items-center gap-1">
+              <ArrowRight className="inline w-4 h-4" /> Stable
+            </td>
           </tr>
-          <tr>
-            <td className="p-1 bg-gray-50 rounded-r-lg">C</td>
-            <td className="p-1 bg-lime-100 text-lime-600 font-bold">▼</td>
+          <tr className="bg-green-50">
+            <td className="px-3 py-2">C</td>
+            <td className="px-3 py-2 text-lime-700 flex items-center gap-1">
+              <ArrowDown className="inline w-4 h-4" /> Down
+            </td>
           </tr>
         </tbody>
       </table>

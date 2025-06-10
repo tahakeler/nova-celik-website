@@ -17,203 +17,197 @@ export type BlogPost = {
 export const blogPosts: BlogPost[] =
 [
   {
-    "title": "India, Paraguay ‘stand united’ against terrorism: PM Modi after meeting visiting President Pena",
-    "summary": "India and Paraguay share common views on various international issues, including UN reforms, climate change, renewable energy and combating terrorism, according to the Ministry of External Affairs",
-    "image": "https://images.firstpost.com/uploads/2025/06/PTI06_02_2025_000346B_edit-2025-06-2ea89957ab120e9063df0db10a581c30.jpg?im=FitAndFill=(1200,675)",
-    "date": "2025-06-02",
-    "link": "https://www.firstpost.com/india/india-paraguay-stand-united-against-terrorism-pm-modi-after-meeting-visiting-president-pena-13893834.html",
+    "title": "Best Samsung washing machines: AI tech innovations for your home",
+    "summary": "These Samsung appliances combine style, smart technology and energy efficiency for the perfect blend of affordability and innovation",
+    "image": "https://static.standard.co.uk/2025/05/22/9/14/samsung-main.jpeg?width=1200&auto=webp&quality=75",
+    "date": "2025-06-08",
+    "link": "https://www.standard.co.uk/shopping/esbest/home-garden/household-appliances/best-samsung-washing-machines-ai-tech-b1229186.html",
     "tags": [
       "Blog"
     ],
-    "author": "Firstpost",
+    "author": "Evening Standard",
     "authorRole": "Energy Analyst",
     "isEditorsPick": true,
-    "slug": "india-paraguay-stand-united-against-terrorism-pm-modi-after-meeting-visiting-president-pena",
-    "previewChart": [
-      19,
-      19,
-      19,
-      13,
-      20
-    ]
+    "slug": "best-samsung-washing-machines-ai-tech-innovations-for-your-home",
+    "insight": "Avg. 12% CO₂ reduction"
   },
   {
-    "title": "New platform to support UK renewable energy distribution",
-    "summary": "Kyndryl’s Ben Scowen discusses the MWD platform, which hopes to lower the barrier to entry to local grids for small clean energy providers.",
-    "image": "https://www.siliconrepublic.com/wp-content/uploads/2025/05/energy_grid_field.jpeg",
-    "date": "2025-05-30",
-    "link": "https://www.siliconrepublic.com/machines/kyndryl-uk-mwd-grid-electricity-renewables",
+    "title": "Suzlon Energy block deal: Promoters Tanti Family & Trust to offload 20 crore shares worth ₹1,295 crore",
+    "summary": "Suzlon Energy block deal: The Suzlon Group's renewable energy major is expected to execute the block deal with its shares likely offered at a discount of up to three per cent to the current market price",
+    "image": "https://www.livemint.com/lm-img/img/2025/06/07/1600x900/Over-the-past-two-decades--Suzlon-has-installed-ov_1680188225503_1749314117489.jpg",
+    "date": "2025-06-07",
+    "link": "https://www.livemint.com/market/stock-market-news/suzlon-energy-block-deal-promoters-tanti-family-trust-to-offload-20-crore-shares-worth-rs-1-295-crore-11749313721900.html",
     "tags": [
       "Case Study",
       "Smart Building"
     ],
-    "author": "Siliconrepublic.com",
+    "author": "Livemint",
     "authorRole": "Senior Consultant",
     "isEditorsPick": false,
-    "slug": "new-platform-to-support-uk-renewable-energy-distribution",
+    "slug": "suzlon-energy-block-deal-promoters-tanti-family-trust-to-offload-20-crore-shares-worth-1-295-crore",
     "previewChart": [
-      11,
-      15,
-      13,
-      15,
-      15,
-      12,
-      13
-    ],
-    "insight": "Avg. 18% CO₂ reduction"
+      22,
+      20,
+      16,
+      23,
+      24,
+      15
+    ]
   },
   {
-    "title": "ACEN taking 25% stake in CamSur wind project",
-    "summary": "ACEN Corp., renewable energy arm of the Ayala Group, has signed definitive agreements with Copenhagen Infrastructure Partners (CIP) Growth Markets Fund II to acquire a 25-percent stake in CIP's offshore wind project in San Miguel Bay, Camarines Sur.",
-    "image": "https://cdn4.premiumread.com/?url=https://www.manilatimes.net/theme_manilatimes/images/TMT_1920x1008.jpg&w=1920&q=100&f=webp&v=1",
-    "date": "2025-05-29",
-    "link": "https://www.manilatimes.net/2025/05/30/business/corporate-news/acen-taking-25-stake-in-camsur-wind-project/2123596",
+    "title": "Why Putting $7,000 in These Renewable Energy Stocks Makes Sense Now",
+    "summary": "If you’re thinking long term, these two high-yield renewable energy stocks could turn that $7,000 into something much bigger.",
+    "image": "https://www.fool.ca/wp-content/uploads/2022/05/GettyImages-607968618.jpg",
+    "date": "2025-06-07",
+    "link": "https://www.fool.ca/2025/06/06/why-putting-7000-in-these-renewable-energy-stocks-makes-sense-now/",
     "tags": [
       "Project Portfolio",
       "Energy"
     ],
-    "author": "The Manila Times",
+    "author": "The Motley Fool Canada",
     "authorRole": "Project Engineer",
     "isEditorsPick": false,
-    "slug": "acen-taking-25-stake-in-camsur-wind-project",
+    "slug": "why-putting-7-000-in-these-renewable-energy-stocks-makes-sense-now",
     "previewChart": [
-      11,
-      15,
-      12,
-      17,
-      11,
-      20
-    ]
+      14,
+      18,
+      14,
+      14,
+      19,
+      23,
+      19
+    ],
+    "insight": "Avg. 16% CO₂ reduction"
   },
   {
-    "title": "Megaworld: All assets now using clean energy",
-    "summary": "MEGAWORLD Corp. on Thursday said that all of company-owned offices, hotels, lifestyle malls, and residential properties had fully transitioned to 100-percent renewable energy (RE).",
-    "image": "https://cdn4.premiumread.com/?url=https://www.manilatimes.net/theme_manilatimes/images/TMT_1920x1008.jpg&w=1920&q=100&f=webp&v=1",
-    "date": "2025-05-29",
-    "link": "https://www.manilatimes.net/2025/05/30/business/corporate-news/megaworld-all-assets-now-using-clean-energy/2123594",
+    "title": "Praj Industries Partners with Enersur for Landmark Biorefinery Project in Paraguay",
+    "summary": "Praj Industries teams up with Paraguay's Enersur S.A. for a significant Biorefinery Project to produce ethanol and other bio-based products, fostering renewable energy growth. This collaboration aligns with Paraguay's clean energy goals, enhancing rural development and reducing fossil fuel dependence, while symbolizing India's advanced technology and global partnerships.",
+    "image": "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/aiimagegallery/06_06_2025_05_07_19_4951874.png?width=920&format=jpeg",
+    "date": "2025-06-06",
+    "link": "https://www.devdiscourse.com/article/headlines/3449315-praj-industries-partners-with-enersur-for-landmark-biorefinery-project-in-paraguay",
     "tags": [
       "Insights",
       "Sustainability"
     ],
-    "author": "The Manila Times",
+    "author": "Devdiscourse",
     "authorRole": "Sustainability Lead",
     "isEditorsPick": false,
-    "slug": "megaworld-all-assets-now-using-clean-energy",
-    "insight": "Avg. 14% CO₂ reduction"
+    "slug": "praj-industries-partners-with-enersur-for-landmark-biorefinery-project-in-paraguay",
+    "insight": "Avg. 19% CO₂ reduction"
   },
   {
-    "title": "NIRL and MAHAPREIT Forge JV to Develop 5000 MW Renewable Projects in Maharashtra",
-    "summary": "The agreement marks a significant milestone in India’s renewable energy roadmap and paves the way for one of the largest state-level renewable energy collaborations in recent years.",
-    "image": "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/devnews/29_05_2025_19_44_11_0329511.jfif?width=920&format=jpeg",
-    "date": "2025-05-29",
-    "link": "https://www.devdiscourse.com/article/law-order/3439947-nirl-and-mahapreit-forge-jv-to-develop-5000-mw-renewable-projects-in-maharashtra",
+    "title": "Phantom Power: Hidden Drain On Power Bill",
+    "summary": "Phantom power can account for 5 to 10 per cent of a household’s electricity costs: Bureau of Energy Efficiency (BEE)",
+    "image": "https://images.deccanchronicle.com/dc-Cover-mvfvdkn1rvdqjbc8dl5tupl0d2-20180515025009.Medi.jpeg",
+    "date": "2025-06-05",
+    "link": "https://www.deccanchronicle.com/technology/phantom-power-hidden-drain-on-power-bill-1883626",
     "tags": [
       "Case Study",
       "Renewables"
     ],
-    "author": "Devdiscourse",
+    "author": "Deccan Chronicle",
     "authorRole": "R&D Director",
     "isEditorsPick": false,
-    "slug": "nirl-and-mahapreit-forge-jv-to-develop-5000-mw-renewable-projects-in-maharashtra",
+    "slug": "phantom-power-hidden-drain-on-power-bill",
     "previewChart": [
-      18,
       10,
-      11,
-      16,
       14,
-      10
+      8,
+      14,
+      7,
+      15
     ]
   },
   {
-    "title": "Clean Energy Crisis: Billions in Investments Stalled Amid Political Turmoil",
-    "summary": "A new analysis reveals over USD 14 billion in clean energy investments in the US were cancelled or delayed due to political uncertainties. The halted projects followed a tax bill threatening clean energy credits, causing job losses and raising concerns about the US's renewable energy future.",
-    "image": "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/aiimagegallery/21_04_2025_09_08_34_1933796.png?width=920&format=jpeg",
-    "date": "2025-05-29",
-    "link": "https://www.devdiscourse.com/article/headlines/3439594-clean-energy-crisis-billions-in-investments-stalled-amid-political-turmoil",
+    "title": "Is Nuclear Energy the Future of AI-Powered Data Centres?",
+    "summary": "Meta has stated that it prioritises efficient operations, ensuring that its electricity consumption matches 100% clean and renewable energy while actively exploring emerging technologies.",
+    "image": "https://analyticsindiamag.com/wp-content/uploads/2024/04/Data-Centers-Shifts-to-Nuclear-Power-to-Meet-Rising-Energy-Demands.jpg",
+    "date": "2025-06-05",
+    "link": "https://analyticsindiamag.com/ai-features/is-nuclear-energy-the-future-of-ai-powered-data-centres/",
     "tags": [
       "Blog",
       "Efficiency"
     ],
-    "author": "Devdiscourse",
+    "author": "Analytics India Magazine",
     "authorRole": "Staff Writer",
     "isEditorsPick": true,
-    "slug": "clean-energy-crisis-billions-in-investments-stalled-amid-political-turmoil",
-    "previewChart": [
-      13,
-      18,
-      14,
-      11,
-      17
-    ],
-    "insight": "Avg. 18% CO₂ reduction"
+    "slug": "is-nuclear-energy-the-future-of-ai-powered-data-centres",
+    "insight": "Avg. 20% CO₂ reduction"
   },
   {
-    "title": "Trump Administration Revokes $3 Billion Loan Guarantee for Solar Installer Sunnova",
-    "summary": "The Trump administration canceled a $3 billion loan guarantee intended for Sunnova Energy, a solar panel installer. The decision aligns with Trump's energy policy favoring oil and gas. Under Biden, the loan aimed to boost clean energy, but its future is uncertain due to government efficiency measures and budget cuts.",
-    "image": "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/aiimagegallery/28_05_2025_21_59_57_9367677.png?width=920&format=jpeg",
-    "date": "2025-05-28",
-    "link": "https://www.devdiscourse.com/article/headlines/3438957-trump-administration-revokes-3-billion-loan-guarantee-for-solar-installer-sunnova",
+    "title": "How Tamil Nadu’s green energy push in the Nilgiris undermines the Dravidian development model",
+    "summary": "The state’s renewable energy policies are laudable but it must reconsider the risks – and price – of damming an over-dammed geography.",
+    "image": "https://sc0.blr1.cdn.digitaloceanspaces.com/book/207593-vnzvhdtypr-1748610277.jpg",
+    "date": "2025-06-05",
+    "link": "https://scroll.in/article/1082999/how-tamil-nadus-green-energy-push-in-the-nilgiris-undermines-the-dravidian-development-model",
     "tags": [
       "Project Portfolio",
       "Technology"
     ],
-    "author": "Devdiscourse",
+    "author": "Scroll.in",
     "authorRole": "Industry Expert",
     "isEditorsPick": false,
-    "slug": "trump-administration-revokes-3-billion-loan-guarantee-for-solar-installer-sunnova"
+    "slug": "how-tamil-nadu-s-green-energy-push-in-the-nilgiris-undermines-the-dravidian-development-model"
   },
   {
-    "title": "Buyers will pay $118,000 more for energy-efficient homes",
-    "summary": "New figures show the importance of sustainability and long-term costs, not just up-front affordability, in the housing market.",
-    "image": "https://static.ffx.io/images/$zoom_0.3434%2C$multiply_3%2C$ratio_1.777778%2C$width_1059%2C$x_685%2C$y_536/t_crop_custom/c_scale%2Cw_800%2Cq_88%2Cf_jpg/t_afr_no_label_no_age_social_wm/1f100030c40ac683666f4c9c2977260d42796234",
-    "date": "2025-05-28",
-    "link": "https://www.afr.com/property/residential/buyers-will-pay-118-000-more-for-energy-efficient-homes-20250527-p5m2hs",
+    "title": "California added record clean energy - can it keep it up?",
+    "summary": "California is deploying renewable energy at a record-breaking pace, but it could get much harder to keep making progress.",
+    "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/06/gettyimages-1558525665.jpg?quality=90&strip=all&crop=0%2C3.4135337268098%2C100%2C93.17293254638&w=1200",
+    "date": "2025-06-04",
+    "link": "https://www.theverge.com/climate-change/679615/renewable-energy-record-capacity-growth-california",
     "tags": [
       "Case Study",
       "AI"
     ],
-    "author": "The Australian Financial Review",
+    "author": "The Verge",
     "authorRole": "Technical Editor",
     "isEditorsPick": false,
-    "slug": "buyers-will-pay-118-000-more-for-energy-efficient-homes",
+    "slug": "california-added-record-clean-energy-can-it-keep-it-up",
     "previewChart": [
-      12,
-      18,
-      19,
+      17,
       10,
-      13
+      18,
+      14,
+      11,
+      11,
+      15
     ]
   },
   {
-    "title": "New 80 Plus Ruby PSU efficiency rating exceeds Titanium standard, coming to data centers",
-    "summary": "ClearResult recently introduced 80 Plus Ruby, a new energy efficiency rating for PSUs that surpasses the current highest tier, Titanium. Initially, Ruby-rated PSUs will be used in...",
-    "image": "https://www.techspot.com/images2/news/bigimage/2025/05/2025-05-27-image-39.jpg",
-    "date": "2025-05-28",
-    "link": "https://www.techspot.com/news/108077-new-80-plus-ruby-psu-efficiency-rating-exceeds.html",
+    "title": "Singapore and the Philippines to expand collaboration in renewable energy, sustainability and healthcare",
+    "summary": "PM Wong thanked President Marcos for his invitation to visit and said the bilateral relationship “has never been better”. Read more at straitstimes.com.",
+    "image": "https://cassette.sphdigital.com.sg/image/straitstimes/441f4bd453580b887f1da3cef1b51316578cf3bf543c8b11418dd6f7d2ca96be",
+    "date": "2025-06-04",
+    "link": "https://www.straitstimes.com/singapore/politics/singapore-and-the-philippines-to-expand-collaboration-in-renewable-energy-sustainability-and",
     "tags": [
       "Insights",
       "Smart Grid"
     ],
-    "author": "TechSpot",
+    "author": "The Straits Times",
     "authorRole": "Energy Analyst",
     "isEditorsPick": false,
-    "slug": "new-80-plus-ruby-psu-efficiency-rating-exceeds-titanium-standard-coming-to-data-centers",
-    "insight": "Avg. 17% CO₂ reduction"
+    "slug": "singapore-and-the-philippines-to-expand-collaboration-in-renewable-energy-sustainability-and-healthcare"
   },
   {
-    "title": "Quarterly Results: Standalone net profit of this logistics firm jumps 59.87 per cent - Details",
-    "summary": "Earlier, Tiger Logistics announced that the company has increased its monthly container carrying capacity for renewable energy products fivefold to 1,500 TEUs of products in the last four months.",
-    "image": "https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2025/05/stockpixabay-2-1748425255.jpg",
-    "date": "2025-05-28",
-    "link": "https://www.indiatvnews.com/business/markets/quarterly-results-standalone-net-profit-of-this-logistics-firm-jumps-59-87-per-cent-details-2025-05-28-992243",
+    "title": "Conservation Authority’s new headquarters leads by example",
+    "summary": "The energy-efficient building sets the standard for sustainability and showcases an ideology, a purpose and an ethos",
+    "image": "https://www.theglobeandmail.com/resizer/v2/NS7YKSU275FZLBPS6VEZ62DQ2U.JPG?auth=b97eb43e9bde89fc178bcc797bd2309a5302847a5e4d3660aadf4f549b3f77f4&width=1200&height=800&quality=80&smart=true",
+    "date": "2025-06-04",
+    "link": "https://www.theglobeandmail.com/real-estate/toronto/article-toronto-and-region-conservation-authority-shoreham-energy-efficient/",
     "tags": [
       "Blog",
       "Carbon"
     ],
-    "author": "India TV News",
+    "author": "The Globe and Mail",
     "authorRole": "Senior Consultant",
     "isEditorsPick": false,
-    "slug": "quarterly-results-standalone-net-profit-of-this-logistics-firm-jumps-59-87-per-cent-details",
-    "insight": "Avg. 16% CO₂ reduction"
+    "slug": "conservation-authority-s-new-headquarters-leads-by-example",
+    "previewChart": [
+      12,
+      13,
+      11,
+      15,
+      17
+    ]
   }
 ];

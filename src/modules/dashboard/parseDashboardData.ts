@@ -1,55 +1,35 @@
 import * as XLSX from 'xlsx';
 
 export interface DashboardData {
-  current: number[];
-  previous: number[];
+  voltageFluctuation: number;
   voltageHarmonics: number;
-  healthy: number;
-  risky: number;
-  unhealthy: number;
+  currentHarmonics: number;
+  generatorDemand: number;
 }
 
 export async function parseDashboardData(file: File): Promise<DashboardData> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-
-    reader.onload = (event) => {
+    reader.onload = (evt) => {
       try {
-        const result = event.target?.result;
-        if (!(result instanceof ArrayBuffer)) {
-          throw new Error('Invalid file format or unreadable content.');
-        }
-
-        const buffer = new Uint8Array(result);
-        const workbook = XLSX.read(buffer, { type: 'array' });
-
+        const data = new Uint8Array(evt.target?.result as ArrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const rows: unknown[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        const json = XLSX.utils.sheet_to_json<any>(sheet, { header: 1 });
 
-        const current = rows[1]?.slice(1)?.map(Number) ?? [];
-        const previous = rows[2]?.slice(1)?.map(Number) ?? [];
-        const voltageHarmonics = Number(rows[5]?.[1] ?? 0);
-        const healthy = Number(rows[8]?.[1] ?? 0);
-        const risky = Number(rows[9]?.[1] ?? 0);
-        const unhealthy = Number(rows[10]?.[1] ?? 0);
-
+        // You must adapt this parser to your .xlsx structure!
+        // For demo: expecting metric values at fixed cells/rows/cols.
         resolve({
-          current,
-          previous,
-          voltageHarmonics,
-          healthy,
-          risky,
-          unhealthy,
+          voltageFluctuation: Number(json[1]?.[1]) || 0,
+          voltageHarmonics: Number(json[2]?.[1]) || 0,
+          currentHarmonics: Number(json[3]?.[1]) || 0,
+          generatorDemand: Number(json[4]?.[1]) || 0,
         });
-      } catch (error) {
-        reject(error instanceof Error ? error : new Error('Unknown error while parsing Excel file.'));
+      } catch (err) {
+        reject(new Error(err instanceof Error ? err.message : String(err)));
       }
     };
-
-    reader.onerror = () => {
-      reject(new Error('Failed to read the Excel file.'));
-    };
-
+    reader.onerror = (e) => reject(new Error('File read error'));
     reader.readAsArrayBuffer(file);
   });
 }

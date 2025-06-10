@@ -1,11 +1,27 @@
-"use client";
+// src/components/SectionWrapper.tsx
+'use client';
 
-import { ReactNode } from "react";
+import { motion } from 'framer-motion';
+import { ReactNode } from 'react';
+import { staggerContainer } from '@/utils/animations';
 
-export default function SectionWrapper({ children }: { readonly children: ReactNode }) {
+interface SectionWrapperProps {
+  id?: string;
+  children: ReactNode;
+  className?: string;
+}
+
+export default function SectionWrapper({ id, children, className = '' }: Readonly<SectionWrapperProps>) {
   return (
-    <div className="snap-start w-full px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto">
+    <motion.section
+      id={id}
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.1 }}
+      className={`px-4 py-8 md:px-10 md:py-20 ${className}`}
+    >
       {children}
-    </div>
+    </motion.section>
   );
 }

@@ -1,70 +1,45 @@
 // src/app/dashboard/page.tsx
-'use client';
+import Image from 'next/image';
+import { Metadata } from 'next';
+import DashboardSection from '@/modules/dashboard/components/DashboardSection';
+import dashboardHero from '@/public/images/dashboard-hero.png';
 
-import { useEffect, useState } from 'react';
-import DashboardGrid from '@/modules/dashboard/components/DashboardGrid';
-import ConsumptionChart from '@/modules/dashboard/components/ConsumptionChart';
-import PageHero from '@/components/PageHero';
-import { parseDashboardData } from '@/modules/dashboard/parseDashboardData';
-import type { DashboardData } from '@/modules/dashboard/dashboard.types';
+export const metadata: Metadata = {
+  title: 'Dashboard | NovaCelik',
+  description: 'Real-time analytics on your facility performance metrics — voltage, harmonics, energy demand, and more.',
+};
 
 export default function DashboardPage() {
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        const res = await fetch('/excel/sample.xlsx');
-        if (!res.ok) {
-          console.error(`Failed to fetch Excel file: ${res.status} ${res.statusText}`);
-          throw new Error(`Failed to fetch Excel file: ${res.status} ${res.statusText}`);
-        }
-        const buf = await res.arrayBuffer();
-        const file = new File([buf], 'sample.xlsx');
-        const parsed = await parseDashboardData(file);
-        setData(parsed);
-      } catch (err) {
-        if (err instanceof Error) {
-          console.error('Error fetching or parsing data:', err);
-          setError(`Failed to load dashboard data: ${err.message}`);
-        } else {
-          setError('Failed to load dashboard data: Unknown error');
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
   return (
-    <main className="flex flex-col min-h-screen bg-gray-50">
-      <PageHero
-        image="/svgs/realTimeAnalytics.svg"
-        title="Analytics Dashboard"
-        subtitle="Monitor, compare, and optimize energy performance in real time."
-      />
-      <section className="max-w-screen-2xl mx-auto py-8 px-4 w-full">
-        {error && (
-          <div className="text-center text-red-600 py-12">{error}</div>
-        )}
-        {loading && !error && (
-          <div className="text-center py-12 text-blue-700 animate-pulse">
-            Loading dashboard data...
+    <main className="scroll-smooth">
+      <section className="relative min-h-[80vh] w-full overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={dashboardHero}
+            alt="Dashboard Overview Hero"
+            placeholder="blur"
+            quality={80}
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40 z-10" />
+        </div>
+
+        <div className="relative z-20 flex h-[80vh] items-center justify-center text-white px-6 text-center">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-xl">
+              Dashboard Overview
+            </h1>
+            <p className="text-lg md:text-xl max-w-2xl mx-auto">
+              Real-time insights into your facility’s energy and sustainability performance
+            </p>
           </div>
-        )}
-        {data && (
-          <>
-            <DashboardGrid metrics={data} />
-            <div className="mt-10">
-              <ConsumptionChart current={data.current} previous={data.previous} />
-            </div>
-          </>
-        )}
+        </div>
       </section>
+
+      <DashboardSection />
     </main>
   );
 }

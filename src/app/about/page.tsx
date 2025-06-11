@@ -1,104 +1,160 @@
-import React from 'react';
+'use client';
+
 import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { Leaf, Eye, Users, ShieldCheck } from 'lucide-react';
+import { popIn, scrollFade } from '@/utils/animations';
 
 export const metadata = {
-  title: "About Us | NovaCelik",
-  description: "Learn more about NovaCelik, our mission, vision, and the diverse team powering digital energy innovation."
+  title: 'About Us | NovaCelik',
+  description:
+    'Learn more about NovaCelik, our mission, vision, and the diverse team powering digital energy innovation.',
 };
+
+const TEAM = [
+  {
+    name: 'Ada Yılmaz',
+    role: 'Chief Executive Officer',
+    bio: 'Visionary leader guiding our mission toward sustainable innovation.',
+    image: '/svgs/logo.svg',
+  },
+  {
+    name: 'Taha Keler',
+    role: 'Chief Technology Officer',
+    bio: 'Architect of our analytics and IoT infrastructure.',
+    image: '/svgs/logo.svg',
+  },
+  {
+    name: 'Elif Kaya',
+    role: 'Chief Sustainability Officer',
+    bio: 'Driving eco-friendly practices and impactful results.',
+    image: '/svgs/logo.svg',
+  },
+];
 
 export default function AboutPage() {
   return (
-    <main className="bg-white min-h-screen">
-      {/* Hero/Narrative Section */}
-      <section className="w-full bg-gradient-to-r from-blue-100 via-white to-green-50 py-20 mb-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-blue-800 mb-6">
+    <main className="flex flex-col bg-white text-gray-900">
+      {/* Hero */}
+      <section className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
+        <Image
+          src="/images/hero-image.jpg"
+          alt="About NovaCelik"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-blue-900/70" />
+        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center">
+          <motion.h1
+            variants={popIn}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl"
+          >
             About <span className="text-[#42b431]">NovaCelik</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
-            We drive energy efficiency for industry, commerce, and the future.<br />
-            Our mission is to deliver actionable insights and smarter systems for a more sustainable tomorrow.
-          </p>
+          </motion.h1>
+          <motion.p
+            variants={popIn}
+            initial="hidden"
+            whileInView="show"
+            transition={{ delay: 0.1 }}
+            viewport={{ once: true }}
+            className="mt-4 max-w-2xl text-base text-gray-200 sm:text-lg"
+          >
+            We drive energy efficiency with data-driven solutions for a more
+            sustainable future.
+          </motion.p>
         </div>
       </section>
 
-      {/* Milestones & Values */}
-      <section className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 px-6 pb-16">
-        <div>
-          <h2 className="text-3xl font-bold text-blue-800 mb-4">Our Vision</h2>
-          <p className="text-lg text-gray-700 mb-4">
-            To empower organizations worldwide to achieve optimal energy performance through data-driven innovation and engineering excellence.
+      {/* Mission and Values */}
+      <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-2">
+        <motion.div
+          variants={scrollFade}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <h2 className="mb-4 text-3xl font-bold text-blue-800">Our Mission</h2>
+          <p className="mb-8 text-base text-gray-700 sm:text-lg">
+            Empower organizations to achieve optimal energy performance through
+            innovation and engineering excellence.
           </p>
-          <h2 className="text-2xl font-semibold mt-8 mb-3">Core Values</h2>
-          <ul className="list-disc pl-5 text-base text-gray-600 space-y-1">
-            <li>Integrity</li>
-            <li>Innovation</li>
-            <li>Customer Success</li>
-            <li>Sustainability</li>
-            <li>Collaboration</li>
+          <h3 className="mb-3 mt-8 text-2xl font-semibold">Core Values</h3>
+          <ul className="space-y-2 pl-5 text-gray-600">
+            <li className="flex items-start gap-2">
+              <Leaf className="mt-1 h-5 w-5 text-[#42b431]" /> Sustainability
+            </li>
+            <li className="flex items-start gap-2">
+              <Eye className="mt-1 h-5 w-5 text-[#42b431]" /> Innovation
+            </li>
+            <li className="flex items-start gap-2">
+              <ShieldCheck className="mt-1 h-5 w-5 text-[#42b431]" /> Integrity
+            </li>
+            <li className="flex items-start gap-2">
+              <Users className="mt-1 h-5 w-5 text-[#42b431]" /> Collaboration
+            </li>
           </ul>
-        </div>
-        <div>
-          <h2 className="text-3xl font-bold text-blue-800 mb-4">Key Milestones</h2>
-          <ul className="list-disc pl-5 text-base text-gray-600 space-y-2">
+        </motion.div>
+
+        <motion.div
+          variants={scrollFade}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          className="space-y-4"
+        >
+          <h2 className="mb-4 text-3xl font-bold text-blue-800">
+            Key Milestones
+          </h2>
+          <ul className="space-y-2 pl-5 text-gray-600">
             <li>2022 – NovaCelik founded and first AI dashboard deployed</li>
             <li>2023 – Expanded into new markets and sectors</li>
             <li>2024 – Achieved industry certification in energy management</li>
             <li>2025 – Launched cloud-native analytics platform</li>
           </ul>
-        </div>
+        </motion.div>
       </section>
 
       {/* Team Section */}
-      <section className="w-full bg-gray-50 py-20">
-        <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-14 text-blue-800">Meet the Team</h2>
-          <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
-            {/* Team Member 1 */}
-            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-8 flex flex-col items-center">
-              <div className="w-24 h-24 mb-4 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-                <Image
-                  src="/svgs/logo.svg"
-                  alt="John Doe"
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
-              </div>
-              <h3 className="text-xl font-semibold">John Doe</h3>
-              <p className="text-blue-700 font-medium mt-1 mb-2">Chief Executive Officer</p>
-              <p className="text-gray-500 text-center text-sm">Visionary leader guiding our mission to make energy smarter and more sustainable.</p>
-            </div>
-            {/* Team Member 2 */}
-            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-8 flex flex-col items-center">
-              <div className="w-24 h-24 mb-4 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-                <Image
-                  src="/svgs/logo.svg"
-                  alt="Unknown"
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
-              </div>
-              <h3 className="text-xl font-semibold">Unknown</h3>
-              <p className="text-blue-700 font-medium mt-1 mb-2">Chief Technology Officer</p>
-              <p className="text-gray-500 text-center text-sm">Architect of our analytics and IoT infrastructure, ensuring reliability and innovation.</p>
-            </div>
-            {/* Team Member 3 */}
-            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-8 flex flex-col items-center">
-              <div className="w-24 h-24 mb-4 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-                <Image
-                  src="/svgs/logo.svg"
-                  alt="Unknown"
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
-              </div>
-              <h3 className="text-xl font-semibold">Unknown</h3>
-              <p className="text-blue-700 font-medium mt-1 mb-2">Chief Sustainability Officer</p>
-              <p className="text-gray-500 text-center text-sm">Driving sustainable practices and impactful client results worldwide.</p>
-            </div>
+      <section className="bg-gray-50 py-20">
+        <div className="mx-auto max-w-5xl px-4">
+          <h2 className="mb-12 text-center text-4xl font-bold text-blue-800">
+            Meet the Team
+          </h2>
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+            {TEAM.map((member, i) => (
+              <motion.div
+                key={member.name}
+                variants={popIn}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex flex-col items-center rounded-2xl bg-white p-8 shadow-md transition hover:shadow-lg"
+              >
+                <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gray-200">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    width={80}
+                    height={80}
+                    loading="lazy"
+                    className="object-contain"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold">{member.name}</h3>
+                <p className="mt-1 mb-2 font-medium text-blue-700">
+                  {member.role}
+                </p>
+                <p className="text-center text-sm text-gray-500">
+                  {member.bio}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

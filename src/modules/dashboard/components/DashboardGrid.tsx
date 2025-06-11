@@ -1,49 +1,69 @@
+/**
+ * Dashboard Main Grid (Enerji Doktoru Style)
+ */
+'use client';
+
 import GaugeMeter from './GaugeMeter';
 import FacilityManagementCard from './FacilityManagementCard';
 import ComparisonCard from './ComparisonCard';
-import type { DashboardData } from '../dashboard.types';
+import DashboardCard from './DashboardCard';
 
-interface DashboardGridProps {
-  data: DashboardData;
+export interface GaugeItem {
+  value: number;
+  label: string;
+  type: 'healthy' | 'risky' | 'unhealthy';
+  subLabel?: string;
+}
+export interface DashboardGridProps {
+  gauges?: GaugeItem[];
 }
 
-export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
+export default function DashboardGrid({ gauges }: DashboardGridProps = {}) {
+  const defaultGauges: GaugeItem[] = [
+    {
+      value: 0,
+      label: 'Voltage Fluctuation',
+      type: 'healthy',
+      subLabel: 'Last 7 Days - Average',
+    },
+    {
+      value: 9,
+      label: 'Voltage Harmonics',
+      type: 'unhealthy',
+      subLabel: 'Last 7 Days - Average',
+    },
+    {
+      value: 38,
+      label: 'Current Harmonics',
+      type: 'unhealthy',
+      subLabel: 'Last 7 Days - Average',
+    },
+    {
+      value: 1,
+      label: 'Generator Demand',
+      type: 'risky',
+      subLabel: 'Last 7 Days - Average',
+    },
+  ];
+  const items = gauges ?? defaultGauges;
+
   return (
-    <div className="flex flex-col md:flex-row gap-8 w-full">
-      {/* Left: Quality Metrics */}
-      <div className="flex-1 flex flex-col gap-6">
-        <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col gap-5">
-          <h2 className="text-xl font-bold text-gray-800 mb-2">Energy Quality Metrics</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <GaugeMeter
-              value={Math.round((data.voltageFluctuation ?? 0) * 10) / 10}
-              label="Voltage Fluctuation"
-              type="risky"
-              subLabel="Last 7 Days Avg"
-            />
-            <GaugeMeter
-              value={Math.round((data.voltageHarmonics ?? 0) * 10) / 10}
-              label="Voltage Harmonics"
-              type="unhealthy"
-              subLabel="Last 7 Days Avg"
-            />
-            <GaugeMeter
-              value={Math.round((data.currentHarmonics ?? 0) * 10) / 10}
-              label="Current Harmonics"
-              type="unhealthy"
-              subLabel="Last 7 Days Avg"
-            />
-            <GaugeMeter
-              value={Math.round((data.generatorDemand ?? 0) * 10) / 10}
-              label="Generator Demand"
-              type="risky"
-              subLabel="Last 7 Days Avg"
-            />
-          </div>
-        </div>
-      </div>
-      {/* Right: Facility & Comparison */}
-      <div className="flex flex-col gap-6 w-full md:w-[400px]">
+    <div className="grid gap-8 p-6 sm:p-8 bg-[#fffbea] grid-cols-1 lg:grid-cols-3">
+      {/* Energy Quality Report */}
+      <DashboardCard title="Energy Quality Report" className="flex flex-col gap-6">
+        {items.map((g) => (
+          <GaugeMeter
+            key={g.label}
+            value={g.value}
+            label={g.label}
+            type={g.type}
+            subLabel={g.subLabel}
+          />
+        ))}
+      </DashboardCard>
+
+      {/* Facility Management & Comparison */}
+      <div className="flex flex-col gap-6 items-center">
         <FacilityManagementCard />
         <ComparisonCard />
       </div>

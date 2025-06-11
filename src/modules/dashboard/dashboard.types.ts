@@ -1,16 +1,34 @@
+export interface BarChartProps {
+  currentYear: number[];
+  previousYear?: number[];
+  labels?: string[];
+}
+
+
+export interface GaugeChartProps {
+  label: string;
+  value: number;
+  max: number;
+}
+
+export interface BatteryChartProps {
+  healthy: number;
+  risky: number;
+  unhealthy: number;
+}
 export interface DashboardData {
-  voltageFluctuation: number;
+  current: number[];
+  previous: number[];
   voltageHarmonics: number;
-  currentHarmonics: number;
-  generatorDemand: number;
-  monthlyConsumption: {
-    labels: string[];
-    currentYear: number[];
-    previousYear: number[];
-  };
-  stepHealth: {
-    healthy: number;
-    risky: number;
-    unhealthy: number;
-  };
+  healthy: number;
+  risky: number;
+  unhealthy: number;
+}
+
+
+export interface DashboardMetrics {
+  voltageHarmonics: number;
+  healthy: number;
+  risky: number;
+  unhealthy: number;
 }

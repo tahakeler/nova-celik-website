@@ -1,12 +1,12 @@
-import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import AchievementsSection from '@/components/AchievementsSection';
-import ServicesSection from '@/components/ServicesSection';
+import HeroSection from '@/components/sections/HeroSection';
+import AboutSection from '@/components/sections/AboutSection';
+import AchievementsSection from '@/components/sections/AchievementsSection';
+import ServicesSection from '@/components/sections/ServicesSection';
 import { DashboardSection } from '@/modules/dashboard/components';
 import { BlogSection } from '@/modules/blog/components';
-import EfficiencyAcademySection from '@/components/EfficiencyAcademySection';
-import ContactSection from '@/components/ContactSection';
-import BackToTopButton from '@/components/BackToTopButton';
+import EfficiencyAcademySection from '@/components/sections/EfficiencyAcademySection';
+import ContactSection from '@/components/sections/ContactSection';
+import BackToTopButton from '@/components/ui/BackToTopButton';
 import '@/styles/globals.css';
 
 export default function HomePage() {

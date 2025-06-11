@@ -7,3 +7,4 @@ export { default as DashboardSection } from './DashboardSection';
 export { default as FacilityManagementCard } from './FacilityManagementCard';
 export { default as GaugeChart } from './GaugeChart';
 export { default as GaugeMeter } from './GaugeMeter';
+export { default as DashboardCard } from './DashboardCard';

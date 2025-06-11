@@ -1,5 +1,5 @@
-import ReferencesSection from '@/components/ReferencesSection';
-import PageHero from '@/components/PageHero';
+import ReferencesSection from '@/components/sections/ReferencesSection';
+import PageHero from '@/components/ui/PageHero';
 
 export default function ReferencesPage() {
   return (

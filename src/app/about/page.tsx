@@ -5,27 +5,21 @@ import { motion } from 'framer-motion';
 import { Leaf, Eye, Users, ShieldCheck } from 'lucide-react';
 import { popIn, scrollFade } from '@/utils/animations';
 
-export const metadata = {
-  title: 'About Us | NovaCelik',
-  description:
-    'Learn more about NovaCelik, our mission, vision, and the diverse team powering digital energy innovation.',
-};
-
 const TEAM = [
   {
-    name: 'Ada Yılmaz',
+    name: 'Iona Moore',
     role: 'Chief Executive Officer',
     bio: 'Visionary leader guiding our mission toward sustainable innovation.',
     image: '/svgs/logo.svg',
   },
   {
-    name: 'Taha Keler',
+    name: 'John Doe',
     role: 'Chief Technology Officer',
     bio: 'Architect of our analytics and IoT infrastructure.',
     image: '/svgs/logo.svg',
   },
   {
-    name: 'Elif Kaya',
+    name: 'Georgie Harper',
     role: 'Chief Sustainability Officer',
     bio: 'Driving eco-friendly practices and impactful results.',
     image: '/svgs/logo.svg',

@@ -95,6 +95,7 @@ export default function DashboardSection() {
               label=""
               value={data.voltageHarmonics}
               max={MAX_VOLTAGE_HARMONICS}
+              color="#3B82F6"
             />
           </DashboardMetricCard>
 

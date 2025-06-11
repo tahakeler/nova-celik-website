@@ -1,3 +1,7 @@
+//src\components\ui\AnimatedCounter.tsx
+
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import { animate, useInView, useMotionValue } from 'framer-motion';
 

@@ -4,7 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { popIn, slideUp } from '@/utils/animations';
-import Button from './Button';
+import Button from '@/components/ui/Button';
+
 
 export default function HeroSection() {
   return (

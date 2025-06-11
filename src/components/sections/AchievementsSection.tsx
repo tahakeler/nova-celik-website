@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { scrollFade, slideLeft } from '@/utils/animations';
-import AnimatedCounter from './AnimatedCounter';
+import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import {
   Users,
   Globe2,

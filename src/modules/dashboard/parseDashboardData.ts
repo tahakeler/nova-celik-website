@@ -5,6 +5,11 @@ export interface DashboardData {
   voltageHarmonics: number;
   currentHarmonics: number;
   generatorDemand: number;
+  healthy: number;
+  risky: number;
+  unhealthy: number;
+  current: number[];  // for current year monthly data
+  previous: number[]; // for previous year monthly data
 }
 
 export async function parseDashboardData(file: File): Promise<DashboardData> {
@@ -24,6 +29,11 @@ export async function parseDashboardData(file: File): Promise<DashboardData> {
           voltageHarmonics: Number(json[2]?.[1]) || 0,
           currentHarmonics: Number(json[3]?.[1]) || 0,
           generatorDemand: Number(json[4]?.[1]) || 0,
+          healthy: Number(json[5]?.[1]) || 0,
+          risky: Number(json[6]?.[1]) || 0,
+          unhealthy: Number(json[7]?.[1]) || 0,
+          current: Array.isArray(json[8]) ? json[8].slice(1).map(Number) : [],
+          previous: Array.isArray(json[9]) ? json[9].slice(1).map(Number) : [],
         });
       } catch (err) {
         reject(new Error(err instanceof Error ? err.message : String(err)));

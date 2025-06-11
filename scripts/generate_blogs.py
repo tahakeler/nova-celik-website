@@ -20,10 +20,10 @@ logging.basicConfig(
 )
 urllib3.disable_warnings()
 
-GNEWS_API_KEY = os.getenv("GNEWS_API_KEY", "")
+GNEWS_API_KEY = os.getenv("GNEWS_API_KEY", "9a90369dad37b3ad3f89ff92058472de")
 QUERY = os.getenv("GNEWS_QUERY", "energy efficiency OR sustainability OR renewable")
 LANG = os.getenv("GNEWS_LANG", "en")
-NUM_POSTS = int(os.getenv("GNEWS_NUM_POSTS", "50"))
+NUM_POSTS = int(os.getenv("GNEWS_NUM_POSTS", "100"))
 OUTPUT_PATH = os.getenv("BLOG_OUTPUT", "./src/modules/blog/data/blog.ts")
 
 TS_TYPE_DEF = """

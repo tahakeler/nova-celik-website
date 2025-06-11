@@ -1,39 +1,35 @@
+/**
+ * Facility Comparison Card
+ */
 'use client';
 
-import { ArrowUp, ArrowRight, ArrowDown } from 'lucide-react';
+import DashboardCard from './DashboardCard';
 
 export default function ComparisonCard() {
   return (
-    <div className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
-      <h3 className="text-lg font-bold mb-3 text-gray-900">Facility Comparison</h3>
-      <table className="w-full text-sm">
+    <DashboardCard title="Facility Comparison" className="w-64">
+      <table className="w-full text-center mt-4" aria-label="Facility comparison table">
         <thead>
           <tr>
-            <th className="text-left px-3 py-1 font-semibold">Facility</th>
-            <th className="text-left px-3 py-1 font-semibold">Trend</th>
+            <th className="p-1 font-semibold">Facility</th>
+            <th className="p-1 font-semibold">Trend</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-red-50">
-            <td className="px-3 py-2">A</td>
-            <td className="px-3 py-2 text-red-700 flex items-center gap-1">
-              <ArrowUp className="inline w-4 h-4" /> Up
-            </td>
+          <tr>
+            <td className="p-1 bg-gray-50 rounded-l-lg">A</td>
+            <td className="p-1 bg-red-100 text-red-600 font-bold">▲</td>
           </tr>
-          <tr className="bg-yellow-50">
-            <td className="px-3 py-2">B</td>
-            <td className="px-3 py-2 text-yellow-700 flex items-center gap-1">
-              <ArrowRight className="inline w-4 h-4" /> Stable
-            </td>
+          <tr>
+            <td className="p-1 bg-gray-50">B</td>
+            <td className="p-1 bg-yellow-100 text-yellow-600 font-bold">▲</td>
           </tr>
-          <tr className="bg-green-50">
-            <td className="px-3 py-2">C</td>
-            <td className="px-3 py-2 text-lime-700 flex items-center gap-1">
-              <ArrowDown className="inline w-4 h-4" /> Down
-            </td>
+          <tr>
+            <td className="p-1 bg-gray-50 rounded-r-lg">C</td>
+            <td className="p-1 bg-lime-100 text-lime-600 font-bold">▼</td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </DashboardCard>
   );
 }

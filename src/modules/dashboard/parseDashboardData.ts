@@ -8,8 +8,8 @@ export interface DashboardData {
   healthy: number;
   risky: number;
   unhealthy: number;
-  current: number[];  // for current year monthly data
-  previous: number[]; // for previous year monthly data
+  current: number[];
+  previous: number[];
 }
 
 export async function parseDashboardData(file: File): Promise<DashboardData> {
@@ -20,10 +20,8 @@ export async function parseDashboardData(file: File): Promise<DashboardData> {
         const data = new Uint8Array(evt.target?.result as ArrayBuffer);
         const workbook = XLSX.read(data, { type: 'array' });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const json = XLSX.utils.sheet_to_json<any>(sheet, { header: 1 });
+        const json: (string | number | null)[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-        // You must adapt this parser to your .xlsx structure!
-        // For demo: expecting metric values at fixed cells/rows/cols.
         resolve({
           voltageFluctuation: Number(json[1]?.[1]) || 0,
           voltageHarmonics: Number(json[2]?.[1]) || 0,
@@ -39,7 +37,8 @@ export async function parseDashboardData(file: File): Promise<DashboardData> {
         reject(new Error(err instanceof Error ? err.message : String(err)));
       }
     };
-    reader.onerror = (e) => reject(new Error('File read error'));
+
+    reader.onerror = () => reject(new Error('File read error'));
     reader.readAsArrayBuffer(file);
   });
 }

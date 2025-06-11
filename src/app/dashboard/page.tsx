@@ -1,6 +1,6 @@
 import DashboardGrid from '@/modules/dashboard/components/DashboardGrid';
 import ConsumptionChart from '@/modules/dashboard/components/ConsumptionChart';
-import PageHero from '@/components/PageHero';
+import PageHero from '@/components/ui/PageHero';
 
 export default function DashboardPage() {
   return (

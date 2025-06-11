@@ -3,13 +3,12 @@
  */
 'use client';
 
+import DashboardCard from './DashboardCard';
+
 export default function ComparisonCard() {
   return (
-    <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center w-64">
-      <div className="mb-2 text-[15px] font-bold text-yellow-600 flex items-center">
-        <span className="mr-2">Facility Comparison</span>
-      </div>
-      <table className="w-full text-center mt-4">
+    <DashboardCard title="Facility Comparison" className="w-64">
+      <table className="w-full text-center mt-4" aria-label="Facility comparison table">
         <thead>
           <tr>
             <th className="p-1 font-semibold">Facility</th>
@@ -31,6 +30,6 @@ export default function ComparisonCard() {
           </tr>
         </tbody>
       </table>
-    </div>
+    </DashboardCard>
   );
 }

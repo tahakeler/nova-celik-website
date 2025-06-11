@@ -1,14 +1,30 @@
-import requests
+"""Fetch news articles and generate the static blog data file."""
+
 import json
+import logging
+import os
 import random
 import re
+import urllib3
 
-GNEWS_API_KEY = "9a90369dad37b3ad3f89ff92058472de"
+try:
+    import requests
+    from requests import RequestException
+except Exception as exc:  # pragma: no cover - dependency missing
+    raise SystemExit("The 'requests' package is required. Install it with 'pip install requests'") from exc
 
-QUERY = "energy efficiency OR sustainability OR renewable"
-LANG = "en"
-NUM_POSTS = 30
-OUTPUT_PATH = "./src/modules/blog/data/blog.ts"
+logging.basicConfig(
+    filename=os.getenv("BLOG_LOG", "logs/blog_generation.log"),
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+)
+urllib3.disable_warnings()
+
+GNEWS_API_KEY = os.getenv("GNEWS_API_KEY", "")
+QUERY = os.getenv("GNEWS_QUERY", "energy efficiency OR sustainability OR renewable")
+LANG = os.getenv("GNEWS_LANG", "en")
+NUM_POSTS = int(os.getenv("GNEWS_NUM_POSTS", "50"))
+OUTPUT_PATH = os.getenv("BLOG_OUTPUT", "./src/modules/blog/data/blog.ts")
 
 TS_TYPE_DEF = """
 export type BlogPost = {
@@ -76,11 +92,11 @@ def fetch_energy_news():
         f"&lang={LANG}&max={NUM_POSTS}&token={GNEWS_API_KEY}"
     )
     try:
-        r = requests.get(url, timeout=10)
+        r = requests.get(url, timeout=10, verify=False)
         r.raise_for_status()
         return r.json().get("articles", [])
-    except requests.RequestException as exc:
-        print(f"Warning: failed to fetch news - {exc}")
+    except RequestException as exc:  # pragma: no cover - network issues
+        logging.warning("Failed to fetch news: %s", exc)
         return []
 
 def build_blog_post(article, i):
@@ -118,13 +134,14 @@ def build_blog_post(article, i):
     return post
 
 def main():
+    logging.info("Starting blog generation")
     articles = fetch_energy_news()
     posts = [build_blog_post(article, i) for i, article in enumerate(articles)]
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(TS_TYPE_DEF)
         f.write(json.dumps(posts, indent=2, ensure_ascii=False))
         f.write(";")
-    print(f"Saved {len(posts)} real blog posts to {OUTPUT_PATH}")
+    logging.info("Saved %s posts to %s", len(posts), OUTPUT_PATH)
 
 if __name__ == "__main__":
     main()

@@ -1,9 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import DashboardGrid from '@/modules/dashboard/components/DashboardGrid';
-import ConsumptionChart from '@/modules/dashboard/components/ConsumptionChart';
 import PageHero from '@/components/ui/PageHero';
+import DashboardSection from '@/components/dashboard/DashboardSection';
+
+function DashboardContent({ error, data }: Readonly<{ error: string | null; data: DashboardData | null }>) {
+  if (error) {
+    return <section className="px-4 py-20 text-center text-red-600 font-semibold">{error}</section>;
+  }
+  if (!data) {
+    return <section className="px-4 py-20 text-center text-gray-500 animate-pulse">Loading dashboard data...</section>;
+  }
+  return <DashboardSection data={data} />;
+}
 import { parseDashboardData, type DashboardData } from '@/modules/dashboard/parseDashboardData';
 
 export default function DashboardPage() {
@@ -24,30 +33,17 @@ export default function DashboardPage() {
         setError('Failed to load dashboard data.');
       }
     };
-
     loadData();
   }, []);
 
   return (
-    <main className="flex flex-col min-h-screen bg-gray-50">
+    <main>
       <PageHero
-        image="/svgs/hero-image.svg"
+        image="/images/dashboard-hero.jpg"
         title="NovaCelik Analytics Dashboard"
         subtitle="Real-time insights, facility comparisons, and energy quality reports at your fingertips."
       />
-      <section className="max-w-screen-2xl mx-auto py-8 px-4 w-full">
-        {error && (
-          <p className="text-red-600 font-semibold mb-6">{error}</p>
-        )}
-        <DashboardGrid />
-        <div className="mt-10">
-          {data ? (
-            <ConsumptionChart current={data.current} previous={data.previous} />
-          ) : (
-            <p className="text-gray-600 animate-pulse">Loading chart...</p>
-          )}
-        </div>
-      </section>
+      <DashboardContent error={error} data={data} />
     </main>
   );
 }

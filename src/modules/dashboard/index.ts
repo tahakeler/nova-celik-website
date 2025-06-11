@@ -1,4 +1,4 @@
-export * from './components';
+export * from '../../components/dashboard';
 export * from './dashboard.constants';
 export { 
   // Add specific exports from dashboard.types here, excluding DEFAULT_LABELS and StepHealth

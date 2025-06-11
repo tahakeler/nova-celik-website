@@ -216,4 +216,61 @@ export const blogPosts: BlogPost[] =
     "slug": "quarterly-results-standalone-net-profit-of-this-logistics-firm-jumps-59-87-per-cent-details",
     "insight": "Avg. 16% CO₂ reduction"
   }
-];
+,
+  {
+    "title": "Green building trends for 2025: what to expect",
+    "summary": "Experts forecast wider adoption of net-zero technologies and smart materials driving sustainability in construction.",
+    "image": "https://example.com/images/green-building.jpg",
+    "date": "2025-06-01",
+    "link": "https://example.com/green-building-trends-2025",
+    "tags": ["Insights", "Trends"],
+    "author": "CleanTech News",
+    "authorRole": "Industry Expert",
+    "isEditorsPick": false,
+    "slug": "green-building-trends-for-2025-what-to-expect",
+    "previewChart": [12, 17, 18, 15, 16],
+    "insight": "Avg. 15% CO₂ reduction"
+  },
+  {
+    "title": "AI helps optimize solar farm performance globally",
+    "summary": "New AI-driven analytics platforms are improving maintenance and output across large-scale solar installations.",
+    "image": "https://example.com/images/solar-ai.jpg",
+    "date": "2025-06-03",
+    "link": "https://example.com/ai-solar-optimization",
+    "tags": ["Case Study", "AI"],
+    "author": "SolarTech",
+    "authorRole": "Project Engineer",
+    "isEditorsPick": true,
+    "slug": "ai-helps-optimize-solar-farm-performance-globally",
+    "previewChart": [14, 15, 15, 17, 19, 20],
+    "insight": "Avg. 18% CO₂ reduction"
+  },
+  {
+    "title": "City announces major investment in electric buses",
+    "summary": "The new fleet will reduce urban emissions while lowering operational costs over the next decade.",
+    "image": "https://example.com/images/electric-bus.jpg",
+    "date": "2025-06-04",
+    "link": "https://example.com/city-investment-electric-buses",
+    "tags": ["Project Portfolio", "Innovation"],
+    "author": "Transit Weekly",
+    "authorRole": "Staff Writer",
+    "isEditorsPick": false,
+    "slug": "city-announces-major-investment-in-electric-buses",
+    "previewChart": [11, 13, 14, 16, 17],
+    "insight": "Avg. 14% CO₂ reduction"
+  },
+  {
+    "title": "How predictive maintenance saves energy in factories",
+    "summary": "Sensors and real-time data allow manufacturers to cut downtime and waste, boosting overall efficiency.",
+    "image": "https://example.com/images/predictive-maintenance.jpg",
+    "date": "2025-06-05",
+    "link": "https://example.com/predictive-maintenance-energy-savings",
+    "tags": ["Blog", "Efficiency"],
+    "author": "Industry Today",
+    "authorRole": "Technical Editor",
+    "isEditorsPick": false,
+    "slug": "how-predictive-maintenance-saves-energy-in-factories",
+    "previewChart": [10, 12, 11, 13, 15],
+    "insight": "Avg. 13% CO₂ reduction"
+  }
+]

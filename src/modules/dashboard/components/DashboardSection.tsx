@@ -1,11 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { Gauge, BatteryCharging, BarChart2 } from 'lucide-react';
-import { BarChart, GaugeChart, BatteryChart } from '@/modules/dashboard/components';
 import { MAX_VOLTAGE_HARMONICS, DEFAULT_LABELS } from '@/modules/dashboard/dashboard.constants';
 import { parseDashboardData, type DashboardData } from '@/modules/dashboard/parseDashboardData';
+
+const BarChart = dynamic(() => import('@/modules/dashboard/components/BarChart'), { ssr: false });
+const GaugeChart = dynamic(() => import('@/modules/dashboard/components/GaugeChart'), { ssr: false });
+const BatteryChart = dynamic(() => import('@/modules/dashboard/components/BatteryChart'), { ssr: false });
 
 /**
  * A visually polished and highly usable dashboard for NovaCelik analytics.
@@ -132,7 +136,7 @@ export default function DashboardSection() {
  * DashboardMetricCard
  * Professional metric block with icon, label, value, and animated children.
  */
-function DashboardMetricCard({
+const DashboardMetricCard = React.memo(function DashboardMetricCard({
   icon,
   label,
   value,
@@ -159,4 +163,4 @@ function DashboardMetricCard({
       </div>
     </motion.div>
   );
-}
+});

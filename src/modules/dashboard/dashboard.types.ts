@@ -4,10 +4,6 @@ export interface BarChartProps {
   labels?: string[];
 }
 
-export const DEFAULT_LABELS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-];
 
 export interface GaugeChartProps {
   label: string;
@@ -29,11 +25,6 @@ export interface DashboardData {
   unhealthy: number;
 }
 
-export enum StepHealth {
-  Healthy = 'Healthy Steps',
-  Risky = 'Risky Steps',
-  Unhealthy = 'Unhealthy Steps',
-}
 
 export interface DashboardMetrics {
   voltageHarmonics: number;

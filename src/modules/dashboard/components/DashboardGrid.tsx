@@ -6,6 +6,7 @@
 import GaugeMeter from './GaugeMeter';
 import FacilityManagementCard from './FacilityManagementCard';
 import ComparisonCard from './ComparisonCard';
+import DashboardCard from './DashboardCard';
 
 export interface GaugeItem {
   value: number;
@@ -47,27 +48,22 @@ export default function DashboardGrid({ gauges }: DashboardGridProps = {}) {
   const items = gauges ?? defaultGauges;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-[#fffbea] min-h-screen">
+    <div className="grid gap-8 p-6 sm:p-8 bg-[#fffbea] grid-cols-1 lg:grid-cols-3">
       {/* Energy Quality Report */}
-      <div className="col-span-1 flex flex-col gap-6">
-        <div>
-          <div className="text-lg font-bold text-yellow-600 mb-3">
-            Energy Quality Report
-          </div>
-          {items.map((g) => (
-            <GaugeMeter
-              key={g.label}
-              value={g.value}
-              label={g.label}
-              type={g.type}
-              subLabel={g.subLabel}
-            />
-          ))}
-        </div>
-      </div>
+      <DashboardCard title="Energy Quality Report" className="flex flex-col gap-6">
+        {items.map((g) => (
+          <GaugeMeter
+            key={g.label}
+            value={g.value}
+            label={g.label}
+            type={g.type}
+            subLabel={g.subLabel}
+          />
+        ))}
+      </DashboardCard>
 
       {/* Facility Management & Comparison */}
-      <div className="col-span-1 flex flex-col gap-6 items-center">
+      <div className="flex flex-col gap-6 items-center">
         <FacilityManagementCard />
         <ComparisonCard />
       </div>

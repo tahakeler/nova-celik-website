@@ -52,7 +52,7 @@ export default function Navbar() {
         isScrolled ? 'bg-[#1e40af]/90 backdrop-blur-sm shadow-sm' : 'bg-transparent'
       }`}
     >
-      <div className="max-w-[1800px] mx-auto px-4 sm:px-10 lg:px-20 flex items-center justify-between transition-all duration-300 h-[80px]">
+      <div className="max-w-[1920px] mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 h-[80px]">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
@@ -60,13 +60,14 @@ export default function Navbar() {
             alt="NovaCelik Logo"
             width={160}
             height={48}
-            className="object-contain"
+            className="object-contain h-12"
+            style={{ width: 'auto' }}
             priority
           />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex sm:gap-5 md:gap-10 lg:gap-20 text-white font-semibold text-xl">
+        <nav className="hidden lg:flex items-center gap-12 text-white font-semibold text-base">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
@@ -79,9 +80,16 @@ export default function Navbar() {
         </nav>
 
         {/* Right-side Icons */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-8">
           <Link href="https://www.linkedin.com/company/novacelik" target="_blank" rel="noopener noreferrer">
-            <Image src="/svgs/linkedin-white.svg" alt="LinkedIn" width={28} height={28} />
+            <Image 
+              src="/svgs/linkedin-white.svg" 
+              alt="LinkedIn" 
+              width={28} 
+              height={28} 
+              className="w-7 h-7" 
+              style={{ width: 'auto', height: '28px' }}
+            />
           </Link>
           <Link href="/request-demo">
             <button className="bg-[#42b431] hover:bg-[#25691b] text-white font-semibold rounded-xl text-base px-5 py-2.5">
@@ -92,18 +100,19 @@ export default function Navbar() {
 
         {/* Mobile Hamburger */}
         <button
-          className="lg:hidden text-white p-2"
+          className="lg:hidden text-white p-2 z-[10000]"
           onClick={() => setMobileMenuOpen(true)}
           aria-label="Open navigation menu"
-          aria-expanded={mobileMenuOpen}
+        aria-expanded={String(mobileMenuOpen)}
+          type="button"
         >
           <Menu size={28} />
         </button>
 
         {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-black/60 z-[9999] flex">
-            <nav className="w-72 bg-white h-full p-6 flex flex-col gap-6 relative">
+          <div className="fixed inset-0 bg-black/60 z-[9999] flex" onClick={(e) => e.target === e.currentTarget && setMobileMenuOpen(false)}>
+            <nav className="w-72 bg-white h-full p-6 flex flex-col gap-6 relative animate-slide-in">
               <button
                 className="absolute top-5 right-5"
                 onClick={() => setMobileMenuOpen(false)}
@@ -126,10 +135,17 @@ export default function Navbar() {
                   Request Demo
                 </button>
               </Link>
-              <Link href="https://www.linkedin.com/company/novacelik" target="_blank" className="mt-4 inline-flex items-center gap-2">
-                <Image src="/svgs/linkedin-white.svg" alt="LinkedIn" width={28} height={28} />
-                <span className="text-gray-800">LinkedIn</span>
-              </Link>
+          <Link href="https://www.linkedin.com/company/novacelik" target="_blank" className="mt-4 inline-flex items-center gap-2">
+            <Image 
+              src="/svgs/linkedin-white.svg" 
+              alt="LinkedIn" 
+              width={28} 
+              height={28} 
+              className="w-7 h-7" 
+              style={{ width: 'auto', height: '28px' }}
+            />
+            <span className="text-gray-800">LinkedIn</span>
+          </Link>
             </nav>
             <button
               className="flex-1"

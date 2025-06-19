@@ -47,3 +47,19 @@ a:hover {
 .btn-primary {
   @apply bg-gray-900 text-white px-6 py-2 rounded-md font-medium shadow hover:bg-gray-800 transition;
 }
+
+/* ------------------------------
+   Animations
+--------------------------------*/
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}

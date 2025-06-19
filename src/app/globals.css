@@ -1,19 +1,16 @@
-/* src/app/globals.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply text-gray-900 bg-white;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
   }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
 }

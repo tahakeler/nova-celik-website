@@ -2,17 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import PageHero from '@/components/ui/PageHero';
-import DashboardSection from '@/components/dashboard/DashboardSection';
-
-function DashboardContent({ error, data }: Readonly<{ error: string | null; data: DashboardData | null }>) {
-  if (error) {
-    return <section className="px-4 py-20 text-center text-red-600 font-semibold">{error}</section>;
-  }
-  if (!data) {
-    return <section className="px-4 py-20 text-center text-gray-500 animate-pulse">Loading dashboard data...</section>;
-  }
-  return <DashboardSection data={data} />;
-}
+import DashboardGrid from '@/components/dashboard/DashboardGrid';
 import { parseDashboardData, type DashboardData } from '@/modules/dashboard/parseDashboardData';
 
 export default function DashboardPage() {
@@ -37,13 +27,27 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <main>
+    <main className="min-h-screen bg-gray-50">
       <PageHero
-        image="/images/dashboard-hero.jpg"
+        image="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80"
         title="NovaCelik Analytics Dashboard"
         subtitle="Real-time insights, facility comparisons, and energy quality reports at your fingertips."
       />
-      <DashboardContent error={error} data={data} />
+      {error ? (
+        <section className="px-4 py-20 text-center text-red-600 font-semibold">{error}</section>
+      ) : !data ? (
+        <section className="px-4 py-20">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 animate-pulse">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 h-64 shadow" />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : (
+        <DashboardGrid data={data} />
+      )}
     </main>
   );
 }

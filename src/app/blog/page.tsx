@@ -138,7 +138,7 @@ export default function BlogPage() {
         {/* Blog cards, infinite scroll */}
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {filtered.slice(0, postsToShow).map((post, idx) => (
-            <article key={post.slug} className="group relative flex flex-col bg-white rounded-[28px] hover:border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2" style={{ minHeight: 420 }}>
+            <article key={`${post.slug}-${idx}`} className="group relative flex flex-col bg-white rounded-[28px] hover:border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2" style={{ minHeight: 420 }}>
               {/* Blog Card Image */}
               <div className="relative h-48 w-full overflow-hidden rounded-[28px]">
                 <Image

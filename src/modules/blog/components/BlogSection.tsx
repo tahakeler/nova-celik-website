@@ -36,7 +36,7 @@ export default function BlogSection() {
         {/* Blog cards grid */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 place-items-center">
           {latestPosts.map((post, idx) => (
-            <BlogImageCard key={post.link} post={post} index={idx} />
+            <BlogImageCard key={`${post.slug}-${idx}`} post={post} index={idx} />
           ))}
         </div>
 

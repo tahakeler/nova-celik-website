@@ -286,6 +286,7 @@ const CustomDot = ({
             strokeWidth={2}
             fill="url(#previousGradient)"
             dot={(props) => {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const { key, ...restProps } = props;
               return <CustomDot key={`previous-dot-${props.payload.id}`} {...restProps} value={props.payload.previous} />;
             }}
@@ -304,6 +305,7 @@ const CustomDot = ({
             fill="url(#currentGradient)"
             filter={hoveredIndex !== null ? 'url(#dotGlow)' : 'url(#lineGlow)'}
             dot={(props) => {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const { key, ...restProps } = props;
               return <CustomDot key={`current-dot-${props.payload.id}`} {...restProps} value={props.payload.current} />;
             }}

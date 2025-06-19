@@ -76,7 +76,6 @@ export default function LiquidContainer({
 
       // Calculate wave parameters based on percentage
       const amplitude = canvas.height * 0.05;
-      const frequency = Math.PI * 2;
       const fillHeight = canvas.height * (1 - percentage / 100);
 
       // Draw main wave

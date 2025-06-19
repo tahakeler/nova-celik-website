@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
-  { label: 'Contact', href: '/contact' }
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
@@ -49,7 +49,9 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-[#1e40af]/90 backdrop-blur-sm shadow-sm' : 'bg-transparent'
+        isScrolled
+          ? 'bg-[#1e40af]/90 backdrop-blur-sm shadow-sm'
+          : 'bg-transparent'
       }`}
     >
       <div className="max-w-[1920px] mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 h-[80px]">
@@ -81,13 +83,17 @@ export default function Navbar() {
 
         {/* Right-side Icons */}
         <div className="hidden lg:flex items-center gap-8">
-          <Link href="https://www.linkedin.com/company/novacelik" target="_blank" rel="noopener noreferrer">
-            <Image 
-              src="/svgs/linkedin-white.svg" 
-              alt="LinkedIn" 
-              width={28} 
-              height={28} 
-              className="w-7 h-7" 
+          <Link
+            href="https://www.linkedin.com/company/novacelik"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src="/svgs/linkedin-white.svg"
+              alt="LinkedIn"
+              width={28}
+              height={28}
+              className="w-7 h-7"
               style={{ width: 'auto', height: '28px' }}
             />
           </Link>
@@ -103,7 +109,7 @@ export default function Navbar() {
           className="lg:hidden text-white p-2 z-[10000]"
           onClick={() => setMobileMenuOpen(true)}
           aria-label="Open navigation menu"
-        aria-expanded={String(mobileMenuOpen)}
+          aria-expanded={mobileMenuOpen}
           type="button"
         >
           <Menu size={28} />
@@ -111,7 +117,12 @@ export default function Navbar() {
 
         {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-black/60 z-[9999] flex" onClick={(e) => e.target === e.currentTarget && setMobileMenuOpen(false)}>
+          <div
+            className="fixed inset-0 bg-black/60 z-[9999] flex"
+            onClick={(e) =>
+              e.target === e.currentTarget && setMobileMenuOpen(false)
+            }
+          >
             <nav className="w-72 bg-white h-full p-6 flex flex-col gap-6 relative animate-slide-in">
               <button
                 className="absolute top-5 right-5"
@@ -135,17 +146,21 @@ export default function Navbar() {
                   Request Demo
                 </button>
               </Link>
-          <Link href="https://www.linkedin.com/company/novacelik" target="_blank" className="mt-4 inline-flex items-center gap-2">
-            <Image 
-              src="/svgs/linkedin-white.svg" 
-              alt="LinkedIn" 
-              width={28} 
-              height={28} 
-              className="w-7 h-7" 
-              style={{ width: 'auto', height: '28px' }}
-            />
-            <span className="text-gray-800">LinkedIn</span>
-          </Link>
+              <Link
+                href="https://www.linkedin.com/company/novacelik"
+                target="_blank"
+                className="mt-4 inline-flex items-center gap-2"
+              >
+                <Image
+                  src="/svgs/linkedin-white.svg"
+                  alt="LinkedIn"
+                  width={28}
+                  height={28}
+                  className="w-7 h-7"
+                  style={{ width: 'auto', height: '28px' }}
+                />
+                <span className="text-gray-800">LinkedIn</span>
+              </Link>
             </nav>
             <button
               className="flex-1"

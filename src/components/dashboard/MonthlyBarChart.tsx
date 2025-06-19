@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   BarChart,
   Bar,
@@ -34,7 +34,6 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
-      const total = payload.reduce((sum: number, entry: any) => sum + entry.value, 0);
       const percentChange = ((payload[0].value - payload[1].value) / payload[1].value) * 100;
 
       return (
@@ -91,14 +90,6 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
       );
     }
     return null;
-  };
-
-  const getBarColor = (index: number, type: 'current' | 'previous') => {
-    const isHovered = hoveredBar === index;
-    if (type === 'current') {
-      return isHovered ? '#2563EB' : '#3B82F6';
-    }
-    return isHovered ? '#64748B' : '#94A3B8';
   };
 
   const getBarGradient = (index: number, type: 'current' | 'previous') => {

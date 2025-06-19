@@ -3,7 +3,7 @@
 import { DashboardData } from '@/modules/dashboard/parseDashboardData';
 import { motion } from 'framer-motion';
 import { useState, useCallback } from 'react';
-import { Download, RefreshCw, Calendar } from 'lucide-react';
+import { Download, RefreshCw } from 'lucide-react';
 import { staggerContainer } from '@/utils/animations';
 import DonutChart from './DonutChart';
 import SpeedometerChart from './SpeedometerChart';
@@ -23,9 +23,9 @@ interface DashboardGridProps {
 export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
   const [timePeriod, setTimePeriod] = useState<'day' | 'week' | 'month'>('day');
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [dateRange, setDateRange] = useState<{ start: Date; end: Date }>({
+  const [dateRange] = useState<{ start: Date; end: Date }>({
     start: new Date(new Date().setDate(new Date().getDate() - 30)),
-    end: new Date()
+    end: new Date(),
   });
 
   const handleExport = useCallback(() => {

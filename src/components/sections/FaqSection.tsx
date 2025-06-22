@@ -38,9 +38,8 @@ export default function FaqSection({ data }: FaqSectionProps) {
         className="w-full max-w-4xl mx-auto flex flex-col gap-10"
       >
         <div className="text-center space-y-3">
-          <h2 className="text-3xl sm:text-5xl font-extrabold">Frequently Asked Questions</h2>
           <div className="relative max-w-sm mx-auto">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w- h-5" />
             <input
               type="search"
               value={query}

@@ -9,7 +9,8 @@ export { default as Footer } from './layout/Footer';
 export { default as HeroSection } from './sections/HeroSection';
 export { default as Navbar } from './layout/Navbar';
 export { default as PageHero } from './ui/PageHero';
-export { default as ReferencesSection } from './sections/ReferencesSection';
+/* Removed export of missing ReferencesSection to fix module not found error */
+// export { default as ReferencesSection } from './sections/ReferencesSection';
 export { default as ServicesSection } from './sections/ServicesSection';
 export { default as FaqSection } from './sections/FaqSection';
 export { default as TestimonialsSection } from './sections/TestimonialsSection';

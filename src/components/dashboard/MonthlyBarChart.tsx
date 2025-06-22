@@ -17,6 +17,72 @@ interface MonthlyBarChartProps {
   previous: number[];
 }
 
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    const percentChange = ((payload[0].value - payload[1].value) / payload[1].value) * 100;
+
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 10 }}
+        className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-100"
+      >
+        <p className="text-sm font-semibold text-gray-600 mb-3">{label}</p>
+        {payload.map((entry: any) => (
+          <motion.div 
+            key={entry.dataKey}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0 }}
+            className="flex items-center justify-between space-x-8 mb-2"
+          >
+            <div className="flex items-center space-x-2">
+              <div 
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: entry.color }}
+              />
+              <p className="text-sm text-gray-600">
+                {entry.name === 'current' ? 'Current' : 'Previous'}
+              </p>
+            </div>
+            <p className="text-sm font-semibold text-gray-900">
+              {entry.value.toLocaleString()}
+            </p>
+          </motion.div>
+        ))}
+        <motion.div 
+          className="mt-3 pt-3 border-t border-gray-100"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Change</span>
+            <motion.span 
+              className={`text-sm font-semibold ${
+                percentChange > 0 ? 'text-green-600' : 'text-red-600'
+              }`}
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              {percentChange > 0 ? '+' : ''}{percentChange.toFixed(1)}%
+            </motion.span>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  }
+  return null;
+};
+
 export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyBarChartProps>) {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   const [isAnimated, setIsAnimated] = useState(false);
@@ -32,67 +98,7 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
     previous: isAnimated ? (previous[i] ?? 0) : 0,
   }));
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      const percentChange = ((payload[0].value - payload[1].value) / payload[1].value) * 100;
-
-      return (
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-100"
-        >
-          <p className="text-sm font-semibold text-gray-600 mb-3">{label}</p>
-          {payload.map((entry: any, index: number) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center justify-between space-x-8 mb-2"
-            >
-              <div className="flex items-center space-x-2">
-                <div 
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: entry.color }}
-                />
-                <p className="text-sm text-gray-600">
-                  {entry.name === 'current' ? 'Current' : 'Previous'}
-                </p>
-              </div>
-              <p className="text-sm font-semibold text-gray-900">
-                {entry.value.toLocaleString()}
-              </p>
-            </motion.div>
-          ))}
-          <motion.div 
-            className="mt-3 pt-3 border-t border-gray-100"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Change</span>
-              <motion.span 
-                className={`text-sm font-semibold ${
-                  percentChange > 0 ? 'text-green-600' : 'text-red-600'
-                }`}
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                {percentChange > 0 ? '+' : ''}{percentChange.toFixed(1)}%
-              </motion.span>
-            </div>
-          </motion.div>
-        </motion.div>
-      );
-    }
-    return null;
-  };
-
-  const getBarGradient = (index: number, type: 'current' | 'previous') => {
+  const getBarGradient = (index: string, type: 'current' | 'previous') => {
     const id = `gradient-${type}-${index}`;
     const colors = type === 'current' 
       ? { start: '#3B82F6', end: '#2563EB' }
@@ -135,10 +141,14 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
             <filter id="barShadow">
               <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2"/>
             </filter>
-            {data.map((_, index) => (
-              <React.Fragment key={`gradients-${index}`}>
-                {getBarGradient(index, 'current')}
-                {getBarGradient(index, 'previous')}
+            {data.map((item, index) => (
+              <React.Fragment key={`gradient-current-${index}-${item.month}`}>
+                {getBarGradient(item.month, 'current')}
+              </React.Fragment>
+            ))}
+            {data.map((item, index) => (
+              <React.Fragment key={`gradient-previous-${index}-${item.month}`}>
+                {getBarGradient(item.month, 'previous')}
               </React.Fragment>
             ))}
           </defs>
@@ -178,10 +188,10 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
             animationBegin={300}
             filter="url(#barShadow)"
           >
-            {data.map((_, index) => (
+            {data.map((item, index) => (
               <Cell 
-                key={`previous-${index}`}
-                fill={`url(#gradient-previous-${index})`}
+                key={`previous-${index}-${item.month}`}
+                fill={`url(#gradient-previous-${item.month})`}
               />
             ))}
           </Bar>
@@ -195,10 +205,10 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
             animationDuration={1500}
             animationBegin={0}
           >
-            {data.map((_, index) => (
+            {data.map((item, index) => (
               <Cell 
-                key={`current-${index}`}
-                fill={`url(#gradient-current-${index})`}
+                key={`current-${index}-${item.month}`}
+                fill={`url(#gradient-current-${item.month})`}
               />
             ))}
           </Bar>

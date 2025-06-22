@@ -12,11 +12,11 @@ interface Particle {
 }
 
 interface LiquidContainerProps {
-  children: React.ReactNode;
-  value: number;
-  color?: string;
-  glowColor?: string;
-  className?: string;
+  readonly children: React.ReactNode;
+  readonly value: number;
+  readonly color?: string;
+  readonly glowColor?: string;
+  readonly className?: string;
 }
 
 export default function LiquidContainer({

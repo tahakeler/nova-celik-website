@@ -1,9 +1,9 @@
 'use client';
 
 interface TestChartProps {
-  value: number;
-  label: string;
-  unit: string;
+  readonly value: number;
+  readonly label: string;
+  readonly unit: string;
 }
 
 export default function TestChart({ value, label, unit }: TestChartProps) {

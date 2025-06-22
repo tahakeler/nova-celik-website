@@ -9,6 +9,7 @@ export default function AboutSection() {
     <section
       id="about"
       className="bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-16 py-20 sm:py-28 flex items-center justify-center w-full"
+      aria-labelledby="about-heading"
     >
       <motion.div
         variants={scrollFade}
@@ -20,7 +21,7 @@ export default function AboutSection() {
       >
         {/* Heading (aligned left, original design preserved) */}
         <div className="text-left mb-14 max-w-4xl">
-          <h2 className="text-3xl sm:text-5xl font-extrabold mb-6 leading-snug">
+          <h2 id="about-heading" className="text-3xl sm:text-5xl font-extrabold mb-6 leading-snug">
             About <span className="text-blue-600">NovaCelik</span>
           </h2>
           <p className="text-base sm:text-xl text-gray-700 leading-relaxed">
@@ -58,22 +59,22 @@ export default function AboutSection() {
         {/* Feature Cards (responsive grid) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           <FeatureCard
-            icon={<Eye className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
+            icon={<Eye className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" aria-hidden="true" />}
             title="Vision"
             description="Efficient energy, sustainability, and innovation — shaping the future of industrial systems."
           />
           <FeatureCard
-            icon={<Leaf className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
+            icon={<Leaf className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" aria-hidden="true" />}
             title="Mission"
             description="To enable sustainable, livable industry through tailored, data-driven energy strategies."
           />
           <FeatureCard
-            icon={<Factory className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
+            icon={<Factory className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" aria-hidden="true" />}
             title="Sustainable Facilities"
             description="We build energy-intelligent factories, plants, and facilities that meet tomorrow&apos;s standards."
           />
           <FeatureCard
-            icon={<BadgePercent className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" />}
+            icon={<BadgePercent className="w-8 sm:w-10 h-8 sm:h-10 text-blue-600" aria-hidden="true" />}
             title="Reduce Energy Cost"
             description="Optimize operations without sacrificing comfort, performance, or safety."
           />
@@ -91,12 +92,17 @@ type FeatureCardProps = {
 
 function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="bg-blue-100 hover:bg-blue-200 transition-all duration-300 border border-blue-100 rounded-2xl p-6 sm:p-8 flex flex-col items-start h-full shadow-sm">
+    <article
+      className="bg-blue-100 hover:bg-blue-200 transition-all duration-300 border border-blue-100 rounded-2xl p-6 sm:p-8 flex flex-col items-start h-full shadow-sm"
+      aria-labelledby={`${title.toLowerCase()}-title`}
+    >
       <div className="flex items-center gap-4 mb-4">
         {icon}
-        <h3 className="text-lg sm:text-2xl font-bold text-blue-800">{title}</h3>
+        <h3 id={`${title.toLowerCase()}-title`} className="text-lg sm:text-2xl font-bold text-blue-800">
+          {title}
+        </h3>
       </div>
       <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{description}</p>
-    </div>
+    </article>
   );
 }

@@ -334,7 +334,6 @@ export default function SpeedometerChart({
       <canvas 
         ref={canvasRef} 
         className="relative w-full h-full z-10"
-        role="img"
         aria-label={`${label} speedometer showing ${value}${unit}`}
       />
       

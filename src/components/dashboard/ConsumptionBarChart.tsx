@@ -20,6 +20,80 @@ interface ConsumptionBarChartProps {
   previous: number[];
 }
 
+const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    const total = payload.reduce((sum: number, entry) => sum + (entry.value ?? 0), 0);
+    const maxValue = Math.max(...payload.map(entry => entry.payload.total));
+    const threshold = maxValue * 0.75;
+    const isOverThreshold = total > threshold;
+
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 10 }}
+        className="bg-white/90 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg border border-gray-100 max-w-[90vw] sm:max-w-none"
+      >
+        <p className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">{label}</p>
+        {payload.map((entry) => (
+          <motion.div 
+            key={`${entry.dataKey}-${entry.payload.month}`}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0 }}
+            className="flex items-center justify-between space-x-8 mb-2"
+          >
+            <div className="flex items-center space-x-2">
+              <div 
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: entry.color }}
+              />
+              <p className="text-xs sm:text-sm text-gray-600">
+                {entry.name === 'current' ? 'Current Usage' : 'Previous Usage'}
+              </p>
+            </div>
+            <p className="text-xs sm:text-sm font-semibold text-gray-900">
+              {(entry.value ?? 0).toLocaleString()} kWh
+            </p>
+          </motion.div>
+        ))}
+        <motion.div 
+          className="mt-3 pt-3 border-t border-gray-100"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Total Usage</span>
+            <motion.span 
+              className={`text-sm font-semibold ${
+                isOverThreshold ? 'text-red-600' : 'text-green-600'
+              }`}
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              {total.toLocaleString()} kWh
+            </motion.span>
+          </div>
+          {isOverThreshold && (
+            <motion.p 
+              className="text-xs text-red-500 mt-1 flex items-center space-x-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <span>⚠️</span>
+              <span>Exceeds recommended threshold</span>
+            </motion.p>
+          )}
+        </motion.div>
+      </motion.div>
+    );
+  }
+  return null;
+};
+
 export default function ConsumptionBarChart({ current, previous }: Readonly<ConsumptionBarChartProps>) {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   const [isAnimated, setIsAnimated] = useState(false);
@@ -38,78 +112,6 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
 
   const maxValue = Math.max(...data.map(item => item.total));
   const threshold = maxValue * 0.75; // 75% threshold line
-
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
-    if (active && payload && payload.length) {
-      const total = payload.reduce((sum: number, entry) => sum + (entry.value ?? 0), 0);
-      const isOverThreshold = total > threshold;
-
-      return (
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          className="bg-white/90 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg border border-gray-100 max-w-[90vw] sm:max-w-none"
-        >
-          <p className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 sm:mb-3">{label}</p>
-          {payload.map((entry, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center justify-between space-x-8 mb-2"
-            >
-              <div className="flex items-center space-x-2">
-                <div 
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: entry.color }}
-                />
-              <p className="text-xs sm:text-sm text-gray-600">
-                  {entry.name === 'current' ? 'Current Usage' : 'Previous Usage'}
-                </p>
-              </div>
-              <p className="text-xs sm:text-sm font-semibold text-gray-900">
-                {(entry.value ?? 0).toLocaleString()} kWh
-              </p>
-            </motion.div>
-          ))}
-          <motion.div 
-            className="mt-3 pt-3 border-t border-gray-100"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Total Usage</span>
-              <motion.span 
-                className={`text-sm font-semibold ${
-                  isOverThreshold ? 'text-red-600' : 'text-green-600'
-                }`}
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                {total.toLocaleString()} kWh
-              </motion.span>
-            </div>
-            {isOverThreshold && (
-              <motion.p 
-                className="text-xs text-red-500 mt-1 flex items-center space-x-1"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <span>⚠️</span>
-                <span>Exceeds recommended threshold</span>
-              </motion.p>
-            )}
-          </motion.div>
-        </motion.div>
-      );
-    }
-    return null;
-  };
 
   const getBarGradient = (index: number, type: 'current' | 'previous') => {
     const id = `gradient-${type}-${index}`;
@@ -154,8 +156,8 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
             <filter id="barShadow">
               <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2"/>
             </filter>
-            {data.map((_, index) => (
-              <React.Fragment key={`gradients-${index}`}>
+            {data.map((item, index) => (
+              <React.Fragment key={item.month}>
                 {getBarGradient(index, 'current')}
                 {getBarGradient(index, 'previous')}
               </React.Fragment>
@@ -215,10 +217,10 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
             animationDuration={1500}
             animationBegin={300}
           >
-            {data.map((_, index) => (
+            {data.map((item) => (
               <Cell 
-                key={`previous-${index}`}
-                fill={`url(#gradient-previous-${index})`}
+                key={`previous-${item.month}`}
+                fill={`url(#gradient-previous-${item.month})`}
               />
             ))}
           </Bar>
@@ -233,10 +235,10 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
             animationDuration={1500}
             animationBegin={0}
           >
-            {data.map((_, index) => (
+            {data.map((item) => (
               <Cell 
-                key={`current-${index}`}
-                fill={`url(#gradient-current-${index})`}
+                key={`current-${item.month}`}
+                fill={`url(#gradient-current-${item.month})`}
               />
             ))}
           </Bar>

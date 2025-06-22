@@ -38,7 +38,7 @@ export default function RequestDemoPage() {
           {/* Right: Smaller Form */}
           <div className="w-full md:w-1/2 flex items-center justify-center py-8 md:py-0">
             <div className="w-full sm:w-[85%] max-w-sm bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 sm:p-6 md:p-6 flex flex-col justify-center">
-              <form className="w-full space-y-3 text-left">
+              <form className="w-full space-y-3 text-left" onSubmit={(e) => e.preventDefault()}>
                 {/* Name */}
                 <div className="space-y-1">
                   <label htmlFor="name" className="text-sm font-medium text-gray-700">

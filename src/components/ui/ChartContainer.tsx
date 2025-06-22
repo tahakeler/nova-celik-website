@@ -6,14 +6,47 @@ import { AlertCircle, TrendingUp, BarChart3, MoreVertical } from 'lucide-react';
 import GlassCard from './GlassCard';
 
 interface ChartContainerProps {
-  children: ReactNode;
-  title: string;
-  loading?: boolean;
-  className?: string;
-  error?: string | null;
-  subtitle?: string;
-  icon?: 'trend' | 'bar' | 'default';
+  readonly children: ReactNode;
+  readonly title: string;
+  readonly loading?: boolean;
+  readonly className?: string;
+  readonly error?: string | null;
+  readonly subtitle?: string;
+  readonly icon?: 'trend' | 'bar' | 'default';
 }
+
+interface LoadingSkeletonProps {}
+
+const LoadingSkeleton: React.FC<LoadingSkeletonProps> = () => (
+  <div className="animate-pulse space-y-4 w-full h-full">
+    <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+    <div className="space-y-3">
+      <div className="h-3 bg-gray-200 rounded"></div>
+      <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+      <div className="h-3 bg-gray-200 rounded w-4/6"></div>
+      <div className="h-3 bg-gray-200 rounded w-3/6"></div>
+    </div>
+  </div>
+);
+
+interface ErrorDisplayProps {
+  error: string | null | undefined;
+  onTryAgain: () => void;
+}
+
+const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onTryAgain }) => (
+  <div className="flex flex-col items-center justify-center h-full text-center p-4">
+    <AlertCircle className="w-12 h-12 text-red-400 mb-4" />
+    <h4 className="text-lg font-medium text-gray-900 mb-2">Unable to load chart</h4>
+    <p className="text-sm text-gray-500 mb-4">{error ?? 'An unexpected error occurred'}</p>
+    <button
+      onClick={onTryAgain}
+      className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200"
+    >
+      Try Again
+    </button>
+  </div>
+);
 
 export default function ChartContainer({
   children,
@@ -37,31 +70,24 @@ export default function ChartContainer({
     }
   };
 
-  const LoadingSkeleton = () => (
-    <div className="animate-pulse space-y-4 w-full h-full">
-      <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-      <div className="space-y-3">
-        <div className="h-3 bg-gray-200 rounded"></div>
-        <div className="h-3 bg-gray-200 rounded w-5/6"></div>
-        <div className="h-3 bg-gray-200 rounded w-4/6"></div>
-        <div className="h-3 bg-gray-200 rounded w-3/6"></div>
+  let content: ReactNode;
+  if (loading) {
+    content = (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <LoadingSkeleton />
       </div>
-    </div>
-  );
-
-  const ErrorDisplay = () => (
-    <div className="flex flex-col items-center justify-center h-full text-center p-4">
-      <AlertCircle className="w-12 h-12 text-red-400 mb-4" />
-      <h4 className="text-lg font-medium text-gray-900 mb-2">Unable to load chart</h4>
-      <p className="text-sm text-gray-500 mb-4">{error || 'An unexpected error occurred'}</p>
-      <button 
-        onClick={() => setHasError(false)}
-        className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200"
-      >
-        Try Again
-      </button>
-    </div>
-  );
+    );
+  } else if (error || hasError) {
+    content = (
+      <ErrorDisplay error={error} onTryAgain={() => setHasError(false)} />
+    );
+  } else {
+    content = (
+      <div className="h-full">
+        {children}
+      </div>
+    );
+  }
 
   return (
     <GlassCard className={`p-4 sm:p-6 relative overflow-hidden ${className}`}>
@@ -103,20 +129,7 @@ export default function ChartContainer({
 
         {/* Content */}
         <div className="relative flex-1">
-          {loading ? (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <LoadingSkeleton />
-            </div>
-          ) : error || hasError ? (
-            <ErrorDisplay />
-          ) : (
-            <div 
-              className="h-full"
-              onError={() => setHasError(true)}
-            >
-              {children}
-            </div>
-          )}
+          {content}
         </div>
       </div>
 

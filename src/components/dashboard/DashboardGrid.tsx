@@ -13,6 +13,8 @@ import ConsumptionBarChart from './ConsumptionBarChart';
 import HealthStatusChart from './HealthStatusChart';
 import VoltageQualityCard from './VoltageQualityCard';
 import TrendCard from './TrendCard';
+import MiniBarKPIs from './MiniBarKPIs';
+import ExcelDataViewer from './ExcelDataViewer';
 import GlassCard from '@/components/ui/GlassCard';
 import ChartContainer from '@/components/ui/ChartContainer';
 
@@ -66,7 +68,7 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
         variants={staggerContainer}
         initial="hidden"
         animate="show"
-        className="max-w-[1920px] mx-auto"
+        className="max-w-[1920px] mx-auto bg-gradient-to-b from-gray-50 to-white p-6 rounded-lg shadow-md"
       >
         {/* Main Grid Container */}
         {/* Controls Bar */}
@@ -76,6 +78,7 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
               {/* Time Period Controls */}
               <div className="flex items-center space-x-2">
                 <button 
+                  aria-label="Select Day Time Period"
                   className={`px-4 py-2 text-sm rounded-lg transition-all duration-200 hover:shadow-md active:scale-95 ${
                     timePeriod === 'day' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50'
                   }`}
@@ -84,6 +87,7 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
                   Day
                 </button>
                 <button 
+                  aria-label="Select Week Time Period"
                   className={`px-4 py-2 text-sm rounded-lg transition-all duration-200 hover:shadow-md active:scale-95 ${
                     timePeriod === 'week' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50'
                   }`}
@@ -92,6 +96,7 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
                   Week
                 </button>
                 <button 
+                  aria-label="Select Month Time Period"
                   className={`px-4 py-2 text-sm rounded-lg transition-all duration-200 hover:shadow-md active:scale-95 ${
                     timePeriod === 'month' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50'
                   }`}
@@ -139,7 +144,7 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
                 <h1 className="text-xl font-semibold text-gray-800">NovaCelik</h1>
               </div>
               <nav className="space-y-2">
-                {[
+                {[ 
                   { name: 'Dashboard', icon: '📊', active: true },
                   { name: 'Analytics', icon: '📈', active: false },
                   { name: 'Reports', icon: '📑', active: false },
@@ -189,37 +194,48 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
                 fluctuation={data.voltageFluctuation}
                 harmonics={data.voltageHarmonics}
               />
-              <TrendCard
-                title="Current Harmonics"
-                value={data.currentHarmonics}
-                trend="up"
-                change={2.5}
+            <TrendCard
+              title="Current Harmonics"
+              value={data.currentHarmonics}
+              trend="up"
+              change={2.5}
+            />
+            <div className="sm:col-span-2 lg:col-span-1">
+              <HealthStatusChart
+                healthy={data.healthy}
+                risky={data.risky}
+                unhealthy={data.unhealthy}
               />
-              <div className="sm:col-span-2 lg:col-span-1">
-                <HealthStatusChart
-                  healthy={data.healthy}
-                  risky={data.risky}
-                  unhealthy={data.unhealthy}
-                />
-              </div>
             </div>
+          </div>
 
-            {/* Main Chart */}
-            <ChartContainer 
-              title="Harmonics Trend" 
-              icon="trend"
-              subtitle="Real-time monitoring of electrical harmonics"
-              loading={isRefreshing}
-            >
-              <div className="h-[300px]">
-                <HarmonicLineChart 
-                  current={data.current} 
-                  previous={data.previous}
-                  timePeriod={timePeriod}
-                  isLoading={isRefreshing}
-                />
-              </div>
-            </ChartContainer>
+          {/* Mini Bar KPIs */}
+          <div className="mb-6">
+            <GlassCard>
+              <MiniBarKPIs
+                healthy={data.healthy}
+                risky={data.risky}
+                unhealthy={data.unhealthy}
+              />
+            </GlassCard>
+          </div>
+
+          {/* Main Chart */}
+          <ChartContainer 
+            title="Harmonics Trend" 
+            icon="trend"
+            subtitle="Real-time monitoring of electrical harmonics"
+            loading={isRefreshing}
+          >
+            <div className="h-[300px]">
+              <HarmonicLineChart 
+                current={data.current} 
+                previous={data.previous}
+                timePeriod={timePeriod}
+                isLoading={isRefreshing}
+              />
+            </div>
+          </ChartContainer>
 
             {/* Bottom Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
@@ -268,6 +284,13 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
                   <DonutChart value={data.voltageHarmonics} />
                 </div>
               </ChartContainer>
+            </div>
+
+            {/* Excel Data Viewer */}
+            <div className="mt-6">
+              <GlassCard>
+                <ExcelDataViewer />
+              </GlassCard>
             </div>
           </div>
         </div>

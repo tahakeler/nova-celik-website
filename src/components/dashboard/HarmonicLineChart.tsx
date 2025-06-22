@@ -1,11 +1,8 @@
 'use client';
 
-import { useState, useEffect, useMemo, ReactElement } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
   Area,
@@ -74,110 +71,21 @@ const HarmonicLineChart = ({
     });
   }, [current, previous, timePeriod, isAnimated]);
 
-
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
-    if (active && payload && payload.length) {
-      return (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          className="bg-white/90 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg border border-gray-100 max-w-[90vw] sm:max-w-none"
-        >
-          <p className="text-xs sm:text-sm font-semibold text-gray-600 mb-2">
-            {timePeriod === 'day' ? 'Hour' : timePeriod === 'week' ? 'Day' : 'Date'}: {label}
-          </p>
-          {payload.map((entry, index) => (
-            <motion.div
-              key={`tooltip-${index}`}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center space-x-2 mb-1"
-            >
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: entry.color }}
-              />
-              <p className="text-xs sm:text-sm text-gray-600">
-                {entry.name === 'current' ? 'Current Period' : 'Previous Period'}:
-                <span className="ml-2 font-semibold text-gray-900">
-                  {(entry.value ?? 0).toLocaleString()}
-                </span>
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-      );
-    }
-    return null;
-  };
-
-const CustomDot = ({
-  cx,
-  cy,
-  payload,
-  dataKey,
-  value,
-  hoveredIndex,
-  isAnimated,
-}: CustomDotProps & { hoveredIndex: number | null; isAnimated: boolean }): ReactElement | null => {
-  const isHovered = hoveredIndex === data.findIndex((d: { label: string }) => d.label === payload.label);
-  const isVisible = value > 0; // Only show dots for non-zero values
-  const fill = dataKey === 'current' ? '#3B82F6' : '#94A3B8';
-  const dotId = `dot-${dataKey}-${payload.id}`;
-
-  if (!isVisible) return null;
-
-  return (
-    <motion.g
-      key={dotId}
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      whileHover={{ scale: 1.2 }}
-      transition={{ duration: 0.3, delay: isAnimated ? 0 : 0.5 }}
-    >
-      <AnimatePresence>
-        {isHovered && (
-          <motion.circle
-            initial={{ r: 0 }}
-            animate={{ r: 6 }}
-            exit={{ r: 0 }}
-            cx={cx}
-            cy={cy}
-            fill="white"
-            stroke={fill}
-            strokeWidth={2}
-            transition={{ duration: 0.2 }}
-          />
-        )}
-      </AnimatePresence>
-      <motion.circle
-        cx={cx}
-        cy={cy}
-        r={isHovered ? 4 : 0}
-        fill={fill}
-        initial={{ scale: 0 }}
-        animate={{ scale: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      />
-      {isHovered && (
-        <motion.text
-          x={cx}
-          y={cy - 15}
-          textAnchor="middle"
-          fill={fill}
-          fontSize="12"
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 5 }}
-        >
-          {value.toLocaleString()}
-        </motion.text>
-      )}
-    </motion.g>
+  // Dot render function for Area
+  const renderDot = (dataKey: 'current' | 'previous') => (props: any) => (
+    <CustomDot
+      {...props}
+      value={props.payload[dataKey]}
+      hoveredIndex={hoveredIndex}
+      isAnimated={isAnimated}
+      data={data}
+    />
   );
-};
+
+  // Tooltip render function for AreaChart
+  const renderTooltip = (tooltipProps: TooltipProps<any, any>) => (
+    <CustomTooltip {...tooltipProps} timePeriod={timePeriod} />
+  );
 
   if (isLoading) {
     return (
@@ -255,28 +163,7 @@ const CustomDot = ({
             </filter>
           </defs>
 
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" vertical={false} />
-
-          <XAxis
-            dataKey="label"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: '#64748B', fontSize: 10 }}
-            dy={10}
-            interval="preserveStartEnd"
-            minTickGap={5}
-          />
-
-          <YAxis
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: '#64748B', fontSize: 10 }}
-            width={35}
-            tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-            tickCount={5}
-          />
-
-          <Tooltip content={CustomTooltip} />
+          <Tooltip content={renderTooltip} />
 
           {/* Previous Period Area */}
           <Area
@@ -285,11 +172,7 @@ const CustomDot = ({
             stroke="#94A3B8"
             strokeWidth={2}
             fill="url(#previousGradient)"
-            dot={(props) => {
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              const { key, ...restProps } = props;
-              return <CustomDot key={`previous-dot-${props.payload.id}`} {...restProps} value={props.payload.previous} />;
-            }}
+            dot={renderDot('previous')}
             activeDot={false}
             isAnimationActive={true}
             animationDuration={1500}
@@ -304,11 +187,7 @@ const CustomDot = ({
             strokeWidth={3}
             fill="url(#currentGradient)"
             filter={hoveredIndex !== null ? 'url(#dotGlow)' : 'url(#lineGlow)'}
-            dot={(props) => {
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              const { key, ...restProps } = props;
-              return <CustomDot key={`current-dot-${props.payload.id}`} {...restProps} value={props.payload.current} />;
-            }}
+            dot={renderDot('current')}
             activeDot={false}
             isAnimationActive={true}
             animationDuration={1500}
@@ -324,17 +203,156 @@ const CustomDot = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
-          <div className="w-3 h-3 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-blue-500/25" />
-          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Current Period</span>
-        </motion.div>
-        <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
-          <div className="w-3 h-3 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-gray-400/25" />
-          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Previous Period</span>
-        </motion.div>
+        <>
+          <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
+            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-blue-500/25" />
+            <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Current Period</span>
+          </motion.div>
+          <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
+            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-gray-400/25" />
+            <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Previous Period</span>
+          </motion.div>
+        </>
       </motion.div>
     </div>
   );
 };
 
 export default HarmonicLineChart;
+// CustomTooltip moved outside HarmonicLineChart
+interface CustomTooltipProps extends TooltipProps<any, any> {
+  timePeriod: 'day' | 'week' | 'month';
+}
+
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label, timePeriod }) => {
+  if (active && payload && payload.length) {
+    let periodLabel = '';
+    if (timePeriod === 'day') {
+      periodLabel = 'Hour';
+    } else if (timePeriod === 'week') {
+      periodLabel = 'Day';
+    } else {
+      periodLabel = 'Date';
+    }
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 10 }}
+        className="bg-white/90 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg border border-gray-100 max-w-[90vw] sm:max-w-none"
+      >
+        <p className="text-xs sm:text-sm font-semibold text-gray-600 mb-2">
+          {periodLabel}: {label}
+        </p>
+        {payload.map((entry) => (
+          <motion.div
+            key={`tooltip-${entry.dataKey}-${entry.payload?.id ?? ''}`}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="flex items-center space-x-2 mb-1"
+          >
+            <div
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: entry.color }}
+            />
+            <p className="text-xs sm:text-sm text-gray-600">
+              {entry.name === 'current' ? 'Current Period' : 'Previous Period'}:
+              <span className="ml-2 font-semibold text-gray-900">
+                {(entry.value ?? 0).toLocaleString()}
+              </span>
+            </p>
+          </motion.div>
+        ))}
+      </motion.div>
+    );
+  }
+  return null;
+};
+
+// CustomDot moved outside HarmonicLineChart
+interface CustomDotProps {
+  cx: number;
+  cy: number;
+  payload: {
+    label: string;
+    id: string;
+    current: number;
+    previous: number;
+  };
+  dataKey: string;
+  value: number;
+}
+
+interface CustomDotFullProps extends CustomDotProps {
+  hoveredIndex: number | null;
+  isAnimated: boolean;
+  data: { label: string; id: string }[];
+}
+
+const CustomDot: React.FC<CustomDotFullProps> = ({
+  cx,
+  cy,
+  payload,
+  dataKey,
+  value,
+  hoveredIndex,
+  isAnimated,
+  data,
+}) => {
+  const isHovered = hoveredIndex === data.findIndex((d) => d.label === payload.label);
+  const isVisible = value > 0; // Only show dots for non-zero values
+  const fill = dataKey === 'current' ? '#3B82F6' : '#94A3B8';
+  const dotId = `dot-${dataKey}-${payload.id}`;
+
+  if (!isVisible) return null;
+
+  return (
+    <motion.g
+      key={dotId}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      whileHover={{ scale: 1.2 }}
+      transition={{ duration: 0.3, delay: isAnimated ? 0 : 0.5 }}
+    >
+      <AnimatePresence>
+        {isHovered && (
+          <motion.circle
+            initial={{ r: 0 }}
+            animate={{ r: 6 }}
+            exit={{ r: 0 }}
+            cx={cx}
+            cy={cy}
+            fill="white"
+            stroke={fill}
+            strokeWidth={2}
+            transition={{ duration: 0.2 }}
+          />
+        )}
+      </AnimatePresence>
+      <motion.circle
+        cx={cx}
+        cy={cy}
+        r={isHovered ? 4 : 0}
+        fill={fill}
+        initial={{ scale: 0 }}
+        animate={{ scale: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+      />
+      {isHovered && (
+        <motion.text
+          x={cx}
+          y={cy - 15}
+          textAnchor="middle"
+          fill={fill}
+          fontSize="12"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 5 }}
+        >
+          {value.toLocaleString()}
+        </motion.text>
+      )}
+    </motion.g>
+  );
+};

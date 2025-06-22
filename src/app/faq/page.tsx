@@ -1,11 +1,9 @@
-import FaqSection, { FaqCategory } from '@/components/sections/FaqSection';
-import PageHero from '@/components/ui/PageHero';
-import BackToTopButton from '@/components/ui/BackToTopButton';
+'use client';
 
-export const metadata = {
-  title: 'FAQ | NovaCelik',
-  description: "Frequently asked questions about NovaCelik's services, platform, and support.",
-};
+import { motion } from 'framer-motion';
+import FaqSection, { FaqCategory } from '@/components/sections/FaqSection';
+import Image from 'next/image';
+import BackToTopButton from '@/components/ui/BackToTopButton';
 
 const FAQ_DATA: FaqCategory[] = [
   {
@@ -49,14 +47,52 @@ const FAQ_DATA: FaqCategory[] = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1 },
+  },
+};
+
 export default function FaqPage() {
   return (
-    <main className="flex flex-col bg-white text-gray-900">
-      <PageHero
-        image="/images/hero-image.jpg"
-        title="Frequently Asked Questions"
-        subtitle="Find quick answers to common questions about our services"
-      />
+    <main className="min-h-screen bg-white text-gray-900">
+      {/* Hero Section */}
+      <section
+        className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white py-24 px-6 sm:px-12 lg:px-24 shadow-xl"
+        aria-label="Hero section"
+      >
+        <Image
+          src="/svgs/hero-image.svg"
+          alt="Hero Background"
+          fill
+          className="object-cover absolute inset-0 -z-10 opacity-30 blur-md"
+          priority
+        />
+        <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10 px-6 sm:px-12 lg:px-24">
+          <motion.div
+            className="lg:w-1/2 text-center lg:text-left"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.h1
+              className="text-5xl sm:text-7xl font-extrabold max-w-4xl leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+              variants={containerVariants}
+            >
+              Frequently Asked Questions
+            </motion.h1>
+            <motion.p
+              className="mt-10 text-2xl sm:text-3xl max-w-3xl text-white"
+              variants={containerVariants}
+            >
+              Find quick answers to common questions about our services
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
       <FaqSection data={FAQ_DATA} />
       <BackToTopButton />
     </main>

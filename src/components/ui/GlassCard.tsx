@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
 interface GlassCardProps {
-  children: ReactNode;
-  className?: string;
-  animate?: boolean;
+  readonly children: ReactNode;
+  readonly className?: string;
+  readonly animate?: boolean;
 }
 
 export default function GlassCard({ children, className = '', animate = true }: GlassCardProps) {

@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contact', href: '/contact' }
 ];
 
 export default function Navbar() {
@@ -27,7 +27,9 @@ export default function Navbar() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMobileMenuOpen(false);
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+      }
     };
     if (mobileMenuOpen) {
       window.addEventListener('keydown', onKeyDown);
@@ -69,12 +71,12 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-12 text-white font-semibold text-base">
+        <nav className="hidden lg:flex items-center gap-20 text-white font-semibold text-base relative">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="transition-all duration-200 hover:text-[#42b431]"
+              className="flex items-center gap-1 transition-all duration-200 hover:text-[#42b431]"
             >
               {item.label}
             </Link>
@@ -86,7 +88,7 @@ export default function Navbar() {
           <Link
             href="https://www.linkedin.com/company/novacelik"
             target="_blank"
-            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2"
           >
             <Image
               src="/svgs/linkedin-white.svg"
@@ -98,11 +100,12 @@ export default function Navbar() {
             />
           </Link>
           <Link href="/request-demo">
-            <button className="bg-[#42b431] hover:bg-[#25691b] text-white font-semibold rounded-xl text-base px-5 py-2.5">
-              Request Demo
-            </button>
+          <button className="hidden lg:inline-block bg-[#42b431] text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 hover:bg-[#36a12c]">
+            Request Demo
+          </button>
           </Link>
         </div>
+        
 
         {/* Mobile Hamburger */}
         <button
@@ -117,30 +120,42 @@ export default function Navbar() {
 
         {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
-          <div
-            className="fixed inset-0 bg-black/60 z-[9999] flex"
-            onClick={(e) =>
-              e.target === e.currentTarget && setMobileMenuOpen(false)
-            }
+          <dialog
+            open
+            aria-modal="true"
+            tabIndex={-1}
+            className="fixed inset-0 bg-black/60 z-[9999] flex p-0 m-0 border-0"
+            style={{ padding: 0, margin: 0, border: 0, maxWidth: 'none', maxHeight: 'none' }}
+            onClose={() => setMobileMenuOpen(false)}
           >
-            <nav className="w-72 bg-white h-full p-6 flex flex-col gap-6 relative animate-slide-in">
+            <nav className="w-72 bg-white h-full p-6 flex flex-col gap-6 relative animate-slide-in overflow-y-auto">
               <button
-                className="absolute top-5 right-5"
+                className="absolute top-4 right-4 text-gray-800"
                 onClick={() => setMobileMenuOpen(false)}
-                aria-label="Close menu"
+                aria-label="Close navigation menu"
+                type="button"
               >
-                <X size={32} className="text-gray-700" />
+                <X size={28} />
               </button>
-              {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="block text-gray-800 text-lg font-semibold py-2 rounded hover:bg-blue-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              <div
+                className="fixed inset-0"
+                tabIndex={-1}
+                aria-hidden="true"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{ zIndex: 0, background: 'transparent', position: 'fixed', inset: 0 }}
+              />
+              <div className="flex flex-col gap-2 mt-8" style={{ position: 'relative', zIndex: 1 }}>
+                {NAV_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-gray-800 text-lg font-semibold py-2 rounded hover:bg-blue-50 flex items-center justify-between"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
               <Link href="/request-demo">
                 <button className="mt-8 w-full bg-[#42b431] text-white font-semibold py-2 rounded-lg">
                   Request Demo
@@ -162,15 +177,10 @@ export default function Navbar() {
                 <span className="text-gray-800">LinkedIn</span>
               </Link>
             </nav>
-            <button
-              className="flex-1"
-              onClick={() => setMobileMenuOpen(false)}
-              onKeyDown={(e) => e.key === 'Enter' && setMobileMenuOpen(false)}
-              aria-label="Close mobile menu overlay"
-            />
-          </div>
+          </dialog>
         )}
       </div>
+      {/* End of max-width container */}
     </header>
   );
 }

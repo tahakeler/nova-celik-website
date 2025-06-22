@@ -1,5 +1,18 @@
 'use client';
 
+interface DonutChartProps {
+  value: number;
+  max?: number;
+  label?: string;
+  unit?: string;
+}
+
+interface TooltipProps {
+  active?: boolean;
+  payload?: any[];
+  unit: string;
+}
+
 import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Sector } from 'recharts';
 import LiquidContainer from './LiquidContainer';
@@ -17,7 +30,7 @@ interface TooltipProps {
   unit: string;
 }
 
-const CustomTooltip = ({ active, payload, unit }: TooltipProps) => {
+function CustomTooltip({ active, payload, unit }: Readonly<TooltipProps>) {
   if (active && payload?.length) {
     const data = payload[0].payload;
     return (
@@ -32,7 +45,7 @@ const CustomTooltip = ({ active, payload, unit }: TooltipProps) => {
     );
   }
   return null;
-};
+}
 
 export default function DonutChart({
   value,
@@ -184,7 +197,7 @@ export default function DonutChart({
                 filter={activeIndex === 0 ? "url(#glow)" : undefined}
               />
             </Pie>
-            <Tooltip content={(props) => <CustomTooltip {...props} unit={unit} />} />
+            <Tooltip content={<CustomTooltip unit={unit} />} />
           </PieChart>
         </ResponsiveContainer>
 

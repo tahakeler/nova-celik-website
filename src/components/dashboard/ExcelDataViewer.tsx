@@ -1,35 +1,38 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { readExcelFile } from '@/utils/excelReader';
+import { useState } from 'react';
+import * as XLSX from 'xlsx';
 
 export default function ExcelDataViewer() {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadData = async () => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const arrayBuffer = evt.target?.result;
       try {
-        const excelData = await readExcelFile('public/excel/sample.xlsx');
-        setData(excelData);
-        
-        // Log the structure to help determine appropriate visualizations
-        console.log('Excel data structure:', {
-          sheets: Object.keys(excelData),
-          sampleData: Object.entries(excelData).map(([sheet, data]) => ({
-            sheet,
-            columns: data[0] ? Object.keys(data[0]) : [],
-            rowCount: Array.isArray(data) ? data.length : 0
-          }))
-        });
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const sheetNames = workbook.SheetNames;
+        const sheets = sheetNames.reduce<Record<string, any[]>>((acc, sheetName) => {
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet);
+          return { ...acc, [sheetName]: jsonData };
+        }, {});
+
+        setData(sheets);
+        setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error loading Excel file');
-        console.error('Error loading Excel file:', err);
+        console.error('Error reading Excel file:', err);
+        setError('Error reading Excel file');
+        setData(null);
       }
     };
-
-    loadData();
-  }, []);
+    reader.readAsArrayBuffer(file);
+  };
 
   if (error) {
     return (
@@ -42,7 +45,17 @@ export default function ExcelDataViewer() {
   if (!data) {
     return (
       <div className="p-4">
-        Loading data...
+        <label htmlFor="excel-upload" className="block mb-2 text-sm font-medium text-gray-700">
+          Upload Excel file
+        </label>
+        <input
+          id="excel-upload"
+          type="file"
+          accept=".xlsx,.xls"
+          onChange={handleFileUpload}
+          title="Select an Excel file to upload"
+        />
+        <div className="mt-4 text-gray-600">Please upload an Excel file.</div>
       </div>
     );
   }
@@ -67,18 +80,25 @@ export default function ExcelDataViewer() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {sheetData.map((row: any, index: number) => (
-                  <tr key={index}>
-                    {Object.values(row).map((value: any, cellIndex: number) => (
-                      <td
-                        key={cellIndex}
-                        className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                      >
-                        {value?.toString()}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                {sheetData.map((row: any, rowIndex: number) => {
+                  // Try to use a unique key from the row, fallback to a composite key
+                  const rowKey =
+                    row.id ??
+                    row.ID ??
+                    Object.values(row).join('-') + '-' + rowIndex;
+                  return (
+                    <tr key={rowKey}>
+                      {Object.values(row).map((value: any, cellIndex: number) => (
+                        <td
+                          key={Object.keys(row)[cellIndex] ?? cellIndex}
+                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                        >
+                          {value?.toString() ?? ''}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

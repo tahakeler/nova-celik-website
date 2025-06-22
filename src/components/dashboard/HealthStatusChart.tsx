@@ -34,8 +34,8 @@ export default function HealthStatusChart({ healthy, risky, unhealthy }: Readonl
                 paddingAngle={2}
                 dataKey="value"
               >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                {data.map((entry) => (
+                  <Cell key={entry.name} fill={entry.color} />
                 ))}
               </Pie>
               <Tooltip

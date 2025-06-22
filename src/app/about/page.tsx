@@ -2,156 +2,173 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Leaf, Eye, Users, ShieldCheck } from 'lucide-react';
+import { Star, Lightbulb, Users, Globe } from 'lucide-react';
 import { popIn, scrollFade } from '@/utils/animations';
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.15,
+      duration: 0.7,
+      ease: 'easeOut',
+    },
+  },
+};
 
 const TEAM = [
   {
-    name: 'Iona Moore',
-    role: 'Chief Executive Officer',
-    bio: 'Visionary leader guiding our mission toward sustainable innovation.',
+    name: 'Alice Johnson',
+    role: 'Founder & CEO',
+    bio: 'Passionate about driving sustainable energy solutions worldwide.',
     image: '/svgs/logo.svg',
   },
   {
-    name: 'John Doe',
-    role: 'Chief Technology Officer',
-    bio: 'Architect of our analytics and IoT infrastructure.',
+    name: 'Michael Lee',
+    role: 'Head of Innovation',
+    bio: 'Leading the charge in cutting-edge energy analytics and IoT.',
     image: '/svgs/logo.svg',
   },
   {
-    name: 'Georgie Harper',
-    role: 'Chief Sustainability Officer',
-    bio: 'Driving eco-friendly practices and impactful results.',
+    name: 'Sophia Martinez',
+    role: 'Sustainability Director',
+    bio: 'Committed to creating eco-friendly industrial transformations.',
     image: '/svgs/logo.svg',
   },
 ];
 
 export default function AboutPage() {
   return (
-    <main className="flex flex-col bg-white text-gray-900">
-      {/* Hero */}
-      <section className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
+    <main className="flex flex-col bg-gradient-to-b from-primary-50 to-white text-gray-900 min-h-screen">
+      {/* Hero Section */}
+      <section
+        className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white py-24 px-6 sm:px-12 lg:px-24 shadow-xl"
+        aria-label="Hero section"
+      >
         <Image
-          src="/images/hero-image.jpg"
-          alt="About NovaCelik"
+          src="/svgs/hero-image.svg"
+          alt="Hero Background"
           fill
+          className="object-cover absolute inset-0 -z-10 opacity-30 blur-md"
           priority
-          sizes="100vw"
-          className="object-cover"
         />
-        <div className="absolute inset-0 bg-blue-900/70" />
-        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center">
-          <motion.h1
-            variants={popIn}
+        <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10 px-6 sm:px-12 lg:px-24">
+          <motion.div
+            className="lg:w-1/2 text-center lg:text-left"
+            variants={containerVariants}
             initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl"
+            animate="visible"
           >
-            About <span className="text-[#42b431]">NovaCelik</span>
-          </motion.h1>
-          <motion.p
-            variants={popIn}
-            initial="hidden"
-            whileInView="show"
-            transition={{ delay: 0.1 }}
-            viewport={{ once: true }}
-            className="mt-4 max-w-2xl text-base text-gray-200 sm:text-lg"
-          >
-            We drive energy efficiency with data-driven solutions for a more
-            sustainable future.
-          </motion.p>
+            <motion.h1
+              className="text-5xl sm:text-7xl font-extrabold max-w-4xl leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+              variants={containerVariants}
+            >
+              Discover NovaCelik
+            </motion.h1>
+            <motion.p
+              className="mt-10 text-2xl sm:text-3xl max-w-3xl text-white"
+              variants={containerVariants}
+            >
+              Pioneering sustainable energy innovation with passion and precision.
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
+      {/* Vision & Mission */}
+      <section className="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-16 bg-white rounded-lg shadow-lg">
+        <motion.div
+          variants={scrollFade}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          className="space-y-8"
+        >
+          <h2 className="text-4xl font-extrabold text-brand-blue mb-6">Our Vision</h2>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            To be the global leader in energy efficiency, transforming industries through innovative technology and sustainable practices.
+          </p>
+          <h2 className="text-4xl font-extrabold text-brand-blue mt-12 mb-6">Our Mission</h2>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            Empowering businesses to optimize energy use, reduce costs, and achieve environmental goals with data-driven solutions.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={scrollFade}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          className="space-y-8"
+        >
+          <h2 className="text-4xl font-extrabold text-brand-blue mb-6">Core Values</h2>
+          <ul className="list-disc list-inside text-gray-700 space-y-4 text-lg">
+            <li className="flex items-center gap-3">
+              <Star className="text-brand-blue" size={24} />
+              Excellence in Innovation
+            </li>
+            <li className="flex items-center gap-3">
+              <Lightbulb className="text-brand-blue" size={24} />
+              Commitment to Sustainability
+            </li>
+            <li className="flex items-center gap-3">
+              <Users className="text-brand-blue" size={24} />
+              Collaborative Spirit
+            </li>
+            <li className="flex items-center gap-3">
+              <Globe className="text-brand-blue" size={24} />
+              Global Impact
+            </li>
+          </ul>
+        </motion.div>
+      </section>
+
+      {/* Milestones */}
+      <section className="bg-brand-blue/10 py-20">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-brand-blue mb-8 text-center">Milestones & Achievements</h2>
+          <ul className="space-y-6 text-brand-blue text-lg max-w-3xl mx-auto list-inside list-decimal">
+            <li>2021 - Founded with a vision to revolutionize energy efficiency</li>
+            <li>2023 - Launched proprietary AI-powered analytics platform</li>
+            <li>2024 - Expanded operations to 10+ countries worldwide</li>
+            <li>2025 - Recognized as industry leader in sustainable energy solutions</li>
+          </ul>
         </div>
       </section>
 
-      {/* Mission and Values */}
-      <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-2">
-        <motion.div
-          variants={scrollFade}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <h2 className="mb-4 text-3xl font-bold text-blue-800">Our Mission</h2>
-          <p className="mb-8 text-base text-gray-700 sm:text-lg">
-            Empower organizations to achieve optimal energy performance through
-            innovation and engineering excellence.
-          </p>
-          <h3 className="mb-3 mt-8 text-2xl font-semibold">Core Values</h3>
-          <ul className="space-y-2 pl-5 text-gray-600">
-            <li className="flex items-start gap-2">
-              <Leaf className="mt-1 h-5 w-5 text-[#42b431]" /> Sustainability
-            </li>
-            <li className="flex items-start gap-2">
-              <Eye className="mt-1 h-5 w-5 text-[#42b431]" /> Innovation
-            </li>
-            <li className="flex items-start gap-2">
-              <ShieldCheck className="mt-1 h-5 w-5 text-[#42b431]" /> Integrity
-            </li>
-            <li className="flex items-start gap-2">
-              <Users className="mt-1 h-5 w-5 text-[#42b431]" /> Collaboration
-            </li>
-          </ul>
-        </motion.div>
-
-        <motion.div
-          variants={scrollFade}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          className="space-y-4"
-        >
-          <h2 className="mb-4 text-3xl font-bold text-blue-800">
-            Key Milestones
-          </h2>
-          <ul className="space-y-2 pl-5 text-gray-600">
-            <li>2022 – NovaCelik founded and first AI dashboard deployed</li>
-            <li>2023 – Expanded into new markets and sectors</li>
-            <li>2024 – Achieved industry certification in energy management</li>
-            <li>2025 – Launched cloud-native analytics platform</li>
-          </ul>
-        </motion.div>
-      </section>
-
-      {/* Team Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="mx-auto max-w-5xl px-4">
-          <h2 className="mb-12 text-center text-4xl font-bold text-blue-800">
-            Meet the Team
-          </h2>
-          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-            {TEAM.map((member, i) => (
-              <motion.div
-                key={member.name}
-                variants={popIn}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex flex-col items-center rounded-2xl bg-white p-8 shadow-md transition hover:shadow-lg"
-              >
-                <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gray-200">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    width={80}
-                    height={80}
-                    loading="lazy"
-                    className="object-contain"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold">{member.name}</h3>
-                <p className="mt-1 mb-2 font-medium text-blue-700">
-                  {member.role}
-                </p>
-                <p className="text-center text-sm text-gray-500">
-                  {member.bio}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+      {/* Team */}
+      <section className="py-20 px-6 max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-brand-blue mb-12 text-center">Meet Our Leadership</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {TEAM.map((member, i) => (
+            <motion.div
+              key={member.name}
+              variants={popIn}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white rounded-3xl p-8 shadow-lg flex flex-col items-center text-center"
+            >
+              <div className="mb-6 w-28 h-28 rounded-full bg-brand-blue/20 flex items-center justify-center overflow-hidden">
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  width={112}
+                  height={112}
+                  className="object-contain"
+                  loading="lazy"
+                />
+              </div>
+              <h3 className="text-2xl font-semibold text-brand-blue">{member.name}</h3>
+              <p className="text-brand-blue font-medium mb-2">{member.role}</p>
+              <p className="text-gray-600 text-sm">{member.bio}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
     </main>
   );
 }
+

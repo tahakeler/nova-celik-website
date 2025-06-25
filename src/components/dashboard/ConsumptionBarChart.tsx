@@ -18,6 +18,7 @@ import {
 interface ConsumptionBarChartProps {
   current: number[];
   previous: number[];
+  chartId?: string;
 }
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
@@ -94,7 +95,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>)
   return null;
 };
 
-export default function ConsumptionBarChart({ current, previous }: Readonly<ConsumptionBarChartProps>) {
+export default function ConsumptionBarChart({ current, previous, chartId = 'consumption', isLoading = false }: Readonly<ConsumptionBarChartProps> & { isLoading?: boolean }) {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   const [isAnimated, setIsAnimated] = useState(false);
 
@@ -127,6 +128,21 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
     );
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="animate-pulse space-y-4 w-full max-w-md mx-auto">
+          <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+          <div className="space-y-3">
+            <div className="h-3 bg-gray-200 rounded"></div>
+            <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+            <div className="h-3 bg-gray-200 rounded w-4/6"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -141,7 +157,7 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
           onMouseLeave={() => setHoveredBar(null)}
         >
           <defs>
-            <filter id="consumptionGlow">
+            <filter id={`consumptionGlow-${chartId}`}>
               <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
               <feColorMatrix
                 type="matrix"
@@ -153,11 +169,11 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
               />
               <feBlend in="SourceGraphic" in2="glowAlpha" mode="screen"/>
             </filter>
-            <filter id="barShadow">
+            <filter id={`barShadow-${chartId}`}>
               <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2"/>
             </filter>
             {data.map((item, index) => (
-              <React.Fragment key={item.month}>
+              <React.Fragment key={`consumption-gradient-${item.month}-${index}`}>
                 {getBarGradient(index, 'current')}
                 {getBarGradient(index, 'previous')}
               </React.Fragment>
@@ -217,10 +233,10 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
             animationDuration={1500}
             animationBegin={300}
           >
-            {data.map((item) => (
+            {data.map((item, index) => (
               <Cell 
-                key={`previous-${item.month}`}
-                fill={`url(#gradient-previous-${item.month})`}
+                key={`consumption-previous-${item.month}-${index}`}
+                fill={`url(#gradient-previous-${index})`}
               />
             ))}
           </Bar>
@@ -230,15 +246,21 @@ export default function ConsumptionBarChart({ current, previous }: Readonly<Cons
             stackId="consumption"
             radius={[4, 4, 0, 0]}
             maxBarSize={32}
-            filter={hoveredBar !== null ? "url(#consumptionGlow)" : undefined}
+            filter={hoveredBar !== null ? `url(#consumptionGlow-${chartId})` : undefined}
             isAnimationActive={true}
             animationDuration={1500}
             animationBegin={0}
+            onMouseOver={(e) => {
+              // Additional hover effect logic can be added here if needed
+            }}
+            onMouseOut={(e) => {
+              // Reset hover effect logic if needed
+            }}
           >
-            {data.map((item) => (
+            {data.map((item, index) => (
               <Cell 
-                key={`current-${item.month}`}
-                fill={`url(#gradient-current-${item.month})`}
+                key={`consumption-current-${item.month}-${index}`}
+                fill={`url(#gradient-current-${index})`}
               />
             ))}
           </Bar>

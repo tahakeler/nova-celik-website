@@ -18,10 +18,10 @@ export default function TrendCard({ title, value, trend, change, unit = '' }: Re
       <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-sm z-0" />
       <div className="relative z-10">
         <h3 className="text-sm font-medium text-gray-500 mb-2">{title}</h3>
-        <p className="text-lg font-semibold text-gray-700">
+        <p className="text-lg font-semibold text-gray-700" title={`Current value: ${value.toFixed(2)}${unit}`}>
           {value.toFixed(2)}{unit}
         </p>
-        <p className={`text-sm font-medium ${color}`}>
+        <p className={`text-sm font-medium ${color}`} title={`Change percentage: ${change.toFixed(2)}%`}>
           {arrow} {change.toFixed(2)}%
         </p>
       </div>

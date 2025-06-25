@@ -1,33 +1,30 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import {
   Tooltip,
   ResponsiveContainer,
   Area,
   AreaChart,
-  TooltipProps,
+  Brush,
 } from 'recharts';
+import { Download, TrendingUp, Clock } from 'lucide-react';
+import { CustomDot, CustomTooltip } from './chart-components/HarmonicChartComponents';
 
 interface HarmonicLineChartProps {
   current: number[];
   previous: number[];
   timePeriod?: 'day' | 'week' | 'month';
   isLoading?: boolean;
+  chartId?: string;
 }
 
-interface CustomDotProps {
-  cx: number;
-  cy: number;
-  payload: {
-    label: string;
-    id: string;
-    current: number;
-    previous: number;
-  };
-  dataKey: string;
-  value: number;
+interface ChartDataPoint {
+  id: string;
+  label: string;
+  current: number;
+  previous: number;
 }
 
 const HarmonicLineChart = ({
@@ -35,25 +32,36 @@ const HarmonicLineChart = ({
   previous,
   timePeriod = 'day',
   isLoading = false,
+  chartId = 'harmonic'
 }: HarmonicLineChartProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
-    // Trigger animation after mount or time period change
-    setIsAnimated(false);
-    const timer = setTimeout(() => setIsAnimated(true), 300);
+    const timer = setTimeout(() => setIsAnimated(true), 100);
     return () => clearTimeout(timer);
+  }, []);
+
+  const getPeriodIcon = useCallback(() => {
+    switch (timePeriod) {
+      case 'day':
+        return <Clock className="w-4 h-4 text-blue-600" />;
+      case 'week':
+        return <Clock className="w-4 h-4 text-blue-600" />;
+      case 'month':
+        return <Clock className="w-4 h-4 text-blue-600" />;
+      default:
+        return null;
+    }
   }, [timePeriod]);
 
-  const data = useMemo(() => {
-    let dataPoints = 24; // Default for day view (hourly)
+  const data = useMemo<ChartDataPoint[]>(() => {
+    let dataPoints = 24;
     if (timePeriod === 'week') dataPoints = 7;
     if (timePeriod === 'month') dataPoints = 30;
 
-    return current.slice(0, dataPoints).map((val, i) => {
+    return current.slice(0, dataPoints).map((val: number, i: number) => {
       let label = '';
-
       if (timePeriod === 'day') {
         label = `${i}:00`;
       } else if (timePeriod === 'week') {
@@ -63,7 +71,7 @@ const HarmonicLineChart = ({
       }
 
       return {
-        id: `data-${i}`,
+        id: `${timePeriod}-${i}`,
         label,
         current: isAnimated ? val : 0,
         previous: isAnimated ? (previous[i] ?? 0) : 0,
@@ -71,26 +79,25 @@ const HarmonicLineChart = ({
     });
   }, [current, previous, timePeriod, isAnimated]);
 
-  // Dot render function for Area
-  const renderDot = (dataKey: 'current' | 'previous') => (props: any) => (
-    <CustomDot
-      {...props}
-      value={props.payload[dataKey]}
-      hoveredIndex={hoveredIndex}
-      isAnimated={isAnimated}
-      data={data}
-    />
-  );
-
-  // Tooltip render function for AreaChart
-  const renderTooltip = (tooltipProps: TooltipProps<any, any>) => (
-    <CustomTooltip {...tooltipProps} timePeriod={timePeriod} />
-  );
+  const handleExportCSV = useCallback(() => {
+    const header = ['Label', 'Current', 'Previous'];
+    const rows = data.map((d: ChartDataPoint) => [d.label, d.current, d.previous]);
+    const csvContent = [header, ...rows].map((e: (string | number)[]) => e.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `harmonic-line-chart-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, [data]);
 
   if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <div className="animate-pulse space-y-4 w-full">
+        <div className="animate-pulse space-y-4 w-full max-w-md mx-auto">
           <div className="h-4 bg-gray-200 rounded w-1/4"></div>
           <div className="space-y-3">
             <div className="h-3 bg-gray-200 rounded"></div>
@@ -103,19 +110,28 @@ const HarmonicLineChart = ({
   }
 
   return (
-    <div className="w-full h-full relative group">
-      {/* Chart Legend */}
+    <div className="w-full h-full relative group" id="harmonic-line-chart-container">
       <div className="absolute top-0 right-0 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+            <TrendingUp className="w-4 h-4 text-blue-500" />
             <span className="text-sm text-gray-600">Current</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+            <TrendingUp className="w-4 h-4 text-gray-400" />
             <span className="text-sm text-gray-600">Previous</span>
           </div>
         </div>
+      </div>
+      <div className="absolute top-2 left-2 z-10 flex space-x-2">
+        <button
+          onClick={handleExportCSV}
+          className="bg-green-600 text-white px-3 py-1 rounded-md text-xs hover:bg-green-700 transition flex items-center space-x-1"
+          aria-label="Export chart data as CSV"
+        >
+          <Download className="w-3 h-3" />
+          <span>CSV</span>
+        </button>
       </div>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
@@ -127,232 +143,83 @@ const HarmonicLineChart = ({
             }
           }}
           onMouseLeave={() => setHoveredIndex(null)}
+          syncId="harmonicLineChart"
         >
           <defs>
-            <linearGradient id="currentGradient" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={`currentGradient-${chartId}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.4} />
               <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
             </linearGradient>
-            <linearGradient id="previousGradient" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={`previousGradient-${chartId}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#94A3B8" stopOpacity={0.2} />
               <stop offset="95%" stopColor="#94A3B8" stopOpacity={0} />
             </linearGradient>
-            <filter id="lineGlow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-              <feColorMatrix
-                type="matrix"
-                values="1 0 0 0 0
-                        0 1 0 0 0
-                        0 0 1 0 0
-                        0 0 0 15 -7"
-                result="glowAlpha"
-              />
-              <feBlend in="SourceGraphic" in2="glowAlpha" mode="screen" />
-            </filter>
-            <filter id="dotGlow">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-              <feColorMatrix
-                type="matrix"
-                values="1 0 0 0 0
-                        0 1 0 0 0
-                        0 0 1 0 0
-                        0 0 0 10 -5"
-                result="glowAlpha"
-              />
-              <feBlend in="SourceGraphic" in2="glowAlpha" mode="screen" />
-            </filter>
           </defs>
 
-          <Tooltip content={renderTooltip} />
+          <Tooltip content={(props) => <CustomTooltip {...props} timePeriod={timePeriod} />} />
 
-          {/* Previous Period Area */}
           <Area
             type="monotone"
             dataKey="previous"
             stroke="#94A3B8"
             strokeWidth={2}
-            fill="url(#previousGradient)"
-            dot={renderDot('previous')}
+            fill={`url(#previousGradient-${chartId})`}
+            dot={(props) => <CustomDot {...props} isHovered={hoveredIndex === data.findIndex((d) => d.label === props.payload?.label)} isAnimated={isAnimated} />}
             activeDot={false}
             isAnimationActive={true}
             animationDuration={1500}
             animationBegin={300}
           />
 
-          {/* Current Period Area */}
           <Area
             type="monotone"
             dataKey="current"
             stroke="#3B82F6"
             strokeWidth={3}
-            fill="url(#currentGradient)"
-            filter={hoveredIndex !== null ? 'url(#dotGlow)' : 'url(#lineGlow)'}
-            dot={renderDot('current')}
+            fill={`url(#currentGradient-${chartId})`}
+            dot={(props) => <CustomDot {...props} isHovered={hoveredIndex === data.findIndex((d) => d.label === props.payload?.label)} isAnimated={isAnimated} />}
             activeDot={false}
             isAnimationActive={true}
             animationDuration={1500}
             animationBegin={0}
           />
+
+          <Brush
+            dataKey="label"
+            height={30}
+            stroke="#3B82F6"
+            travellerWidth={10}
+            startIndex={0}
+            endIndex={Math.min(10, data.length - 1)}
+          />
         </AreaChart>
       </ResponsiveContainer>
 
-      {/* Legend */}
       <motion.div
         className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-6 px-3 sm:px-4 py-2 sm:py-3 bg-white/80 rounded-xl backdrop-blur-sm shadow-lg border border-gray-100/50"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <>
+        <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
+          <TrendingUp className="w-4 h-4 text-blue-500" />
+          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Current Period</span>
+        </motion.div>
+        <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
+          <TrendingUp className="w-4 h-4 text-gray-400" />
+          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Previous Period</span>
+        </motion.div>
+        {getPeriodIcon() && (
           <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
-            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-blue-500/25" />
-            <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Current Period</span>
+            {getPeriodIcon()}
+            <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">
+              {timePeriod.charAt(0).toUpperCase() + timePeriod.slice(1)}
+            </span>
           </motion.div>
-          <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
-            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-gray-400/25" />
-            <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Previous Period</span>
-          </motion.div>
-        </>
+        )}
       </motion.div>
     </div>
   );
 };
 
 export default HarmonicLineChart;
-// CustomTooltip moved outside HarmonicLineChart
-interface CustomTooltipProps extends TooltipProps<any, any> {
-  timePeriod: 'day' | 'week' | 'month';
-}
-
-const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label, timePeriod }) => {
-  if (active && payload && payload.length) {
-    let periodLabel = '';
-    if (timePeriod === 'day') {
-      periodLabel = 'Hour';
-    } else if (timePeriod === 'week') {
-      periodLabel = 'Day';
-    } else {
-      periodLabel = 'Date';
-    }
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
-        className="bg-white/90 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-lg border border-gray-100 max-w-[90vw] sm:max-w-none"
-      >
-        <p className="text-xs sm:text-sm font-semibold text-gray-600 mb-2">
-          {periodLabel}: {label}
-        </p>
-        {payload.map((entry) => (
-          <motion.div
-            key={`tooltip-${entry.dataKey}-${entry.payload?.id ?? ''}`}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-            className="flex items-center space-x-2 mb-1"
-          >
-            <div
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: entry.color }}
-            />
-            <p className="text-xs sm:text-sm text-gray-600">
-              {entry.name === 'current' ? 'Current Period' : 'Previous Period'}:
-              <span className="ml-2 font-semibold text-gray-900">
-                {(entry.value ?? 0).toLocaleString()}
-              </span>
-            </p>
-          </motion.div>
-        ))}
-      </motion.div>
-    );
-  }
-  return null;
-};
-
-// CustomDot moved outside HarmonicLineChart
-interface CustomDotProps {
-  cx: number;
-  cy: number;
-  payload: {
-    label: string;
-    id: string;
-    current: number;
-    previous: number;
-  };
-  dataKey: string;
-  value: number;
-}
-
-interface CustomDotFullProps extends CustomDotProps {
-  hoveredIndex: number | null;
-  isAnimated: boolean;
-  data: { label: string; id: string }[];
-}
-
-const CustomDot: React.FC<CustomDotFullProps> = ({
-  cx,
-  cy,
-  payload,
-  dataKey,
-  value,
-  hoveredIndex,
-  isAnimated,
-  data,
-}) => {
-  const isHovered = hoveredIndex === data.findIndex((d) => d.label === payload.label);
-  const isVisible = value > 0; // Only show dots for non-zero values
-  const fill = dataKey === 'current' ? '#3B82F6' : '#94A3B8';
-  const dotId = `dot-${dataKey}-${payload.id}`;
-
-  if (!isVisible) return null;
-
-  return (
-    <motion.g
-      key={dotId}
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      whileHover={{ scale: 1.2 }}
-      transition={{ duration: 0.3, delay: isAnimated ? 0 : 0.5 }}
-    >
-      <AnimatePresence>
-        {isHovered && (
-          <motion.circle
-            initial={{ r: 0 }}
-            animate={{ r: 6 }}
-            exit={{ r: 0 }}
-            cx={cx}
-            cy={cy}
-            fill="white"
-            stroke={fill}
-            strokeWidth={2}
-            transition={{ duration: 0.2 }}
-          />
-        )}
-      </AnimatePresence>
-      <motion.circle
-        cx={cx}
-        cy={cy}
-        r={isHovered ? 4 : 0}
-        fill={fill}
-        initial={{ scale: 0 }}
-        animate={{ scale: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      />
-      {isHovered && (
-        <motion.text
-          x={cx}
-          y={cy - 15}
-          textAnchor="middle"
-          fill={fill}
-          fontSize="12"
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 5 }}
-        >
-          {value.toLocaleString()}
-        </motion.text>
-      )}
-    </motion.g>
-  );
-};

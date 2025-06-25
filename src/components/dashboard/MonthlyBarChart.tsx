@@ -15,6 +15,7 @@ import {
 interface MonthlyBarChartProps {
   current: number[];
   previous: number[];
+  chartId?: string;
 }
 
 interface CustomTooltipProps {
@@ -32,12 +33,12 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
-        className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-100"
+        className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-100 max-w-[90vw] sm:max-w-none"
       >
         <p className="text-sm font-semibold text-gray-600 mb-3">{label}</p>
-        {payload.map((entry: any) => (
+        {payload.map((entry: any, index: number) => (
           <motion.div 
-            key={entry.dataKey}
+            key={`${entry.dataKey}-${index}`}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0 }}
@@ -83,7 +84,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   return null;
 };
 
-export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyBarChartProps>) {
+export default function MonthlyBarChart({ current, previous, chartId = 'monthly', isLoading = false }: Readonly<MonthlyBarChartProps> & { isLoading?: boolean }) {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   const [isAnimated, setIsAnimated] = useState(false);
 
@@ -112,6 +113,21 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
     );
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="animate-pulse space-y-4 w-full max-w-md mx-auto">
+          <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+          <div className="space-y-3">
+            <div className="h-3 bg-gray-200 rounded"></div>
+            <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+            <div className="h-3 bg-gray-200 rounded w-4/6"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -126,7 +142,7 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
           onMouseLeave={() => setHoveredBar(null)}
         >
           <defs>
-            <filter id="barGlow">
+            <filter id={`barGlow-${chartId}`}>
               <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
               <feColorMatrix
                 type="matrix"
@@ -138,16 +154,16 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
               />
               <feBlend in="SourceGraphic" in2="glowAlpha" mode="screen"/>
             </filter>
-            <filter id="barShadow">
+            <filter id={`barShadow-${chartId}`}>
               <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2"/>
             </filter>
             {data.map((item, index) => (
-              <React.Fragment key={`gradient-current-${index}-${item.month}`}>
+              <React.Fragment key={`monthly-gradient-current-${item.month}-${index}`}>
                 {getBarGradient(item.month, 'current')}
               </React.Fragment>
             ))}
             {data.map((item, index) => (
-              <React.Fragment key={`gradient-previous-${index}-${item.month}`}>
+              <React.Fragment key={`monthly-gradient-previous-${item.month}-${index}`}>
                 {getBarGradient(item.month, 'previous')}
               </React.Fragment>
             ))}
@@ -186,12 +202,12 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
             isAnimationActive={true}
             animationDuration={1500}
             animationBegin={300}
-            filter="url(#barShadow)"
+            filter={`url(#barShadow-${chartId})`}
           >
             {data.map((item, index) => (
               <Cell 
-                key={`previous-${index}-${item.month}`}
-                fill={`url(#gradient-previous-${item.month})`}
+                key={`monthly-previous-${item.month}-${index}`}
+                fill={`url(#gradient-previous-${item.month}-${index})`}
               />
             ))}
           </Bar>
@@ -200,15 +216,15 @@ export default function MonthlyBarChart({ current, previous }: Readonly<MonthlyB
             dataKey="current" 
             radius={[6, 6, 0, 0]}
             maxBarSize={24}
-            filter={hoveredBar !== null ? "url(#barGlow)" : "url(#barShadow)"}
+            filter={hoveredBar !== null ? `url(#barGlow-${chartId})` : `url(#barShadow-${chartId})`}
             isAnimationActive={true}
             animationDuration={1500}
             animationBegin={0}
           >
             {data.map((item, index) => (
               <Cell 
-                key={`current-${index}-${item.month}`}
-                fill={`url(#gradient-current-${item.month})`}
+                key={`monthly-current-${item.month}-${index}`}
+                fill={`url(#gradient-current-${item.month}-${index})`}
               />
             ))}
           </Bar>

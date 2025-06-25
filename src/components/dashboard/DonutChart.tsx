@@ -1,18 +1,5 @@
 'use client';
 
-interface DonutChartProps {
-  value: number;
-  max?: number;
-  label?: string;
-  unit?: string;
-}
-
-interface TooltipProps {
-  active?: boolean;
-  payload?: any[];
-  unit: string;
-}
-
 import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Sector } from 'recharts';
 import LiquidContainer from './LiquidContainer';
@@ -22,6 +9,7 @@ interface DonutChartProps {
   max?: number;
   label?: string;
   unit?: string;
+  chartId?: string;
 }
 
 interface TooltipProps {
@@ -50,8 +38,8 @@ function CustomTooltip({ active, payload, unit }: Readonly<TooltipProps>) {
 export default function DonutChart({
   value,
   max = 100,
-  label = 'Voltage Harmonics',
   unit = '%',
+  chartId = 'donut',
 }: Readonly<DonutChartProps>) {
   const [animatedValue, setAnimatedValue] = useState(0);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -104,7 +92,7 @@ export default function DonutChart({
           endAngle={endAngle}
           fill={fill}
           opacity={0.2}
-          filter="url(#glow)"
+          filter={`url(#glow-${chartId})`}
         />
         {/* Main sector with enhanced depth */}
         <Sector
@@ -115,7 +103,7 @@ export default function DonutChart({
           startAngle={startAngle}
           endAngle={endAngle}
           fill={fill}
-          filter="url(#glow)"
+          filter={`url(#glow-${chartId})`}
         />
         {/* Inner highlight for 3D effect */}
         <Sector
@@ -154,19 +142,19 @@ export default function DonutChart({
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <defs>
-              <filter id="glow">
+              <filter id={`glow-${chartId}`}>
                 <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                 <feMerge>
                   <feMergeNode in="coloredBlur"/>
                   <feMergeNode in="SourceGraphic"/>
                 </feMerge>
               </filter>
-              <linearGradient id={`gradientFill-${label}`} x1="0" y1="0" x2="1" y2="1">
+              <linearGradient id={`gradientFill-${chartId}`} x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor={colors[0]} stopOpacity={0.9}/>
                 <stop offset="50%" stopColor={colors[1]} stopOpacity={0.8}/>
                 <stop offset="100%" stopColor={colors[0]} stopOpacity={0.9}/>
               </linearGradient>
-              <filter id="innerShadow">
+              <filter id={`innerShadow-${chartId}`}>
                 <feOffset dx="0" dy="1"/>
                 <feGaussianBlur stdDeviation="2"/>
                 <feComposite operator="out" in="SourceGraphic"/>
@@ -193,8 +181,8 @@ export default function DonutChart({
               animationEasing="ease-out"
             >
               <Cell 
-                fill={`url(#gradientFill-${label})`} 
-                filter={activeIndex === 0 ? "url(#glow)" : undefined}
+                fill={`url(#gradientFill-${chartId})`} 
+                filter={activeIndex === 0 ? `url(#glow-${chartId})` : undefined}
               />
             </Pie>
             <Tooltip content={<CustomTooltip unit={unit} />} />
@@ -223,7 +211,7 @@ export default function DonutChart({
             
             return (
               <div
-                key={`progress-indicator-${label}-${i}`}
+                key={`progress-indicator-${chartId}-${rotation}-${i}`}
                 className="absolute w-1 origin-bottom"
                 style={{
                   height: isActive ? '12px' : '8px',

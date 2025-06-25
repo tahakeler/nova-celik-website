@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import ContactSection from '@/components/sections/ContactSection';
 
 export default function RequestDemoPage() {
   useEffect(() => {
@@ -145,98 +145,7 @@ export default function RequestDemoPage() {
         </div>
       </section>
 
-      {/* Get in Touch Section - Updated info */}
-      <section className="py-16 px-4 sm:px-6 lg:px-16 bg-white">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-10 text-center">
-          Get in <span className="text-blue-700">touch with us</span>
-        </h2>
-        <div className="w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-          {/* Google Map - Left */}
-          <div className="rounded-2xl overflow-hidden shadow-md border border-gray-200 h-72 min-h-[260px] bg-gray-100">
-            <iframe
-              src="https://maps.google.com/maps?q=4th%20Floor%2C%20EnCo%20Terminal%20(EnTer)%20Building%2C%20425%20Kamphaeng%20Phet%206%20Rd%2C%20Don%20Mueang%2C%20Bangkok%2010210%2C%20Thailand&z=17&output=embed"
-              className="w-full h-full border-none"
-              allowFullScreen
-              title="NovaCelik Company Address"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-          {/* Info Card - Right */}
-          <div className="flex flex-col justify-center bg-[#003399] text-white rounded-2xl p-6 sm:p-8 shadow-md">
-            <h3 className="text-xl sm:text-2xl font-bold mb-6 text-white">
-              NOVACELIK COMPANY LIMITED
-            </h3>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <div className="bg-[#0040cc] p-2 rounded-lg">
-                  <Mail className="w-4 h-4 text-white" />
-                </div>
-                <a
-                  href="mailto:cancelik@novacelikco.com"
-                  className="text-sm break-all text-white"
-                >
-                  cancelik@novacelikco.com
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-[#0040cc] p-2 rounded-lg">
-                  <Phone className="w-4 h-4 text-white" />
-                </div>
-                <a
-                  href="tel:+66625948929"
-                  className="text-sm text-white"
-                >
-                  +66 (62) 594 8929
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-[#0040cc] p-2 rounded-lg">
-                  <Phone className="w-4 h-4 text-white" />
-                </div>
-                <a
-                  href="https://wa.me/905384342523"
-                  className="text-sm text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  WhatsApp: +90 (538) 434 2523
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-[#0040cc] p-2 rounded-lg">
-                  <Phone className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-sm">
-                  Line: <span className="font-medium">cancelikth</span>
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-[#0040cc] p-2 rounded-lg">
-                  <Mail className="w-4 h-4 text-white" />
-                </div>
-                <a
-                  href="https://novacelikco.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-white"
-                >
-                  novacelikco.com
-                </a>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="bg-[#0040cc] p-2 rounded-lg mt-1">
-                  <MapPin className="w-4 h-4 text-white" />
-                </div>
-                <div className="text-sm leading-relaxed">
-                  4th Floor, EnCo Terminal (EnTer) Building,<br />
-                  425 Kamphaeng Phet 6 Rd, Don Mueang,<br />
-                  Bangkok 10210, Thailand
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ContactSection />
     </div>
   );
 }

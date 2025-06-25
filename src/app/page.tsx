@@ -4,10 +4,10 @@ import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import AchievementsSection from '@/components/sections/AchievementsSection';
 import ServicesSection from '@/components/sections/ServicesSection';
-import DashboardGrid from '@/components/dashboard/DashboardGrid';
+import HomeDashboardSection from '@/components/dashboard/HomeDashboardSection';
 import { BlogSection } from '@/modules/blog/components';
 import EfficiencyAcademySection from '@/components/sections/EfficiencyAcademySection';
-import ContactSection from '@/components/sections/ContactSection';
+import HomeContactSection from '@/components/sections/ContactSection';
 import BackToTopButton from '@/components/ui/BackToTopButton';
 import '@/styles/globals.css';
 
@@ -35,15 +35,13 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-blue-900 mb-4">Analytics Dashboard</h2>
           <p className="text-lg text-blue-700 mb-12">Real-time insights into your facility's performance and energy efficiency.</p>
-          <DashboardGrid data={sampleDashboardData} />
+          <HomeDashboardSection data={sampleDashboardData} />
         </div>
       </section>
       <BlogSection />
       <EfficiencyAcademySection />
-      <ContactSection />
+      <HomeContactSection />
       <BackToTopButton />
     </main>
   );
 }
-
-

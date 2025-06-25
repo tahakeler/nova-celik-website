@@ -15,9 +15,7 @@ interface ChartContainerProps {
   readonly icon?: 'trend' | 'bar' | 'default';
 }
 
-interface LoadingSkeletonProps {}
-
-const LoadingSkeleton: React.FC<LoadingSkeletonProps> = () => (
+const LoadingSkeleton: React.FC = () => (
   <div className="animate-pulse space-y-4 w-full h-full">
     <div className="h-4 bg-gray-200 rounded w-1/3"></div>
     <div className="space-y-3">
@@ -90,7 +88,7 @@ export default function ChartContainer({
   }
 
   return (
-    <GlassCard className={`p-4 sm:p-6 relative overflow-hidden ${className}`}>
+    <GlassCard className={`p-4 sm:p-6 relative ${className}`}>
       <div className="flex flex-col h-full">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">

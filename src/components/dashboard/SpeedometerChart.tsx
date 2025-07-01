@@ -2,10 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Gauge, TrendingUp, Zap } from 'lucide-react';
 
 interface StatusType {
   color: string;
+  glowColor: string;
   label: string;
+  gradient: string;
 }
 
 interface SpeedometerChartProps {
@@ -13,15 +16,18 @@ interface SpeedometerChartProps {
   max?: number;
   label?: string;
   unit?: string;
+  chartId?: string;
 }
 
 export default function SpeedometerChart({ 
   value = 0, 
   max = 100, 
-  label = 'Value',
-  unit = '%'
+  label = 'Generator Load',
+  unit = '%',
+  chartId = 'speedometer'
 }: Readonly<SpeedometerChartProps>) {
   const [animatedValue, setAnimatedValue] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const liquidCanvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number | undefined>(undefined);
@@ -31,11 +37,26 @@ export default function SpeedometerChart({
   const sanitizedValue = isNaN(value || 0) ? 0 : Math.min(Math.max(value || 0, 0), max);
   const percentage = (sanitizedValue / max) * 100;
   
-  // Determine status based on value
+  // Enhanced status with modern colors and gradients
   const getStatus = (percent: number): StatusType => {
-    if (percent >= 85) return { color: '#EF4444', label: 'Critical' };
-    if (percent >= 60) return { color: '#F59E0B', label: 'Warning' };
-    return { color: '#10B981', label: 'Normal' };
+    if (percent >= 85) return { 
+      color: '#ef4444', 
+      glowColor: 'rgba(239, 68, 68, 0.4)',
+      label: 'Critical',
+      gradient: 'from-red-500 via-red-400 to-pink-500'
+    };
+    if (percent >= 60) return { 
+      color: '#f59e0b', 
+      glowColor: 'rgba(245, 158, 11, 0.4)',
+      label: 'Warning',
+      gradient: 'from-amber-500 via-orange-400 to-yellow-500'
+    };
+    return { 
+      color: '#10b981', 
+      glowColor: 'rgba(16, 185, 129, 0.4)',
+      label: 'Optimal',
+      gradient: 'from-emerald-500 via-teal-400 to-cyan-500'
+    };
   };
 
   const status = getStatus(percentage);
@@ -323,52 +344,136 @@ export default function SpeedometerChart({
   }, [animatedValue, max, status.color]);
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
-      {/* Liquid canvas */}
-      <canvas 
-        ref={liquidCanvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
-      
-      {/* Gauge canvas */}
-      <canvas 
-        ref={canvasRef} 
-        className="relative w-full h-full z-10"
-        aria-label={`${label} speedometer showing ${value}${unit}`}
-      />
-      
-      {/* Value display */}
-      <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-4 text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="text-3xl font-bold text-gray-900">
-          {animatedValue.toFixed(1)}{unit}
-        </div>
-        <div className="text-sm font-medium text-gray-500">{label}</div>
-      </motion.div>
-
-      {/* Status indicator */}
-      <motion.div 
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-sm font-medium"
-        style={{
-          backgroundColor: `${status.color}15`,
-          color: status.color
-        }}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {status.label}
-      </motion.div>
-
-      {/* Min/Max labels */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-between px-8">
-        <span className="text-sm text-gray-500">0{unit}</span>
-        <span className="text-sm text-gray-500">{max}{unit}</span>
+    <motion.div 
+      className={`relative bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-3xl p-8 border border-slate-700/50 transition-all duration-500 ${isHovered ? 'shadow-2xl scale-[1.02]' : 'shadow-xl'}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ y: -2 }}
+      style={{ boxShadow: `0 20px 40px ${status.glowColor}` }}
+    >
+      {/* Animated Background Particles */}
+      <div className="absolute inset-0 overflow-hidden rounded-3xl">
+        <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl animate-pulse" />
+        <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-purple-500/10 rounded-full blur-xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-cyan-500/10 rounded-full blur-xl animate-pulse delay-500" />
       </div>
-    </div>
+
+      {/* Header */}
+      <div className="relative flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <motion.div 
+            className="p-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+          >
+            <Gauge className="w-6 h-6 text-blue-400" />
+          </motion.div>
+          <div>
+            <h3 className="text-xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              {label}
+            </h3>
+            <p className="text-sm text-slate-400">Real-time monitoring</p>
+          </div>
+        </div>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="flex items-center gap-2"
+        >
+          <TrendingUp className="w-4 h-4 text-slate-400" />
+          <Zap className="w-4 h-4 text-blue-400" />
+        </motion.div>
+      </div>
+
+      {/* Enhanced Speedometer Container */}
+      <div className="relative w-full h-full flex flex-col items-center justify-center">
+        {/* Liquid canvas with dark theme */}
+        <canvas 
+          ref={liquidCanvasRef}
+          className="absolute inset-0 w-full h-full opacity-20"
+        />
+        
+        {/* Gauge canvas */}
+        <canvas 
+          ref={canvasRef} 
+          className="relative w-full h-full z-10"
+          aria-label={`${label} speedometer showing ${value}${unit}`}
+        />
+        
+        {/* Enhanced Value display */}
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-4 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.div 
+            className={`text-5xl font-bold bg-gradient-to-r ${status.gradient} bg-clip-text text-transparent drop-shadow-lg`}
+            animate={{ scale: [1, 1.02, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            {animatedValue.toFixed(1)}
+          </motion.div>
+          <div className="text-lg text-slate-300 font-medium">{unit}</div>
+          <div className="text-sm text-slate-400 mt-1">{label}</div>
+        </motion.div>
+
+        {/* Enhanced Status indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 rounded-2xl text-sm font-medium border backdrop-blur-sm"
+          style={{
+            backgroundColor: `${status.color}20`,
+            borderColor: `${status.color}40`,
+            color: status.color,
+            boxShadow: `0 0 20px ${status.glowColor}`
+          }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="flex items-center gap-2">
+            <div 
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ backgroundColor: status.color }}
+            />
+            {status.label}
+          </div>
+        </motion.div>
+
+        {/* Enhanced Min/Max labels */}
+        <div className="absolute bottom-2 left-0 right-0 flex justify-between px-8">
+          <span className="text-sm text-slate-400 font-medium">0{unit}</span>
+          <span className="text-sm text-slate-400 font-medium">{max}{unit}</span>
+        </div>
+
+        {/* Performance Metrics */}
+        <div className="absolute top-4 right-4 space-y-2">
+          <motion.div 
+            className="px-3 py-1 bg-slate-800/50 rounded-lg border border-slate-700/50 text-xs text-slate-300"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            Efficiency: {Math.round(100 - percentage)}%
+          </motion.div>
+          <motion.div 
+            className="px-3 py-1 bg-slate-800/50 rounded-lg border border-slate-700/50 text-xs text-slate-300"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            Load: {percentage.toFixed(1)}%
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Floating Action Button */}
+      <motion.button
+        className="absolute top-4 left-4 p-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30 text-blue-400 hover:from-blue-500/30 hover:to-purple-500/30 transition-all duration-300"
+        whileHover={{ scale: 1.1, rotate: 90 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Zap className="w-4 h-4" />
+      </motion.button>
+    </motion.div>
   );
 }

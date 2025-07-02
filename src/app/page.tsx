@@ -36,7 +36,35 @@ const sampleDashboardData = {
   maintenance: {
     nextService: 15,
     lastService: "2024-01-15",
-    alerts: 3
+    alerts: 3,
+    upcomingTasks: [
+      {
+        id: '1',
+        title: 'Generator Oil Change',
+        description: 'Regular maintenance - oil change required',
+        date: '2024-02-15',
+        priority: 'high' as const,
+        status: 'pending' as const,
+        category: 'preventive' as const,
+        estimatedDuration: 4,
+        assignedTo: 'John Smith',
+        equipment: 'Generator Unit 1',
+        daysRemaining: 5
+      },
+      {
+        id: '2',
+        title: 'System Inspection',
+        description: 'Routine system inspection and diagnostics',
+        date: '2024-02-20',
+        priority: 'medium' as const,
+        status: 'pending' as const,
+        category: 'inspection' as const,
+        estimatedDuration: 2,
+        assignedTo: 'Sarah Johnson',
+        equipment: 'Main Control Panel',
+        daysRemaining: 10
+      }
+    ]
   },
   
   energy: {

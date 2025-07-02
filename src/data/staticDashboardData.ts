@@ -1,3 +1,5 @@
+import { MaintenanceTask } from '../components/dashboard/maintenance/types';
+
 export interface DashboardData {
   voltageFluctuation: number;
   voltageHarmonics: number;
@@ -21,6 +23,7 @@ export interface DashboardData {
     nextService: number; // days
     lastService: string;
     alerts: number;
+    upcomingTasks: MaintenanceTask[];
   };
   energy: {
     solar: number[];
@@ -38,6 +41,25 @@ export interface DashboardData {
     nox: number[];
     particulates: number[];
   };
+  
+  // New properties for enhanced charts
+  voltage: number[];
+  thd: number[];
+  hourlyLoad: number[];
+  peakDemand: number;
+  averageLoad: number;
+  targetEfficiency: number;
+  energySavings: number[];
+  completedMaintenance: number;
+  totalMaintenance: number;
+  peakCost: number[];
+  offPeakCost: number[];
+  costSavings: number;
+  projectedCost: number;
+  batteryLevel: number;
+  batteryVoltage: number;
+  batteryCurrent: number;
+  batteryTemp: number;
 }
 
 export const staticDashboardData: DashboardData = {
@@ -64,7 +86,74 @@ export const staticDashboardData: DashboardData = {
   maintenance: {
     nextService: 15,
     lastService: "2024-01-15",
-    alerts: 3
+    alerts: 3,
+    upcomingTasks: [
+      {
+        id: '1',
+        title: 'Generator Oil Change',
+        description: 'Replace engine oil and oil filter for Generator Unit 1',
+        date: '2024-02-15',
+        priority: 'high',
+        status: 'pending',
+        category: 'preventive',
+        estimatedDuration: 4,
+        assignedTo: 'John Smith',
+        equipment: 'Generator Unit 1',
+        daysRemaining: 5
+      },
+      {
+        id: '2',
+        title: 'Voltage Regulator Inspection',
+        description: 'Inspect and test voltage regulator functionality',
+        date: '2024-02-18',
+        priority: 'medium',
+        status: 'pending',
+        category: 'inspection',
+        estimatedDuration: 2,
+        assignedTo: 'Sarah Johnson',
+        equipment: 'Control Panel A',
+        daysRemaining: 8
+      },
+      {
+        id: '3',
+        title: 'Cooling System Maintenance',
+        description: 'Check coolant levels, inspect radiator and cooling fans',
+        date: '2024-02-20',
+        priority: 'medium',
+        status: 'pending',
+        category: 'preventive',
+        estimatedDuration: 3,
+        assignedTo: 'Mike Davis',
+        equipment: 'Cooling System',
+        daysRemaining: 10
+      },
+      {
+        id: '4',
+        title: 'Battery Bank Testing',
+        description: 'Load test battery bank and check connections',
+        date: '2024-02-22',
+        priority: 'high',
+        status: 'pending',
+        category: 'inspection',
+        estimatedDuration: 2,
+        assignedTo: 'Lisa Chen',
+        equipment: 'Battery Bank 1',
+        daysRemaining: 12
+      },
+      {
+        id: '5',
+        title: 'Air Filter Replacement',
+        description: 'Replace air intake filters for all generator units',
+        date: '2024-02-25',
+        priority: 'low',
+        status: 'pending',
+        category: 'preventive',
+        estimatedDuration: 1,
+        assignedTo: 'Tom Wilson',
+        equipment: 'All Generator Units',
+        daysRemaining: 15
+      }
+    ]
   },
   
   energy: {
@@ -84,5 +173,24 @@ export const staticDashboardData: DashboardData = {
     co2: [120, 135, 142, 158, 165, 178, 185, 192, 205, 198, 185, 172, 165, 158, 145, 138, 125, 118, 112, 108, 115, 122, 128, 135],
     nox: [15, 18, 20, 22, 25, 28, 30, 32, 35, 33, 30, 27, 25, 22, 20, 18, 15, 13, 11, 12, 14, 16, 18, 20],
     particulates: [5, 6, 7, 8, 9, 10, 11, 12, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 4, 5, 6, 7, 8]
-  }
+  },
+  
+  // New properties for enhanced charts
+  voltage: [220, 222, 218, 225, 221, 219, 223, 220, 224, 218, 222, 220, 219, 221, 223, 220, 218, 222, 221, 219, 220, 222, 221, 220],
+  thd: [2.1, 2.3, 1.9, 2.5, 2.2, 2.0, 2.4, 2.1, 2.6, 1.8, 2.2, 2.0, 1.9, 2.1, 2.3, 2.0, 1.8, 2.2, 2.1, 1.9, 2.0, 2.2, 2.1, 2.0],
+  hourlyLoad: [60, 65, 58, 72, 68, 75, 82, 78, 85, 89, 92, 88, 94, 91, 87, 83, 79, 74, 69, 65, 62, 58, 55, 58],
+  peakDemand: 95,
+  averageLoad: 72,
+  targetEfficiency: 95,
+  energySavings: [500, 520, 480, 550, 530, 510, 540, 520, 560, 490, 520, 500],
+  completedMaintenance: 85,
+  totalMaintenance: 100,
+  peakCost: [150, 155, 145, 160, 152, 148, 158, 150, 162, 142, 152, 150],
+  offPeakCost: [80, 82, 78, 85, 81, 79, 84, 80, 86, 76, 81, 80],
+  costSavings: 12500,
+  projectedCost: 45000,
+  batteryLevel: 78,
+  batteryVoltage: 12.6,
+  batteryCurrent: 2.5,
+  batteryTemp: 25
 };

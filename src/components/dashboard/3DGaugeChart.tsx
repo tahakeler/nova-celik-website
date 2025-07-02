@@ -27,8 +27,10 @@ export default function GaugeChart({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const container = containerRef.current;
+    
     // Setup
-    const width = containerRef.current.clientWidth;
+    const width = container.clientWidth;
     const height = 200;
 
     // Scene
@@ -44,7 +46,7 @@ export default function GaugeChart({
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     // Gauge Background
@@ -93,10 +95,10 @@ export default function GaugeChart({
 
     // Cleanup
     return () => {
-      renderer.dispose();
-      if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container && renderer.domElement && container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
+      renderer.dispose();
     };
   }, []);
 

@@ -12,7 +12,7 @@ interface CostAnalysisChartProps {
   isLoading?: boolean;
 }
 
-export default function CostAnalysisChart({ data, height = 200, isLoading }: CostAnalysisChartProps) {
+export default function CostAnalysisChart({ data, isLoading }: CostAnalysisChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

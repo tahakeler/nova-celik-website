@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { popIn, scrollFade } from '@/utils/animations';
 import DashboardGrid from '@/components/dashboard/DashboardGrid';
-import { parseDashboardData, type DashboardData } from '@/modules/dashboard/parseDashboardData';
 import { staticDashboardData } from '@/data/staticDashboardData';
 
 const containerVariants = {

@@ -5,7 +5,8 @@ import { useState, useCallback } from 'react';
 import { 
   RefreshCw, Search, Home, Battery,
   LineChart as LineChartIcon, BarChart2,
-  Gauge, PieChart
+  Gauge, PieChart, Thermometer, Activity,
+  Zap, TrendingUp, DollarSign, Wrench
 } from 'lucide-react';
 import LineChart from './charts/LineChart';
 import BarChart from './charts/BarChart';
@@ -18,8 +19,15 @@ import EnergyEfficiencyChart from './charts/EnergyEfficiencyChart';
 import MaintenanceScheduleChart from './charts/MaintenanceScheduleChart';
 import EnergyCostChart from './charts/EnergyCostChart';
 import ModernBatteryChart from './charts/ModernBatteryChart';
+import TemperatureChart from './charts/TemperatureChart';
+import VibrationChart from './charts/VibrationChart';
+import ReactiveRatiosChart from './charts/ReactiveRatiosChart';
+import EnergyMixChart from './charts/EnergyMixChart';
 import ChartContainer from '@/components/ui/ChartContainer';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
+import MaintenanceCalendar from './maintenance/MaintenanceCalendar';
+import MiniMaintenanceCalendar from './maintenance/MiniMaintenanceCalendar';
+import MaintenanceCalendarModal from './maintenance/MaintenanceCalendarModal';
 
 interface DashboardGridProps {
   data: DashboardData;
@@ -30,6 +38,7 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeSidebar, setActiveSidebar] = useState<string>('Dashboard Overview');
   const [searchQuery, setSearchQuery] = useState('');
+  const [calendarModalOpen, setCalendarModalOpen] = useState(false);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -144,23 +153,143 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
           break;
         case 'Battery Status':
           chartComponent = (
-            <BatteryChart 
-              value={data.voltageHarmonics}
-              voltage={220}
-              status="good"
+            <ModernBatteryChart 
+              chargeLevel={data.batteryLevel || 0}
+              voltage={data.batteryVoltage || 0}
+              current={data.batteryCurrent || 0}
+              temperature={data.batteryTemp || 0}
               height={600}
               isLoading={isRefreshing}
             />
           );
           break;
+        case 'Temperature':
+          chartComponent = (
+            <LineChart 
+              data={{
+                current: data.current.map((val, i) => val + Math.sin(i) * 10 + 25), // Simulate temperature data
+                previous: data.previous.map((val, i) => val + Math.sin(i) * 8 + 22),
+                labels: generateLabels()
+              }}
+              height={600}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Vibration':
+          chartComponent = (
+            <LineChart 
+              data={{
+                current: data.current.map((val, i) => Math.abs(Math.sin(i * 0.5)) * 5), // Simulate vibration data
+                previous: data.previous.map((val, i) => Math.abs(Math.sin(i * 0.3)) * 4),
+                labels: generateLabels()
+              }}
+              height={600}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Reactive Power':
+          chartComponent = (
+            <BarChart 
+              data={{
+                labels: generateLabels().slice(0, 12),
+                values: data.current.slice(0, 12).map(val => val * 0.8), // Simulate reactive power
+                colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#f97316', '#84cc16', '#ec4899', '#6366f1', '#14b8a6', '#f59e0b']
+              }}
+              height={600}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Energy Mix':
+          chartComponent = (
+            <DonutChart 
+              data={[
+                { label: 'Solar', value: 25, color: '#f59e0b' },
+                { label: 'Grid', value: 45, color: '#3b82f6' },
+                { label: 'Generator', value: 20, color: '#10b981' },
+                { label: 'Battery', value: 10, color: '#8b5cf6' }
+              ]}
+              centerText={{
+                main: '100%',
+                sub: 'Energy Mix'
+              }}
+              size={400}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Cost Analysis':
+          chartComponent = (
+            <BarChart 
+              data={{
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                values: [1200, 1100, 1300, 1150, 1250, 1180],
+                colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+              }}
+              height={600}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Power Quality':
+          chartComponent = (
+            <PowerQualityChart 
+              voltage={data.voltage || []}
+              current={data.current}
+              thd={data.thd || []}
+              height={600}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Load Profile':
+          chartComponent = (
+            <LoadProfileChart 
+              hourlyLoad={data.hourlyLoad || []}
+              peakDemand={data.peakDemand || 0}
+              averageLoad={data.averageLoad || 0}
+              height={600}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Energy Efficiency':
+          chartComponent = (
+            <EnergyEfficiencyChart 
+              efficiency={data.efficiency || []}
+              targetEfficiency={data.targetEfficiency || 95}
+              energySavings={data.energySavings || []}
+              height={600}
+              isLoading={isRefreshing}
+            />
+          );
+          break;
+        case 'Maintenance':
+          chartComponent = (
+            <MaintenanceCalendar 
+              tasks={data.maintenance?.upcomingTasks || []}
+              currentDate={new Date()}
+              onTaskClick={(task) => console.log('Task clicked:', task)}
+              onDateClick={(date) => console.log('Date clicked:', date)}
+              className="w-full h-full"
+            />
+          );
+          break;
         default:
-          chartComponent = <div className="text-gray-400">Chart not available</div>;
+          chartComponent = (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="text-gray-400 mb-4">Chart not available</div>
+              <div className="text-sm text-gray-500">This chart component is under development</div>
+            </div>
+          );
       }
 
       return (
         <div className="h-full">
           <ChartContainer title={activeSidebar} subtitle={`Detailed view of ${activeSidebar.toLowerCase()}`}>
-            <div className="h-[600px] flex items-center justify-center">
+            <div className={activeSidebar === 'Maintenance' ? "h-[900px] w-full" : "h-[600px] flex items-center justify-center"}>
               {chartComponent}
             </div>
           </ChartContainer>
@@ -171,23 +300,62 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
     // Dashboard Overview - Figma-Inspired Layout
     return (
       <div className="space-y-6">
-        {/* Top Stats Row */}
-        <div className="grid grid-cols-4 gap-4">
-          <div className="bg-[#1e293b] rounded-2xl p-4 shadow-lg border border-blue-900/30 backdrop-blur-xl">
-            <div className="text-2xl font-bold text-blue-400">{Math.floor(data.voltageHarmonics)}%</div>
-            <div className="text-sm text-gray-400">Voltage Quality</div>
+        {/* Enhanced Top Stats Row */}
+        <div className="grid grid-cols-4 gap-6 mb-8">
+          <div className="glass-card-dark rounded-3xl p-6 hover-lift shadow-glow-blue">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-3 h-3 bg-blue-400 rounded-full shadow-glow-blue animate-pulse"></div>
+              <div className="text-xs text-gray-500 font-poppins uppercase tracking-wider">Live</div>
+            </div>
+            <div className="text-3xl font-bold text-blue-400 font-montserrat mb-1">{Math.floor(data.voltageHarmonics)}</div>
+            <div className="text-sm text-gray-400 font-poppins">Voltage Quality</div>
+            <div className="mt-3 w-full bg-slate-700/50 rounded-full h-1.5">
+              <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-500" style={{ width: `${Math.floor(data.voltageHarmonics)}%` }} />
+            </div>
           </div>
-          <div className="bg-[#1e293b] rounded-2xl p-4 shadow-lg border border-blue-900/30 backdrop-blur-xl">
-            <div className="text-2xl font-bold text-emerald-400">{Math.floor(data.currentHarmonics)}</div>
-            <div className="text-sm text-gray-400">Current Harmonics</div>
+          
+          <div className="glass-card-dark rounded-3xl p-6 hover-lift shadow-glow-green">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-3 h-3 bg-emerald-400 rounded-full shadow-glow-green animate-pulse"></div>
+              <div className="text-xs text-gray-500 font-poppins uppercase tracking-wider">Live</div>
+            </div>
+            <div className="text-3xl font-bold text-emerald-400 font-montserrat mb-1">{Math.floor(data.currentHarmonics)}</div>
+            <div className="text-sm text-gray-400 font-poppins">Current Harmonics</div>
+            <div className="mt-3 w-full bg-slate-700/50 rounded-full h-1.5">
+              <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-500" style={{ width: `${Math.floor(data.currentHarmonics)}%` }} />
+            </div>
           </div>
-          <div className="bg-[#1e293b] rounded-2xl p-4 shadow-lg border border-blue-900/30 backdrop-blur-xl">
-            <div className="text-2xl font-bold text-amber-400">{Math.floor(data.generatorDemand)}%</div>
-            <div className="text-sm text-gray-400">Generator Load</div>
+          
+          <div className="glass-card-dark rounded-3xl p-6 hover-lift shadow-glow-amber">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-3 h-3 bg-amber-400 rounded-full shadow-glow-amber animate-pulse"></div>
+              <div className="text-xs text-gray-500 font-poppins uppercase tracking-wider">Live</div>
+            </div>
+            <div className="text-3xl font-bold text-amber-400 font-montserrat mb-1">{Math.floor(data.generatorDemand)}</div>
+            <div className="text-sm text-gray-400 font-poppins">Generator Load</div>
+            <div className="mt-3 w-full bg-slate-700/50 rounded-full h-1.5">
+              <div className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400 transition-all duration-500" style={{ width: `${Math.floor(data.generatorDemand)}%` }} />
+            </div>
           </div>
-          <div className="bg-[#1e293b] rounded-2xl p-4 shadow-lg border border-blue-900/30 backdrop-blur-xl">
-            <div className="text-2xl font-bold text-purple-400">{Math.floor(data.healthy + data.risky + data.unhealthy)}</div>
-            <div className="text-sm text-gray-400">Total Systems</div>
+          
+          <div className="glass-card-dark rounded-3xl p-6 hover-lift">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
+              <div className="text-xs text-gray-500 font-poppins uppercase tracking-wider">Total</div>
+            </div>
+            <div className="text-3xl font-bold text-purple-400 font-montserrat mb-1">{Math.floor(data.healthy + data.risky + data.unhealthy)}</div>
+            <div className="text-sm text-gray-400 font-poppins">Active Systems</div>
+            <div className="mt-3 flex gap-1">
+              <div className="flex-1 bg-emerald-500/20 rounded-full h-1.5" title={`Healthy: ${data.healthy}`}>
+                <div className="h-full rounded-full bg-emerald-500" style={{ width: `${(data.healthy / (data.healthy + data.risky + data.unhealthy)) * 100}%` }} />
+              </div>
+              <div className="flex-1 bg-amber-500/20 rounded-full h-1.5" title={`Warning: ${data.risky}`}>
+                <div className="h-full rounded-full bg-amber-500" style={{ width: `${(data.risky / (data.healthy + data.risky + data.unhealthy)) * 100}%` }} />
+              </div>
+              <div className="flex-1 bg-red-500/20 rounded-full h-1.5" title={`Critical: ${data.unhealthy}`}>
+                <div className="h-full rounded-full bg-red-500" style={{ width: `${(data.unhealthy / (data.healthy + data.risky + data.unhealthy)) * 100}%` }} />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -199,8 +367,15 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
               <ChartContainer 
                 title="Harmonics Trend Analysis" 
                 subtitle="Real-time electrical harmonics monitoring"
+                icon="trend"
+                status="good"
+                kpiValue={`${data.voltageHarmonics.toFixed(1)}%`}
+                trend="up"
+                trendValue="+2.3%"
+                lastUpdated="2 minutes ago"
                 onExport={() => handleChartExport('Harmonics Trend')}
                 onFullscreen={() => handleChartFullscreen('Harmonics Trend')}
+                onRefresh={handleRefresh}
               >
                 <div className="h-[320px] w-full overflow-hidden">
                   <LineChart 
@@ -220,8 +395,15 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
               <ChartContainer 
                 title="Generator Performance" 
                 subtitle="Real-time load monitoring"
+                icon="bar"
+                status={data.generatorDemand > 80 ? "warning" : "good"}
+                kpiValue={`${data.generatorDemand.toFixed(0)}%`}
+                trend={data.generatorDemand > 75 ? "up" : "stable"}
+                trendValue={data.generatorDemand > 75 ? "+5.2%" : "0%"}
+                lastUpdated="1 minute ago"
                 onExport={() => handleChartExport('Generator Performance')}
                 onFullscreen={() => handleChartFullscreen('Generator Load')}
+                onRefresh={handleRefresh}
               >
                 <div className="h-[320px] w-full overflow-hidden">
                   <GaugeChart 
@@ -242,6 +424,8 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
             <ChartContainer 
               title="Monthly Energy Consumption" 
               subtitle="Comparative usage analysis"
+              icon="bar"
+              status="good"
               onExport={() => handleChartExport('Monthly Consumption')}
               onFullscreen={() => handleChartFullscreen('Monthly Consumption')}
             >
@@ -261,6 +445,8 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
             <ChartContainer 
               title="System Distribution" 
               subtitle="Resource allocation overview"
+              icon="bar"
+              status="good"
               onExport={() => handleChartExport('Distribution')}
               onFullscreen={() => handleChartFullscreen('Distribution')}
             >
@@ -275,7 +461,7 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
                     main: `${data.generatorDemand}%`,
                     sub: 'Load'
                   }}
-                  size={240}
+                  size={300}
                   isLoading={isRefreshing}
                 />
               </div>
@@ -340,21 +526,57 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
 
             <ChartContainer 
               title="Maintenance Schedule" 
-              subtitle="Equipment Health and Maintenance Status"
-              onExport={() => handleChartExport('Maintenance')}
+              subtitle="Equipment maintenance calendar"
+              onExport={() => handleChartExport('Maintenance Schedule')}
               onFullscreen={() => handleChartFullscreen('Maintenance')}
             >
               <div className="h-[280px] w-full overflow-hidden">
-                <MaintenanceScheduleChart 
-                  upcomingMaintenance={[
-                    { name: 'Generator Service', daysLeft: 5, priority: 'high' },
-                    { name: 'Battery Check', daysLeft: 12, priority: 'medium' },
-                    { name: 'Filter Change', daysLeft: 20, priority: 'low' },
-                    { name: 'Oil Change', daysLeft: 8, priority: 'high' },
-                    { name: 'Coolant Check', daysLeft: 15, priority: 'medium' }
-                  ]}
-                  completedMaintenance={data.completedMaintenance || 0}
-                  totalMaintenance={data.totalMaintenance || 0}
+                <MiniMaintenanceCalendar 
+                  tasks={data.maintenance?.upcomingTasks || []}
+                  className="h-full"
+                />
+              </div>
+            </ChartContainer>
+          </div>
+
+          {/* Row 5: Temperature and Vibration */}
+          <div className="grid grid-cols-2 gap-4">
+            <ChartContainer 
+              title="Temperature Monitoring" 
+              subtitle="Real-time temperature trends across systems"
+              onExport={() => handleChartExport('Temperature')}
+              onFullscreen={() => handleChartFullscreen('Temperature')}
+              icon="trend"
+              status="good"
+            >
+              <div className="h-[280px] w-full overflow-hidden">
+                <LineChart 
+                  data={{
+                    current: data.current.map((val, i) => val + Math.sin(i) * 10 + 25),
+                    previous: data.previous.map((val, i) => val + Math.sin(i) * 8 + 22),
+                    labels: generateLabels()
+                  }}
+                  height={280}
+                  isLoading={isRefreshing}
+                />
+              </div>
+            </ChartContainer>
+
+            <ChartContainer 
+              title="Vibration Analysis" 
+              subtitle="Equipment vibration monitoring"
+              onExport={() => handleChartExport('Vibration')}
+              onFullscreen={() => handleChartFullscreen('Vibration')}
+              icon="trend"
+              status="good"
+            >
+              <div className="h-[280px] w-full overflow-hidden">
+                <LineChart 
+                  data={{
+                    current: data.current.map((val, i) => Math.abs(Math.sin(i * 0.5)) * 5),
+                    previous: data.previous.map((val, i) => Math.abs(Math.sin(i * 0.3)) * 4),
+                    labels: generateLabels()
+                  }}
                   height={280}
                   isLoading={isRefreshing}
                 />
@@ -362,20 +584,73 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
             </ChartContainer>
           </div>
 
-          {/* Row 5: Energy Cost and Battery Status */}
+          {/* Row 6: Reactive Power and Energy Mix */}
           <div className="grid grid-cols-2 gap-4">
             <ChartContainer 
-              title="Energy Cost Analysis" 
-              subtitle="Peak vs Off-Peak Consumption"
-              onExport={() => handleChartExport('Energy Cost')}
-              onFullscreen={() => handleChartFullscreen('Energy Cost')}
+              title="Reactive Power Analysis" 
+              subtitle="Power factor and reactive power monitoring"
+              onExport={() => handleChartExport('Reactive Power')}
+              onFullscreen={() => handleChartFullscreen('Reactive Power')}
+              icon="bar"
+              status="good"
             >
               <div className="h-[280px] w-full overflow-hidden">
-                <EnergyCostChart 
-                  peakCost={data.peakCost || []}
-                  offPeakCost={data.offPeakCost || []}
-                  totalSavings={data.costSavings || 0}
-                  projectedCost={data.projectedCost || 0}
+                <BarChart 
+                  data={{
+                    labels: generateLabels().slice(0, 12),
+                    values: data.current.slice(0, 12).map(val => val * 0.8),
+                    colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+                  }}
+                  height={280}
+                  isLoading={isRefreshing}
+                />
+              </div>
+            </ChartContainer>
+
+            <ChartContainer 
+              title="Energy Mix Distribution" 
+              subtitle="Energy source allocation"
+              onExport={() => handleChartExport('Energy Mix')}
+              onFullscreen={() => handleChartFullscreen('Energy Mix')}
+              icon="bar"
+              status="good"
+            >
+              <div className="h-[280px] w-full overflow-hidden">
+                <DonutChart 
+                  data={[
+                    { label: 'Solar', value: 25, color: '#f59e0b' },
+                    { label: 'Grid', value: 45, color: '#3b82f6' },
+                    { label: 'Generator', value: 20, color: '#10b981' },
+                    { label: 'Battery', value: 10, color: '#8b5cf6' }
+                  ]}
+                  centerText={{
+                    main: '100%',
+                    sub: 'Energy Mix'
+                  }}
+                  size={240}
+                  isLoading={isRefreshing}
+                />
+              </div>
+            </ChartContainer>
+          </div>
+
+          {/* Row 7: Cost Analysis and Battery Status */}
+          <div className="grid grid-cols-2 gap-4">
+            <ChartContainer 
+              title="Cost Analysis" 
+              subtitle="Energy cost breakdown and trends"
+              onExport={() => handleChartExport('Cost Analysis')}
+              onFullscreen={() => handleChartFullscreen('Cost Analysis')}
+              icon="bar"
+              status="good"
+            >
+              <div className="h-[280px] w-full overflow-hidden">
+                <BarChart 
+                  data={{
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    values: [1200, 1100, 1300, 1150, 1250, 1180],
+                    colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+                  }}
                   height={280}
                   isLoading={isRefreshing}
                 />
@@ -387,13 +662,15 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
               subtitle="Real-time Battery Performance"
               onExport={() => handleChartExport('Battery Status')}
               onFullscreen={() => handleChartFullscreen('Battery Status')}
+              icon="trend"
+              status="good"
             >
               <div className="h-[280px] w-full overflow-hidden">
                 <ModernBatteryChart 
-                  chargeLevel={data.batteryLevel || 0}
-                  voltage={data.batteryVoltage || 0}
-                  current={data.batteryCurrent || 0}
-                  temperature={data.batteryTemp || 0}
+                  chargeLevel={85}
+                  voltage={220}
+                  current={15}
+                  temperature={25}
                   height={280}
                   isLoading={isRefreshing}
                 />
@@ -409,41 +686,41 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
     <div className="min-h-screen bg-[#0f172a] p-6">
       <div className="max-w-[1920px] mx-auto">
         {/* Enhanced Header */}
-        <div className="flex items-center justify-between mb-6 bg-[#1e293b] rounded-2xl p-4 shadow-lg border border-blue-900/30 backdrop-blur-xl">
+        <div className="flex items-center justify-between mb-8 glass-card-dark rounded-3xl p-6 shadow-glow-blue hover-lift">
           <div className="flex items-center gap-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">N</span>
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-glow-blue animate-float">
+              <span className="text-white font-bold text-xl font-montserrat">N</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">NovaCelik Dashboard</h1>
-              <p className="text-sm text-gray-400">Real-time monitoring</p>
+              <h1 className="text-2xl font-bold text-white font-montserrat tracking-tight">NovaCelik Dashboard</h1>
+              <p className="text-sm text-gray-400/90 font-poppins">Real-time monitoring & analytics</p>
             </div>
 
             {/* Enhanced Search Bar */}
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                <Search className="h-5 w-5 text-gray-500 group-focus-within:text-blue-400 transition-colors duration-200" />
               </div>
               <input
                 type="text"
-                placeholder="Search dashboard..."
-                className="w-80 pl-11 pr-4 py-3 text-sm bg-[#0f172a]/70 border border-blue-900/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-gray-300 placeholder-gray-500 transition-all duration-200 hover:bg-[#0f172a]/90"
+                placeholder="Search dashboard components..."
+                className="w-96 pl-12 pr-4 py-4 text-sm glass-card-dark rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-gray-300 placeholder-gray-500 transition-all duration-300 hover:shadow-glow-blue font-poppins"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600/10 to-purple-600/10 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/10 to-purple-600/10 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center space-x-1 bg-[#0f172a]/50 rounded-xl p-1 border border-blue-900/30">
+            <div className="flex items-center space-x-2 glass-card-dark rounded-2xl p-2">
               {['Day', 'Week', 'Month'].map((period) => (
                 <button 
                   key={period}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  className={`px-6 py-3 text-sm font-medium rounded-xl transition-all duration-300 font-poppins interactive-element ${
                     period.toLowerCase() === timePeriod 
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg' 
-                      : 'text-gray-400 hover:bg-[#1e293b] hover:text-gray-300'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-glow-blue' 
+                      : 'text-gray-400 hover:bg-slate-700/50 hover:text-gray-300'
                   }`}
                   onClick={() => handleTimePeriodChange(period.toLowerCase() as 'day' | 'week' | 'month')}
                 >
@@ -454,10 +731,10 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
 
             <button
               onClick={handleRefresh}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[#0f172a]/50 text-gray-400 hover:bg-[#1e293b] hover:text-gray-300 border border-blue-900/30 transition-all duration-200"
+              className="flex items-center gap-3 px-6 py-3 text-sm font-medium rounded-2xl glass-card-dark text-gray-400 hover:text-gray-300 hover:shadow-glow-blue transition-all duration-300 interactive-element font-poppins"
             >
-              <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
-              <span>Refresh</span>
+              <RefreshCw size={18} className={isRefreshing ? 'animate-spin' : ''} />
+              <span>Refresh Data</span>
             </button>
           </div>
         </div>
@@ -470,12 +747,30 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
             <div className="bg-[#1e293b] rounded-2xl p-4 shadow-lg border border-blue-900/30 backdrop-blur-xl">
               <nav className="space-y-1">
                 {[
-                  { name: 'Dashboard Overview', icon: <Home className="w-4 h-4" />, status: 'good' },
-                  { name: 'Harmonics Trend', icon: <LineChartIcon className="w-4 h-4" />, status: 'normal' },
-                  { name: 'Generator Load', icon: <Gauge className="w-4 h-4" />, status: 'warning' },
-                  { name: 'Monthly Consumption', icon: <BarChart2 className="w-4 h-4" />, status: 'good' },
-                  { name: 'Distribution', icon: <PieChart className="w-4 h-4" />, status: 'normal' },
-                  { name: 'Battery Status', icon: <Battery className="w-4 h-4" />, status: 'good' },
+                  // Overview Section
+                  { name: 'Dashboard Overview', icon: <Home className="w-4 h-4" />, status: 'good', category: 'overview' },
+                  
+                  // Performance Monitoring
+                  { name: 'Generator Load', icon: <Gauge className="w-4 h-4" />, status: 'warning', category: 'performance' },
+                  { name: 'Load Profile', icon: <LineChartIcon className="w-4 h-4" />, status: 'good', category: 'performance' },
+                  { name: 'Temperature', icon: <Thermometer className="w-4 h-4" />, status: 'normal', category: 'performance' },
+                  { name: 'Vibration', icon: <Activity className="w-4 h-4" />, status: 'good', category: 'performance' },
+                  
+                  // Power Quality
+                  { name: 'Harmonics Trend', icon: <LineChartIcon className="w-4 h-4" />, status: 'normal', category: 'quality' },
+                  { name: 'Power Quality', icon: <Zap className="w-4 h-4" />, status: 'good', category: 'quality' },
+                  { name: 'Reactive Power', icon: <RefreshCw className="w-4 h-4" />, status: 'normal', category: 'quality' },
+                  
+                  // Energy Management
+                  { name: 'Monthly Consumption', icon: <BarChart2 className="w-4 h-4" />, status: 'good', category: 'energy' },
+                  { name: 'Energy Mix', icon: <PieChart className="w-4 h-4" />, status: 'normal', category: 'energy' },
+                  { name: 'Energy Efficiency', icon: <TrendingUp className="w-4 h-4" />, status: 'good', category: 'energy' },
+                  { name: 'Cost Analysis', icon: <DollarSign className="w-4 h-4" />, status: 'normal', category: 'energy' },
+                  
+                  // System Status
+                  { name: 'Distribution', icon: <PieChart className="w-4 h-4" />, status: 'normal', category: 'system' },
+                  { name: 'Battery Status', icon: <Battery className="w-4 h-4" />, status: 'good', category: 'system' },
+                  { name: 'Maintenance', icon: <Wrench className="w-4 h-4" />, status: 'warning', category: 'system' }
                 ].map((item) => (
                   <button
                     key={item.name}
@@ -527,6 +822,13 @@ export default function DashboardGrid({ data }: Readonly<DashboardGridProps>) {
           </div>
         </div>
       </div>
+
+      {/* Maintenance Calendar Modal */}
+      <MaintenanceCalendarModal
+        isOpen={calendarModalOpen}
+        onClose={() => setCalendarModalOpen(false)}
+        tasks={data.maintenance?.upcomingTasks || []}
+      />
     </div>
   );
 }

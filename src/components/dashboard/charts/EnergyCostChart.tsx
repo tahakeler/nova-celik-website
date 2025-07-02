@@ -16,7 +16,6 @@ export default function EnergyCostChart({
   offPeakCost,
   totalSavings,
   projectedCost,
-  height = 280, 
   isLoading 
 }: EnergyCostChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

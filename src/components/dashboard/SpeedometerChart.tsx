@@ -23,8 +23,7 @@ export default function SpeedometerChart({
   value = 0, 
   max = 100, 
   label = 'Generator Load',
-  unit = '%',
-  chartId = 'speedometer'
+  unit = '%'
 }: Readonly<SpeedometerChartProps>) {
   const [animatedValue, setAnimatedValue] = useState(0);
   const [isHovered, setIsHovered] = useState(false);

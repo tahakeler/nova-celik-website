@@ -14,7 +14,6 @@ export default function EnergyEfficiencyChart({
   efficiency, 
   targetEfficiency,
   energySavings,
-  height = 280, 
   isLoading 
 }: EnergyEfficiencyChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

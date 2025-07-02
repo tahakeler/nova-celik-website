@@ -4,7 +4,7 @@ import { DashboardData } from '@/modules/dashboard/parseDashboardData';
 import { motion } from 'framer-motion';
 import { useState, useCallback } from 'react';
 import { 
-  RefreshCw, Filter, TrendingUp, Search, LayoutDashboard
+  RefreshCw, LayoutDashboard
 } from 'lucide-react';
 import { staggerContainer } from '@/utils/animations';
 import ModernGaugeChart from './ModernGaugeChart';
@@ -30,7 +30,6 @@ interface DashboardHomepageProps {
 export default function DashboardHomepage({ data }: Readonly<DashboardHomepageProps>) {
   const [timePeriod, setTimePeriod] = useState<'day' | 'week' | 'month'>('day');
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);

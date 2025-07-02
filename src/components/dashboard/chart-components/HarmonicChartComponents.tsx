@@ -8,14 +8,13 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 interface CustomDotProps {
   cx?: number;
   cy?: number;
-  payload?: any;
   isHovered?: boolean;
   isAnimated?: boolean;
   fill?: string;
   stroke?: string;
 }
 
-export const CustomDot = ({ cx, cy, payload, isHovered, isAnimated, fill, stroke }: CustomDotProps) => {
+export const CustomDot = ({ cx, cy, isHovered, isAnimated, fill, stroke }: CustomDotProps) => {
   if (!isAnimated || !cx || !cy) return null;
 
   return (

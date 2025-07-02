@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx';
+import { MaintenanceTask } from '../../components/dashboard/maintenance/types';
 
 export interface DashboardData {
   voltageFluctuation: number;
@@ -20,6 +21,7 @@ export interface DashboardData {
     nextService: number;
     lastService: string;
     alerts: number;
+    upcomingTasks: MaintenanceTask[];
   };
   energy: {
     solar: number[];
@@ -90,7 +92,74 @@ export async function parseDashboardData(file: File): Promise<DashboardData> {
           maintenance: {
             nextService: 15,
             lastService: "2024-01-15",
-            alerts: 3
+            alerts: 3,
+            upcomingTasks: [
+              {
+                id: '1',
+                title: 'Generator Oil Change',
+                description: 'Replace engine oil and oil filter for Generator Unit 1',
+                date: '2024-02-15',
+                priority: 'high',
+                status: 'pending',
+                category: 'preventive',
+                estimatedDuration: 4,
+                assignedTo: 'John Smith',
+                equipment: 'Generator Unit 1',
+                daysRemaining: 5
+              },
+              {
+                id: '2',
+                title: 'Voltage Regulator Inspection',
+                description: 'Inspect and test voltage regulator functionality',
+                date: '2024-02-18',
+                priority: 'medium',
+                status: 'pending',
+                category: 'inspection',
+                estimatedDuration: 2,
+                assignedTo: 'Sarah Johnson',
+                equipment: 'Control Panel A',
+                daysRemaining: 8
+              },
+              {
+                id: '3',
+                title: 'Cooling System Maintenance',
+                description: 'Check coolant levels, inspect radiator and cooling fans',
+                date: '2024-02-20',
+                priority: 'medium',
+                status: 'pending',
+                category: 'preventive',
+                estimatedDuration: 3,
+                assignedTo: 'Mike Davis',
+                equipment: 'Cooling System',
+                daysRemaining: 10
+              },
+              {
+                id: '4',
+                title: 'Battery Bank Testing',
+                description: 'Load test battery bank and check connections',
+                date: '2024-02-22',
+                priority: 'high',
+                status: 'pending',
+                category: 'inspection',
+                estimatedDuration: 2,
+                assignedTo: 'Lisa Chen',
+                equipment: 'Battery Bank 1',
+                daysRemaining: 12
+              },
+              {
+                id: '5',
+                title: 'Air Filter Replacement',
+                description: 'Replace air intake filters for all generator units',
+                date: '2024-02-25',
+                priority: 'low',
+                status: 'pending',
+                category: 'preventive',
+                estimatedDuration: 1,
+                assignedTo: 'Tom Wilson',
+                equipment: 'All Generator Units',
+                daysRemaining: 15
+              }
+            ]
           },
           
           energy: {
@@ -119,7 +188,7 @@ export async function parseDashboardData(file: File): Promise<DashboardData> {
           peakDemand: 95,
           averageLoad: 72,
           targetEfficiency: 95,
-          energySavings: Array.from({ length: 12 }, (_, i) => 500 + Math.sin(i * 0.5) * 200),
+          energySavings: Array.from({ length: 12 }, () => 500 + Math.sin(Math.random() * 0.5) * 200),
           completedMaintenance: 85,
           totalMaintenance: 100,
           peakCost: Array.from({ length: 12 }, (_, i) => 150 + Math.sin(i * 0.3) * 50),

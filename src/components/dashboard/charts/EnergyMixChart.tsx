@@ -9,11 +9,10 @@ interface EnergyMixChartProps {
     grid: number[];
     battery: number[];
   };
-  height?: number;
   isLoading?: boolean;
 }
 
-export default function EnergyMixChart({ data, height = 200, isLoading }: EnergyMixChartProps) {
+export default function EnergyMixChart({ data, isLoading }: EnergyMixChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

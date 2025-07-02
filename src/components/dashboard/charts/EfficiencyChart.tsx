@@ -12,7 +12,6 @@ interface EfficiencyChartProps {
 export default function EfficiencyChart({ 
   efficiency, 
   emissions, 
-  height = 280, 
   isLoading 
 }: EfficiencyChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

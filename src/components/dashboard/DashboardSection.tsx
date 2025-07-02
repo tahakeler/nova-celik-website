@@ -1,6 +1,6 @@
 'use client';
 
-import TestChart from './TestChart';
+import ModernGaugeChart from './ModernGaugeChart';
 import type { DashboardData } from '@/modules/dashboard/parseDashboardData';
 
 interface DashboardSectionProps {
@@ -13,9 +13,9 @@ export default function DashboardSection({ data }: Readonly<DashboardSectionProp
   return (
     <section className="bg-gradient-to-b from-gray-50 to-white p-6 rounded-lg shadow-md">
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-6">
-        <TestChart value={data.voltageHarmonics} label="Voltage Harmonics" unit="%" />
-        <TestChart value={data.generatorDemand} label="Generator Demand" unit="%" />
-        <TestChart value={data.currentHarmonics} label="Current Harmonics" unit="%" />
+        <ModernGaugeChart value={data.voltageHarmonics} />
+        <ModernGaugeChart value={data.generatorDemand} />
+        <ModernGaugeChart value={data.currentHarmonics} />
       </div>
       <div className="text-center">
         <a

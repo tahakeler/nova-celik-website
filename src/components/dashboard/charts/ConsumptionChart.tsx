@@ -12,7 +12,6 @@ interface ConsumptionChartProps {
 export default function ConsumptionChart({ 
   data, 
   labels, 
-  height = 280, 
   isLoading 
 }: ConsumptionChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

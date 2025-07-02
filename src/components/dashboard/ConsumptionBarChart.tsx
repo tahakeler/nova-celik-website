@@ -250,10 +250,10 @@ export default function ConsumptionBarChart({ current, previous, chartId = 'cons
             isAnimationActive={true}
             animationDuration={1500}
             animationBegin={0}
-            onMouseOver={(e) => {
+            onMouseOver={() => {
               // Additional hover effect logic can be added here if needed
             }}
-            onMouseOut={(e) => {
+            onMouseOut={() => {
               // Reset hover effect logic if needed
             }}
           >

@@ -14,7 +14,6 @@ export default function BatteryChart({
   value, 
   voltage = 220, 
   status = 'good',
-  height = 200,
   isLoading 
 }: BatteryChartProps) {
   const roundedValue = Math.floor(value);

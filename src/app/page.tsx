@@ -4,7 +4,6 @@ import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import AchievementsSection from '@/components/sections/AchievementsSection';
 import ServicesSection from '@/components/sections/ServicesSection';
-import HomeDashboardSection from '@/components/dashboard/HomeDashboardSection';
 import { BlogSection } from '@/modules/blog/components';
 import EfficiencyAcademySection from '@/components/sections/EfficiencyAcademySection';
 import HomeContactSection from '@/components/sections/ContactSection';

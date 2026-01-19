@@ -84,7 +84,7 @@ export async function parseDashboardData(file: File): Promise<DashboardData> {
           // Default values for new fields (since Excel doesn't contain them)
           temperature: Array.from({ length: 24 }, (_, i) => 65 + Math.sin(i * 0.3) * 15),
           pressure: Array.from({ length: 24 }, (_, i) => 2.5 + Math.sin(i * 0.2) * 0.8),
-          vibration: Array.from({ length: 24 }, (_, i) => 0.8 + Math.random() * 0.6),
+          vibration: Array.from({ length: 24 }, () => 0.8 + Math.random() * 0.6),
           fuelConsumption: Array.from({ length: 24 }, (_, i) => 150 + Math.sin(i * 0.4) * 50),
           efficiency: Array.from({ length: 24 }, (_, i) => 88 + Math.sin(i * 0.1) * 4),
           emissions: Array.from({ length: 24 }, (_, i) => 50 + Math.sin(i * 0.3) * 20),

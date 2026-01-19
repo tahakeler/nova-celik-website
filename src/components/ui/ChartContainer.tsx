@@ -1,11 +1,11 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ReactNode, useState, useRef, useEffect } from 'react';
+import { ReactNode, useState, useRef, useEffect, useCallback } from 'react';
 import { 
   TrendingUp, BarChart3, Download, Maximize2, Info, 
   AlertTriangle, CheckCircle, Clock, ZoomIn,
-  ZoomOut, X, Mouse
+  ZoomOut, X, Mouse, RefreshCw
 } from 'lucide-react';
 
 interface ChartContainerProps {
@@ -52,17 +52,28 @@ export default function ChartContainer({
   const [showControls, setShowControls] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   const [chartScale, setChartScale] = useState(1);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
 
   // Enhanced zoom controls
-  const handleZoom = (type: 'in' | 'out') => {
-    if (type === 'in' && chartScale < 2) {
-      setChartScale(prev => prev + 0.1);
-    } else if (type === 'out' && chartScale > 0.5) {
-      setChartScale(prev => prev - 0.1);
+  const handleZoom = useCallback((type: 'in' | 'out') => {
+    setChartScale(prev => {
+      const next = type === 'in' ? Math.min(2, prev + 0.1) : Math.max(0.5, prev - 0.1);
+      return next;
+    });
+    onZoom?.(type);
+  }, [onZoom]);
+
+  const handleRefresh = useCallback(async () => {
+    if (!onRefresh) return;
+    setIsRefreshing(true);
+    try {
+      await onRefresh();
+    } finally {
+      setIsRefreshing(false);
     }
-  };
+  }, [onRefresh]);
 
   // Enhanced interaction system
   useEffect(() => {
@@ -113,7 +124,7 @@ export default function ChartContainer({
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isZoomed]);
+  }, [isZoomed, handleZoom]);
 
   // Handle escape key and click outside for tooltip
   useEffect(() => {
@@ -354,6 +365,19 @@ export default function ChartContainer({
                 exit={{ opacity: 0, x: 20 }}
                 className="flex items-center gap-2"
               >
+                {onRefresh && (
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleRefresh}
+                    className="p-2 rounded-xl bg-slate-700/50 text-gray-300 hover:text-white hover:bg-slate-600/50 transition-all disabled:opacity-60"
+                    title="Refresh data"
+                    aria-busy={isRefreshing}
+                    disabled={isRefreshing}
+                  >
+                    <RefreshCw size={18} className={isRefreshing ? 'animate-spin text-blue-300' : ''} />
+                  </motion.button>
+                )}
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}

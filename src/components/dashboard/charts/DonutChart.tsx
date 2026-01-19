@@ -215,7 +215,7 @@ export default function DonutChart({ data, centerText, size = 200, isLoading }: 
       ctx.fillText(centerText.sub, centerX, centerY + 16);
     }
 
-  }, [data, centerText, size, isLoading, hoveredSegment, animationProgress]);
+  }, [data, centerText, size, isLoading, hoveredSegment, animationProgress, staggeredProgress, rotationOffset]);
 
   // Mouse interaction handler
   const handleMouseMove = (e: React.MouseEvent) => {

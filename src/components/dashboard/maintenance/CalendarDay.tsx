@@ -54,7 +54,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
 
         {/* Task indicators - Show as colored dots */}
         <div className="mt-1 flex flex-wrap gap-1">
-          {tasks.slice(0, 6).map((task, index) => (
+          {tasks.slice(0, 6).map((task) => (
             <button
               key={task.id}
               onClick={(e) => handleTaskClick(task, e)}

@@ -171,7 +171,7 @@ export default function ModernBatteryChart({
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div className="w-full h-full flex flex-col items-center justify-center" style={{ height }}>
       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );

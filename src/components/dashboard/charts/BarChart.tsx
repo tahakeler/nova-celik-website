@@ -228,7 +228,7 @@ export default function BarChart({ data, height = 200, isLoading }: BarChartProp
       ctx.fillText(labelText, labelX, labelY + 6);
     });
 
-  }, [data, height, isLoading, hoveredBar, animationProgress, defaultColors]);
+  }, [data, height, isLoading, hoveredBar, animationProgress, defaultColors, staggeredProgress]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!canvasRef.current || !containerRef.current) return;

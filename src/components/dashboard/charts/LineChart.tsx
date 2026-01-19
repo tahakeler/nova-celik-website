@@ -318,7 +318,7 @@ export default function LineChart({ data, height = 300, isLoading }: LineChartPr
         setTooltip({
           show: true,
           x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
+          y,
           content: {
             label: data.labels[dataIndex],
             current: data.current[dataIndex],

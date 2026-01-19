@@ -37,8 +37,6 @@ export default function MaintenanceScheduleChart({
     ctx.clearRect(0, 0, width, chartHeight);
 
     const padding = 40;
-    const chartWidth = width - padding * 2;
-    const chartAreaHeight = chartHeight - padding * 2;
 
     // Enhanced completion progress circle with glow
     const centerX = width * 0.25;
@@ -252,7 +250,7 @@ export default function MaintenanceScheduleChart({
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div className="w-full h-full flex flex-col items-center justify-center" style={{ height }}>
       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );

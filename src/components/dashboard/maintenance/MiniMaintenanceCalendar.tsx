@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { MaintenanceTask } from './types';
-import { Calendar, ChevronLeft, ChevronRight, Clock, AlertTriangle } from 'lucide-react';
+import { Calendar, Clock, AlertTriangle } from 'lucide-react';
 
 interface MiniMaintenanceCalendarProps {
   tasks: MaintenanceTask[];
@@ -15,7 +15,7 @@ const MiniMaintenanceCalendar: React.FC<MiniMaintenanceCalendarProps> = ({
   onExpand,
   className = ''
 }) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate] = useState(new Date());
 
   // Calculate summary statistics
   const summaryStats = useMemo(() => {
